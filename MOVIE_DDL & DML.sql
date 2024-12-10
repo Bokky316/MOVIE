@@ -1,81 +1,80 @@
----- 1. À¯Àú È®ÀÎ ¹× °èÁ¤ »ý¼º
+---- 1. ìœ ì € í™•ì¸ ë° ê³„ì • ìƒì„±
 --show user;
 --
---/* sys¿¡¼­ ÀÛ¾÷ */
+--/* sysì—ì„œ ìž‘ì—… */
 --CREATE USER mreview IDENTIFIED BY 1234;
 --GRANT CONNECT, RESOURCE TO mreview;
 --GRANT UNLIMITED TABLESPACE TO mreview;
 
-/* mreview Á¢¼Ó »ý¼º */
+/* mreview ì ‘ì† ìƒì„± */
 
-/* 2. Å×ÀÌºí »ý¼º  */
+/* 2. í…Œì´ë¸” ìƒì„±  */
 CREATE TABLE ROLE (
-   ROLE_ID   VARCHAR2(20)   NOT NULL,    -- µî±Þ ¹øÈ£(±âº»Å°)
-   ROLE_NAME   VARCHAR2(20)   NOT NULL,  -- µî±Þ ÀÌ¸§
-  CONSTRAINT PK_ROLE PRIMARY KEY (ROLE_ID)   -- ±âº»Å°Á¦¾à
+   ROLE_ID   VARCHAR2(20)   NOT NULL,    -- ë“±ê¸‰ ë²ˆí˜¸(ê¸°ë³¸í‚¤)
+   ROLE_NAME   VARCHAR2(20)   NOT NULL,  -- ë“±ê¸‰ ì´ë¦„
+  CONSTRAINT PK_ROLE PRIMARY KEY (ROLE_ID)   -- ê¸°ë³¸í‚¤ì œì•½
 );
 
 
-/* ¸â¹ö Å×ÀÌºí »ý¼º */
+/* ë©¤ë²„ í…Œì´ë¸” ìƒì„± */
 CREATE TABLE MEMBER (                     
-   MEMBER_ID VARCHAR2(100)   NOT NULL,   -- À¯Àú ID(±âº»Å°)
-   ROLE_ID   VARCHAR2(20)   NOT NULL,    -- À¯Àú µî±Þ(¿Ü·¡Å°)
-   PASSWORD VARCHAR2(20)   NOT NULL,     -- À¯Àú PASSWORD
-   EMAIL VARCHAR2(50)   NOT NULL,        -- À¯Àú EMAIL
-   REG_DATE DATE   DEFAULT SYSDATE,      -- À¯Àú °¡ÀÔÀÏ
-   ADDRESS   VARCHAR2(100)   NOT NULL,   -- À¯Àú ÁÖ¼Ò
-   PHONE   VARCHAR2(20)   NOT NULL,      -- À¯Àú ÈÞ´ëÆù ¹øÈ£
-   NAME   VARCHAR2(10)   NOT NULL,       -- À¯Àú ÀÌ¸§
-  CONSTRAINT PK_MEMBER PRIMARY KEY (MEMBER_ID),   -- ±âº»Å°Á¦¾à
-  CONSTRAINT FK_ROLE_MEMBER FOREIGN KEY (ROLE_ID) REFERENCES ROLE (ROLE_ID)   -- ¿Ü·¡Å°Á¦¾à
+   MEMBER_ID VARCHAR2(100)   NOT NULL,   -- ìœ ì € ID(ê¸°ë³¸í‚¤)
+   ROLE_ID   VARCHAR2(20)   NOT NULL,    -- ìœ ì € ë“±ê¸‰(ì™¸ëž˜í‚¤)
+   PASSWORD VARCHAR2(20)   NOT NULL,     -- ìœ ì € PASSWORD
+   EMAIL VARCHAR2(50)   NOT NULL,        -- ìœ ì € EMAIL
+   REG_DATE DATE   DEFAULT SYSDATE,      -- ìœ ì € ê°€ìž…ì¼
+   PHONE   VARCHAR2(20)   NOT NULL,      -- ìœ ì € íœ´ëŒ€í° ë²ˆí˜¸
+   NAME   VARCHAR2(10)   NOT NULL,       -- ìœ ì € ì´ë¦„
+  CONSTRAINT PK_MEMBER PRIMARY KEY (MEMBER_ID),   -- ê¸°ë³¸í‚¤ì œì•½
+  CONSTRAINT FK_ROLE_MEMBER FOREIGN KEY (ROLE_ID) REFERENCES ROLE (ROLE_ID)   -- ì™¸ëž˜í‚¤ì œì•½
 );
 
-/* ¿µÈ­ Å×ÀÌºí »ý¼º */
+/* ì˜í™” í…Œì´ë¸” ìƒì„± */
 CREATE TABLE MOVIE (  
-   MOVIE_ID   NUMBER   NOT NULL,          -- ¿µÈ­ID(±âº»Å°, ½ÃÄö½º)
-   NAME   VARCHAR2(100)   NOT NULL,         -- ¿µÈ­¸í 
-   DESCRIPTION   VARCHAR2(1000)   NOT NULL, -- ¿µÈ­ ¼³¸í
-   MOVIE_DATE  DATE NOT NULL,       -- ¿µÈ­ °³ºÀÀÏ
-   REG_DATE   DATE   DEFAULT SYSDATE,       -- µî·ÏÀÏ
-  CONSTRAINT PK_MOVIE PRIMARY KEY (MOVIE_ID)   -- ±âº»Å°Á¦¾à
+   MOVIE_ID   NUMBER   NOT NULL,          -- ì˜í™”ID(ê¸°ë³¸í‚¤, ì‹œí€€ìŠ¤)
+   NAME   VARCHAR2(100)   NOT NULL,         -- ì˜í™”ëª… 
+   DESCRIPTION   VARCHAR2(1000)   NOT NULL, -- ì˜í™” ì„¤ëª…
+   MOVIE_DATE  DATE NOT NULL,       -- ì˜í™” ê°œë´‰ì¼
+   REG_DATE   DATE   DEFAULT SYSDATE,       -- ë“±ë¡ì¼
+  CONSTRAINT PK_MOVIE PRIMARY KEY (MOVIE_ID)   -- ê¸°ë³¸í‚¤ì œì•½
 );
 
-/* ¿µÈ­ ÀÌ¹ÌÁö Å×ÀÌºí »ý¼º */
+/* ì˜í™” ì´ë¯¸ì§€ í…Œì´ë¸” ìƒì„± */
 CREATE TABLE PROD_IMG (
-   IMG_ID   NUMBER   NOT NULL,      -- ¿µÈ­ÀÌ¹ÌÁöid(½ÃÄö½º)
-   MOVIE_ID   NUMBER   NOT NULL,      -- ¿µÈ­id(¿Ü·¡Å°)
-   IMG_PATH   VARCHAR2(500)   NOT NULL,   -- ¿µÈ­ ÀÌ¹ÌÁö °æ·Î(ÇÏµåµð½ºÅ©»ó °æ·Î, DB¿¡ ÀúÀåµÊ)
-   FILE_NAME   VARCHAR2(500)   NOT NULL,   -- ¿µÈ­ ÀÌ¹ÌÁö¸í (¹°¸®ÀûÀÎ ÆÄÀÏ¸í, DB¿¡ ÀúÀåµÊ)-- ÀÌ¹ÌÁö°¡ ¿©·¯ÀåÀÏ °æ¿ì ´ëÇ¥ÀÌ¹ÌÁö (0-´ëÇ¥ÀÌ¹ÌÁö, 1-Ãß°¡ÀÌ¹ÌÁö)
-   IS_MAIN   NUMBER(1)   default 0,         -- ÀÌ¹ÌÁö°¡ ¿©·¯ÀåÀÏ °æ¿ì ´ëÇ¥ÀÌ¹ÌÁö (0-´ëÇ¥ÀÌ¹ÌÁö, 1-Ãß°¡ÀÌ¹ÌÁö)
-  CONSTRAINT PK_PROD_IMG PRIMARY KEY (IMG_ID),   -- ±âº»Å°Á¦¾à
-  CONSTRAINT FK_PROD_IMG FOREIGN KEY (MOVIE_ID) REFERENCES MOVIE (MOVIE_ID)   -- ¿Ü·¡Å°Á¦¾à
+   IMG_ID   NUMBER   NOT NULL,      -- ì˜í™”ì´ë¯¸ì§€id(ì‹œí€€ìŠ¤)
+   MOVIE_ID   NUMBER   NOT NULL,      -- ì˜í™”id(ì™¸ëž˜í‚¤)
+   IMG_PATH   VARCHAR2(500)   NOT NULL,   -- ì˜í™” ì´ë¯¸ì§€ ê²½ë¡œ(í•˜ë“œë””ìŠ¤í¬ìƒ ê²½ë¡œ, DBì— ì €ìž¥ë¨)
+   FILE_NAME   VARCHAR2(500)   NOT NULL,   -- ì˜í™” ì´ë¯¸ì§€ëª… (ë¬¼ë¦¬ì ì¸ íŒŒì¼ëª…, DBì— ì €ìž¥ë¨)-- ì´ë¯¸ì§€ê°€ ì—¬ëŸ¬ìž¥ì¼ ê²½ìš° ëŒ€í‘œì´ë¯¸ì§€ (0-ëŒ€í‘œì´ë¯¸ì§€, 1-ì¶”ê°€ì´ë¯¸ì§€)
+   IS_MAIN   NUMBER(1)   default 0,         -- ì´ë¯¸ì§€ê°€ ì—¬ëŸ¬ìž¥ì¼ ê²½ìš° ëŒ€í‘œì´ë¯¸ì§€ (0-ëŒ€í‘œì´ë¯¸ì§€, 1-ì¶”ê°€ì´ë¯¸ì§€)
+  CONSTRAINT PK_PROD_IMG PRIMARY KEY (IMG_ID),   -- ê¸°ë³¸í‚¤ì œì•½
+  CONSTRAINT FK_PROD_IMG FOREIGN KEY (MOVIE_ID) REFERENCES MOVIE (MOVIE_ID)   -- ì™¸ëž˜í‚¤ì œì•½
 );
 
-/* °Ô½Ã±Û Å×ÀÌºí »ý¼º */
+/* ê²Œì‹œê¸€ í…Œì´ë¸” ìƒì„± */
 CREATE TABLE BOARD (
-   BOARD_NO   NUMBER   NOT NULL,          -- °Ô½ÃÆÇ ¹øÈ£(±âº»Å°, ½ÃÄö½º)
-   MEMBER_ID   VARCHAR2(100)   NOT NULL,   -- ¸â¹ö ¾ÆÀÌµð(¿Ü·¡Å°)
-   TITLE   VARCHAR2(255)   NOT NULL,       -- Á¦¸ñ
-   CONTENT CLOB NOT NULL,              -- ³»¿ë
-   HIT_NO   NUMBER(4)   DEFAULT 0,        -- Á¶È¸¼ö
-   REG_DATE   DATE   DEFAULT SYSDATE,    -- ÀÛ¼ºÀÏÀÚ
-   REPLY_GROUP   NUMBER(5)   DEFAULT 0, -- ´ä±ÛÀÇ ±×·ìÀ» Á¤ÀÇ
-   REPLY_ORDER   NUMBER(5)   DEFAULT 0, -- ´ä±ÛÀÇ ¼ø¼­
-   REPLY_INDENT   NUMBER(5)   DEFAULT 0, -- ´ä±ÛÀÌ ´Ù¸¥ ´ä±Û¿¡ ´ëÇÑ ÇÏÀ§ ´ä±ÛÀÎÁö(Áï, ´ë´ñ±ÛÀÎÁö) ¿©ºÎ, µé¿©¾²±â°ü¸®
-  CONSTRAINT PK_BOARD PRIMARY KEY (BOARD_NO),   -- ±âº»Å°Á¦¾à
-  CONSTRAINT FK_BOARD FOREIGN KEY (MEMBER_ID) REFERENCES MEMBER (MEMBER_ID)   -- ¿Ü·¡Å°Á¦¾à
+   BOARD_NO   NUMBER   NOT NULL,          -- ê²Œì‹œíŒ ë²ˆí˜¸(ê¸°ë³¸í‚¤, ì‹œí€€ìŠ¤)
+   MEMBER_ID   VARCHAR2(100)   NOT NULL,   -- ë©¤ë²„ ì•„ì´ë””(ì™¸ëž˜í‚¤)
+   TITLE   VARCHAR2(255)   NOT NULL,       -- ì œëª©
+   CONTENT CLOB NOT NULL,              -- ë‚´ìš©
+   HIT_NO   NUMBER(4)   DEFAULT 0,        -- ì¡°íšŒìˆ˜
+   REG_DATE   DATE   DEFAULT SYSDATE,    -- ìž‘ì„±ì¼ìž
+   REPLY_GROUP   NUMBER(5)   DEFAULT 0, -- ë‹µê¸€ì˜ ê·¸ë£¹ì„ ì •ì˜
+   REPLY_ORDER   NUMBER(5)   DEFAULT 0, -- ë‹µê¸€ì˜ ìˆœì„œ
+   REPLY_INDENT   NUMBER(5)   DEFAULT 0, -- ë‹µê¸€ì´ ë‹¤ë¥¸ ë‹µê¸€ì— ëŒ€í•œ í•˜ìœ„ ë‹µê¸€ì¸ì§€(ì¦‰, ëŒ€ëŒ“ê¸€ì¸ì§€) ì—¬ë¶€, ë“¤ì—¬ì“°ê¸°ê´€ë¦¬
+  CONSTRAINT PK_BOARD PRIMARY KEY (BOARD_NO),   -- ê¸°ë³¸í‚¤ì œì•½
+  CONSTRAINT FK_BOARD FOREIGN KEY (MEMBER_ID) REFERENCES MEMBER (MEMBER_ID)   -- ì™¸ëž˜í‚¤ì œì•½
 );
 
--- 3. ½ÃÄö½º »ý¼º
+-- 3. ì‹œí€€ìŠ¤ ìƒì„±
 
--- 3.1 ¿µÈ­ID¿ë ½ÃÄö½º
+-- 3.1 ì˜í™”IDìš© ì‹œí€€ìŠ¤
 create sequence seq_movie
 start with 1
 increment by 1
-nocache    -- Ä³½Ì(½ÃÄö½º ¹øÈ£ ¸Þ¸ð¸® ÀÏ½Ã ÀúÀå) ¾øÀ½
-nocycle;   -- ÃÖ´ëÄ¡ ÃÊ°ú½Ã Ã³À½ºÎÅÍ ´Ù½Ã ¾øÀ½
+nocache    -- ìºì‹±(ì‹œí€€ìŠ¤ ë²ˆí˜¸ ë©”ëª¨ë¦¬ ì¼ì‹œ ì €ìž¥) ì—†ìŒ
+nocycle;   -- ìµœëŒ€ì¹˜ ì´ˆê³¼ì‹œ ì²˜ìŒë¶€í„° ë‹¤ì‹œ ì—†ìŒ
 
--- 3.2 ¿µÈ­ÀÌ¹ÌÁöID¿ë ½ÃÄö½º
+-- 3.2 ì˜í™”ì´ë¯¸ì§€IDìš© ì‹œí€€ìŠ¤
 create sequence seq_img
 start with 1
 increment by 1
@@ -88,72 +87,49 @@ increment by 1
 nocache
 nocycle;
 
-CREATE SEQUENCE cart_seq  -- shopping_cart ½ÃÄö½º
-start with 1 -- 1ºÎÅÍ
-increment by 1  -- 1Áõ°¡
-nocache -- Ä³½Ì(½ÃÄö½º ¹øÈ£ ¸Þ¸ð¸® ÀÏ½Ã ÀúÀå) ¾øÀ½
-nocycle; -- ÃÖ´ëÄ¡ ÃÊ°ú½Ã Ã³À½ºÎÅÍ ´Ù½Ã ¾øÀ½
+CREATE SEQUENCE cart_seq  -- shopping_cart ì‹œí€€ìŠ¤
+start with 1 -- 1ë¶€í„°
+increment by 1  -- 1ì¦ê°€
+nocache -- ìºì‹±(ì‹œí€€ìŠ¤ ë²ˆí˜¸ ë©”ëª¨ë¦¬ ì¼ì‹œ ì €ìž¥) ì—†ìŒ
+nocycle; -- ìµœëŒ€ì¹˜ ì´ˆê³¼ì‹œ ì²˜ìŒë¶€í„° ë‹¤ì‹œ ì—†ìŒ
 
-CREATE SEQUENCE order_seq -- order ½ÃÄö½º
-start with 1 -- 1ºÎÅÍ
-increment by 1  -- 1Áõ°¡
-nocache -- Ä³½Ì(½ÃÄö½º ¹øÈ£ ¸Þ¸ð¸® ÀÏ½Ã ÀúÀå) ¾øÀ½
-nocycle; -- ÃÖ´ëÄ¡ ÃÊ°ú½Ã Ã³À½ºÎÅÍ ´Ù½Ã ¾øÀ½
-
-
-/* ±ÇÇÑ µ¥ÀÌÅÍ Á¤º¸ insert */
-insert into role(role_id, role_name) values('admin', '°ü¸®ÀÚ');
-insert into role(role_id, role_name) values('member', 'Á¤È¸¿ø');
-insert into role(role_id, role_name) values('guest', 'ÁØÈ¸¿ø');
-
-/* ±âº» ¸â¹ö Á¤º¸ insert */
-INSERT INTO member(member_id, password, name, email, reg_date)
-values('hong', '1234', 'È«±æµ¿', 'abc@naver.com', sysdate);
-
-INSERT INTO member(member_id, password, name, email, reg_date)
-values('lee', '1234', 'ÀÌÁø¼±', 'lee@naver.com', sysdate);
-
-INSERT INTO member(member_id, password, name, email, role_id, address, phone, reg_date)
-values('jang', '1234', 'Àå¹ßÀå', 'jang@naver.com',  'member', 'ÀÎÃµ ¿¬¼ö±¸ ±¹Á¦´ë·Î 123-2', '010-3333-3422', sysdate);
+CREATE SEQUENCE order_seq -- order ì‹œí€€ìŠ¤
+start with 1 -- 1ë¶€í„°
+increment by 1  -- 1ì¦ê°€
+nocache -- ìºì‹±(ì‹œí€€ìŠ¤ ë²ˆí˜¸ ë©”ëª¨ë¦¬ ì¼ì‹œ ì €ìž¥) ì—†ìŒ
+nocycle; -- ìµœëŒ€ì¹˜ ì´ˆê³¼ì‹œ ì²˜ìŒë¶€í„° ë‹¤ì‹œ ì—†ìŒ
 
 
-INSERT INTO member(member_id, password, name, email, reg_date)
-values('kim', '1234', '±èÀÌ¼ø', 'kim@naver.com', sysdate);
+/* ê¶Œí•œ ë°ì´í„° ì •ë³´ insert */
+insert into role(role_id, role_name) values('admin', 'ê´€ë¦¬ìž');
+insert into role(role_id, role_name) values('member', 'ì •íšŒì›');
+--insert into role(role_id, role_name) values('guest', 'ì¤€íšŒì›');
 
-/* ±âº» °Ô½Ã±Û Á¤º¸ insert */
+/* ê¸°ë³¸ ë©¤ë²„ ì •ë³´ insert */
+
+INSERT INTO member(member_id, password, name, email, role_id, phone, reg_date)
+values('jang', '1234', 'ìž¥ë°œìž¥', 'jang@naver.com',  'member', '010-3333-3422', sysdate);
+
+
+/* ê¸°ë³¸ ê²Œì‹œê¸€ ì •ë³´ insert */
 INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, MEMBER_ID, REG_DATE)
-VALUES(1, 'Ã¹¹øÂ° °Ô½Ã¹°', 'ÀÌ°ÍÀº Ã¹¹øÂ° °Ô½Ã¹°', 'hong', SYSDATE);
+VALUES(1, 'ì²«ë²ˆì§¸ ê²Œì‹œë¬¼', 'ì´ê²ƒì€ ì²«ë²ˆì§¸ ê²Œì‹œë¬¼', 'hong', SYSDATE);
 
 INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, MEMBER_ID, REG_DATE)
-VALUES(2, 'µÎ¹øÂ° °Ô½Ã¹°', 'ÀÌ°ÍÀº µÎ¹øÂ° °Ô½Ã¹°', 'lee', SYSDATE);
+VALUES(2, 'ë‘ë²ˆì§¸ ê²Œì‹œë¬¼', 'ì´ê²ƒì€ ë‘ë²ˆì§¸ ê²Œì‹œë¬¼', 'lee', SYSDATE);
 
 INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, MEMBER_ID, REG_DATE)
-VALUES(3, '¼¼¹øÂ° °Ô½Ã¹°', 'ÀÌ°ÍÀº ¼¼¹øÂ° °Ô½Ã¹°', 'kim', SYSDATE);
+VALUES(3, 'ì„¸ë²ˆì§¸ ê²Œì‹œë¬¼', 'ì´ê²ƒì€ ì„¸ë²ˆì§¸ ê²Œì‹œë¬¼', 'kim', SYSDATE);
 
 commit;
 
 DELETE FROM SHOPPING_CART 
       WHERE SP_CART_ID = 5;
         
---INSERT INTO ORDER_INFO ( ORDER_ID, MOVIE_ID, MEMBER_ID, MOVIE_NAME, MOVIE_DATE, QUANTITY, ADDRESS, PHONE)
---VALUES(seq_order_info.NEXTVAL,
 
 
-<update id="updateMember" parameterType="MemberVo">
-        UPDATE member
-        SET password = 1234,
-            name = 'Àå¹ßÂ¡',
-            email = 'jang@naver.com',
---            role_id = '',
-            phone = '010-3333-3422',
-            address = 'ÀÎÃµ ¿¬¼ö±¸ ±¹Á¦´ë·Î 123-2'
-        WHERE member_id = 'jang'
-    </update>;
     
-UPDATE member
-SET password = '1234',
-    name = 'Àå¹ßÂ¡',
-    email = 'jang@naver.com',
-    phone = '010-3333-3422',
-    address = 'ÀÎÃµ ¿¬¼ö±¸ ±¹Á¦´ë·Î 123-2'
-WHERE member_id = 'jang'
+
+
+
+ALTER TABLE MEMBER MODIFY (ROLE_ID DEFAULT 'member');
