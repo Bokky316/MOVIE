@@ -108,7 +108,7 @@
 
                                 <div class="form-text">영화 설명을 작성하세요.</div>
                             </div>
-                            <!-- 가격 -->
+                            <!-- 개봉일 -->
                             <div class="mb-3">
                                 <label for="unitPriceInput" class="form-label">가격</label>
                                 <input type="text" class="form-control" id="unitPriceInput" name="unitPrice" />
