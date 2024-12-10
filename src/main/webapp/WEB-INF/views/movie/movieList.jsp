@@ -71,8 +71,8 @@
                 <tr>
                     <th>순번</th>
                     <th>영화명</th>
-                    <th>단가</th>
-                    <th>입고일</th>
+                    <th>개봉일</th>
+                    <th>등록일</th>
                 </tr>
             </thead>
             <tbody>

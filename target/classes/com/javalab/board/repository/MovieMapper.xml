@@ -25,7 +25,7 @@
    			movie_id,
    			name,
    			description,
-   			unit_price,
+   			movie_date,
    			reg_date)
    		values(
    			#{movieId},
@@ -41,7 +41,7 @@
    			p.movie_id AS movieId,
    			p.name,
    			p.description,
-   			p.unit_price AS unitPrice,
+   			p.movie_date AS unitPrice,
    			p.reg_date AS regDate
    		FROM movie p
    		ORDER BY p.movie_id DESC
@@ -54,7 +54,7 @@
    		p.movie_id AS movieId,
    		p.name,
    		p.description,
-   		p.unit_price AS unitPrice,
+   		p.movie_date AS unitPrice,
    		p.reg_date AS regDate,
    		pi.img_id AS imgId,
    		pi.img_path AS imgPath,
@@ -145,7 +145,7 @@
 		    UPDATE movie
 		    SET name = #{name},
 		        description = #{description},
-		        unit_price = #{unitPrice}
+		        movie_date = #{unitPrice}
 		    WHERE movie_id = #{movieId}
 		</update>
 		
