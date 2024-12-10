@@ -10,6 +10,8 @@
    <h2>메인페이지</h2>
    <a href="<c:url value='/movie/list' /> ">영화 목록</a>
    <br>
+   <a href="<c:url value='/board/list' /> ">리뷰 목록</a>
+   <br>
    <a href="<c:url value='/member/list' /> ">회원 목록</a>
    
 </body>
