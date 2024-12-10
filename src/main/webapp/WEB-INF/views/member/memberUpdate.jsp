@@ -38,6 +38,12 @@
                                 <input type="text" class="form-control" id="nameInput" name="name" 
                                        value="${member.name}" required>
                             </div>
+                            <!-- 휴대폰 번호 -->
+							<div class="mb-3">
+								<label for="phoneInput" class="form-label">휴대폰 번호</label> <input
+									type="text" class="form-control" id="phoneInput" name="phone"
+									value="${member.phone}" required>
+							</div>
                             <!-- 이메일 -->
                             <div class="mb-3">
                                 <label for="emailInput" class="form-label">이메일</label>
@@ -78,6 +84,13 @@
                 alert("이름을 입력하세요.");
                 event.preventDefault();
                 return;
+            }
+            
+            if (phone === "") {
+                alert("휴대폰 번호를 입력하세요.");
+                $("#phoneInput").focus();
+                event.preventDefault();
+                return false;
             }
 
             if (email === "") {

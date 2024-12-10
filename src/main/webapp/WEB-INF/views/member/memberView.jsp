@@ -87,6 +87,12 @@
                             <input type="text" class="form-control" id="nameInput" name="name" 
                                    value="${member.name}" readonly>
                         </div>
+                        <!-- 휴대폰 번호 -->
+							<div class="mb-3">
+								<label for="phoneInput" class="form-label">휴대폰 번호</label> <input
+									type="text" class="form-control" id="phoneInput" name="phone"
+									value="${member.phone}" required>
+							</div>
                         <!-- 이메일 -->
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">이메일</label>
