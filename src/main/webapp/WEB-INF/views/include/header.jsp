@@ -276,7 +276,12 @@
 							<a href="${pageContext.request.contextPath}/login">
 								<i class="fa fa-sign-out fa-fw"></i>Login
 							</a>
+							<br>
+							<a href="${pageContext.request.contextPath}/member/insert">
+								<i class="fa fa-sign-out fa-fw"></i>Join
+							</a>
 						</c:if>
+						
 
                     </ul>
                     <!-- /.dropdown-user -->

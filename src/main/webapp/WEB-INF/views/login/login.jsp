@@ -34,12 +34,6 @@
                                 <button id="loginButton" type="submit" class="btn btn-primary">로그인</button>
                                 <button id="cancelButton" type="button" class="btn btn-secondary">취소</button>
                             </div>
-                            <!-- 회원가입 버튼 -->
-						        <div class="text-end">
-						            <c:if test="${empty loginUser}">
-						                <button id="addMemberButton" class="btn btn-success">회원가입</button>
-						            </c:if>
-						        </div>
 						    </div>
                         </form>
                     </div>
@@ -75,4 +69,5 @@
             location.href = '<c:url value="/" />'; // 메인 페이지로 이동
         });
     </script>
- 	<%@ include file="../include/footer.jsp" %>
+</body>
+</html>
