@@ -113,8 +113,8 @@ public class MovieServiceImpl implements MovieService {
 	 * @return 영화 리스트
 	 */
 	@Override
-	public List<MovieVo> getAllMovies() {
-		return movieRepository.getAllMovies();
+	public List<MovieWithImageVo> getAllMovies() {
+		return movieRepository.getAllMoviesWithImages();
 	}
 
 	/**

@@ -6,36 +6,33 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>영화 목록</title>
+    <title>Movie List</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        table tbody td, table thead th {
+            text-align: center;
+            vertical-align: middle;
+        }
+        /* 제목을 중앙 정렬 */
         h1 {
             text-align: center; /* 수평 중앙 정렬 */
             margin-bottom: 20px;
+            flex: 1; /* Flexbox 자식 요소로 확장 */
         }
-        .gallery {
+        .pagination-container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
+            margin-top: 20px;
         }
-        .gallery-item {
-            margin: 15px;
-            text-align: center;
-            max-width: 200px; /* 포스터 크기 조정 */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
         }
-        .gallery-item img {
-            width: 100%; /* 포스터 이미지가 갤러리 아이템의 너비에 맞도록 설정 */
-            border-radius: 8px; /* 모서리 둥글게 */
-        }
-        .movie-title {
-            font-size: 1.1em; /* 영화 제목 크기 */
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        .movie-info {
-            font-size: 0.9em; /* 기본 정보 크기 */
-            color: #555; /* 기본 정보 색상 */
+        .search-container .form-control {
+            width: 300px;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -59,45 +56,41 @@
         </header>
 
         <!-- 검색 입력란 및 버튼 -->
-        <div class="search-container mb-4">
-            <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex justify-content-center">
-                <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
+        <div class="search-container">
+            <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex">
+                <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화명을 검색하세요" value="${pageMaker.cri.searchText}">
                 <button type="submit" class="btn btn-info me-2">검색</button>
                 <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
                 <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
             </form>
         </div>
 
-      
-        <!-- 영화 갤러리 -->
-        <div class="gallery">
-            <c:forEach var="movie" items="${movieList}">
-                <div class="gallery-item">
-                    <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
-                        <!-- 대표 이미지 표시 -->
-                        <!-- 이미지 경로를 올바르게 설정 -->
-                        <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
-					     alt="${movie.name}" 
-					     onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-
-                        <div class="movie-title">${movie.name}</div>
-                        <div class="movie-info">
-                            개봉일: <fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd"/>
-                        </div>
-                    </a>
-                </div>
-            </c:forEach>
-
-            <!-- 영화가 없을 경우 메시지 -->
-            <c:if test="${empty movieList}">
-                <div class="col mb-5 text-center">
-                    <h5>등록된 영화가 없습니다.</h5>
-                </div>
-            </c:if>
-        </div>
+        <!-- 영화 테이블 -->
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>순번</th>
+                    <th>영화명</th>
+                    <th>개봉일</th>
+                    <th>등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="movie" items="${movieList}" varStatus="status">
+                    <tr>
+                        <td>${status.index + 1}</td>
+                        <td><a href="<c:url value='/movie/detail/${movie.movieId}'/>">${movie.name}</a></td>
+                        <td><fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd" /></td>
+                        <td>
+                            <fmt:formatDate value="${movie.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
 
         <!-- 페이징 -->
-        <div class="pagination-container mt-4">
+        <div class="pagination-container">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
@@ -127,14 +120,12 @@
                 </c:if>
             </ul>
         </div>
-
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- 로그인/로그아웃 버튼 이벤트 처리 -->
     <script>
+        // 로그인/로그아웃 버튼 이벤트 처리
         const loginButton = document.getElementById('loginButton');
         const logoutButton = document.getElementById('logoutButton');
 
@@ -150,7 +141,5 @@
             });
         }
     </script>
-
 </body>
 </html>
-
