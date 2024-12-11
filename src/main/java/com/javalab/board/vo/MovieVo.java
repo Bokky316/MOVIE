@@ -1,6 +1,7 @@
 package com.javalab.board.vo;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,4 +33,7 @@ public class MovieVo {
 	private Date movieDate;			// 영화개봉일
 	
 	private Date regDate;			// 영화등록일
+	private String imgPath;			// 대표 이미지 경로
+	private String fileName;		// 대표 이미지명
+	private List<ImgVo> imgList;	// 한 영화의 여러개 이미지
 }

@@ -90,7 +90,7 @@ public class MovieController {
 	 */
 	@GetMapping("/list")
 	public String listMovies(Model model) {
-		List<MovieVo> movieList = movieService.getAllMovies();
+		List<MovieWithImageVo> movieList = movieService.getAllMovies();
 		model.addAttribute("movieList", movieList);
 		return "/movie/movieList";
 	}

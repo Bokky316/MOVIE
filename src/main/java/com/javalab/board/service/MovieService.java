@@ -15,7 +15,7 @@ public interface MovieService {
 	// 영화 이미지 정보 등록
 	boolean saveMovieWithImages(MovieVo movie, List<MultipartFile> files, String filePath);
 	// 영화 목록 조회
-	List<MovieVo> getAllMovies();
+	List<MovieWithImageVo> getAllMovies();
 	// 영화 조회
 	MovieWithImageVo getMovieWithImages(@Param("movieId") Long movieId);
 	// 이미지 저장

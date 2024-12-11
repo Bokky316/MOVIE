@@ -35,17 +35,22 @@
    			sysdate)
    </insert>
    
-   <!-- [모든 영화 조회 메소드] -->
-   <select id="getAllMovies" resultType="MovieVo">
-   		SELECT
-   			p.movie_id AS movieId,
-   			p.name,
-   			p.description,
-   			p.movie_date AS movieDate,
-   			p.reg_date AS regDate
-   		FROM movie p
-   		ORDER BY p.movie_id DESC
-   </select>
+    <!-- [모든 영화 조회 메소드] -->
+    <select id="getAllMoviesWithImages" resultMap="MovieWithImageMap">
+        SELECT
+            p.movie_id AS movieId,
+            p.name,
+            p.description,
+            p.movie_date AS movieDate,
+            p.reg_date AS regDate,
+            pi.img_id AS imgId,
+            pi.img_path AS imgPath,
+            pi.file_name AS fileName,
+            pi.is_main AS isMain
+        FROM movie p
+        LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
+        ORDER BY p.movie_id DESC
+    </select>
    
    <!-- [한 영화 조회(여러이미지)] -->
    <!-- 여기서 조회된 결과를 아래의 MovieWithImageMap 저장한다. -->

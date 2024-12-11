@@ -57,7 +57,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- 사이트 로고/브랜드명 -->
-                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
+                <a class="navbar-brand" href="/board">MOVIE	</a>
             </div>
             
             <!-- 상단 우측 네비게이션 메뉴 -->
