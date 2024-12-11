@@ -146,51 +146,64 @@ public class MovieServiceImpl implements MovieService {
      * @param filePath 파일이 저장될 디렉토리 경로
      * @return 성공 시 true, 실패 시 false
      */
-    @Override
-    @Transactional
-    public boolean updateMovieWithImages(MovieVo movie, List<MultipartFile> files, String filePath) {
-        try {
-            // 영화 정보를 업데이트
-            movieRepository.updateMovieWithImages(movie);
-
-            // 이미지 처리 로직은 saveMovieWithImages와 유사하게 구현 가능
-            Long movieId = movie.getMovieId();
-            String uploadFolderPath = getFolder();
-            String uploadPath = filePath + File.separator + uploadFolderPath;
-            File uploadFilePath = new File(uploadPath);
-
-            if (!uploadFilePath.exists()) {
-                uploadFilePath.mkdirs();
-            }
-
-            List<ImgVo> imageList = new ArrayList<>();
-            for (int i = 0; i < files.size(); i++) {
-                MultipartFile file = files.get(i);
-                if (!file.isEmpty()) {
-                    String originalFileName = file.getOriginalFilename();
-                    String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
-                    File saveFile = new File(uploadFilePath, uniqueFileName);
-                    file.transferTo(saveFile);
-
-                    ImgVo img = new ImgVo();
-                    img.setMovieId(movieId);
-                    img.setImgPath(uploadFolderPath);
-                    img.setFileName(uniqueFileName);
-                    img.setIsMain(i == 0 ? 1 : 0); // 첫 번째 이미지를 메인 이미지로 설정
-                    imageList.add(img);
+	@Override
+	@Transactional
+	public boolean updateMovieWithImages(MovieVo movie, List<MultipartFile> files, List<Long> existingImageIds, String filePath) {
+	    try {
+	        // 영화 정보를 업데이트
+	        movieRepository.updateMovieWithImages(movie);
+	        
+	        // 기존 이미지 삭제 처리
+            if (existingImageIds != null && !existingImageIds.isEmpty()) {
+                for (Long imageId : existingImageIds) {
+                    deleteImageById(imageId); // 기존 이미지 삭제
                 }
             }
 
-            if (!imageList.isEmpty()) {
-                insertImages(imageList); // 새로운 이미지 정보를 데이터베이스에 삽입
-            }
-            
-            return true; // 모든 작업이 성공적으로 완료된 경우 true 반환
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("영화 수정 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
-        }
-    }
+	        // 이미지 처리 로직은 saveMovieWithImages와 유사하게 구현 가능
+	        Long movieId = movie.getMovieId();
+	        String uploadFolderPath = getFolder();
+	        String uploadPath = filePath + File.separator + uploadFolderPath;
+	        File uploadFilePath = new File(uploadPath);
+
+	        if (!uploadFilePath.exists()) {
+	            uploadFilePath.mkdirs();
+	        }
+
+	        List<ImgVo> imageList = new ArrayList<>();
+	        for (int i = 0; i < files.size(); i++) {
+	            MultipartFile file = files.get(i);
+	            if (!file.isEmpty()) {
+	                String originalFileName = file.getOriginalFilename();
+	                String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
+	                File saveFile = new File(uploadFilePath, uniqueFileName);
+	                file.transferTo(saveFile);
+
+	                ImgVo img = new ImgVo();
+	                img.setMovieId(movieId);
+	                img.setImgPath(uploadFolderPath);
+	                img.setFileName(uniqueFileName);
+	                img.setIsMain(i == 0 ? 1 : 0); // 첫 번째 이미지를 메인 이미지로 설정
+	                imageList.add(img);
+	            }
+	        }
+
+	        if (!imageList.isEmpty()) {
+	            insertImages(imageList); // 새로운 이미지 정보를 데이터베이스에 삽입
+	        }
+	        
+	        return true; // 모든 작업이 성공적으로 완료된 경우 true 반환
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("영화 수정 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
+	    }
+	}
+
+	// 기존 이미지 삭제 메서드 추가
+	private void deleteImageById(Long imageId) {
+	    movieRepository.deleteImageById(imageId); // 수정: 특정 이미지 ID로 삭제
+	}
+
 
     /**
      * 영화를 삭제하는 메소드.
