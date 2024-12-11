@@ -304,16 +304,16 @@
                         </li>
                          <!-- 메뉴 항목들 -->
                         <li>
-                            <a href='<c:url value="/board/list" />'><i class="fa fa-dashboard fa-fw"></i>사원게시판</a>
+                            <a href='<c:url value="/board/list" />'><i class="fa fa-dashboard fa-fw"></i>영화 리뷰</a>
                         </li>
                         <li>
-                            <a href='#'><i class="fa fa-bar-chart-o fa-fw"></i>사원(Employee)<span class="fa arrow"></span></a>
+                            <a href='#'><i class="fa fa-bar-chart-o fa-fw"></i>영화(Employee)<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href='<c:url value="/emp/list" />'>사원목록</a>
+                                    <a href='<c:url value="/movie/list" />'>영화 목록</a>
                                 </li>
                                 <li>
-                                    <a href='<c:url value="/board/list" />'>사원게시판</a>
+                                    <a href='<c:url value="/board/list" />'>영화 리뷰</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
