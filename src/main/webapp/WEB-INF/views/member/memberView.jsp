@@ -1,14 +1,7 @@
+<%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 정보 보기</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* 버튼 컨테이너 */
         .button-container {
@@ -59,8 +52,7 @@
             margin-bottom: 20px;
         }
     </style>
-</head>
-<body>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -149,5 +141,4 @@
             alert(decodeURIComponent(errorMessage));
         }        
     </script>
-</body>
-</html>
+ 	<%@ include file="../include/footer.jsp" %>
