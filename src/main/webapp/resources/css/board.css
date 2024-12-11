@@ -1,0 +1,58 @@
+.search-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.search-container form {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.search-container input[type="text"] {
+	width: 400px;
+	padding: 10px;
+	font-size: 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.search-container button {
+	padding: 10px 20px;
+	font-size: 14px;
+}
+
+.search-container .btn-info {
+	background-color: #5bc0de;
+	border-color: #46b8da;
+	color: white;
+}
+
+.search-container .btn-warning {
+	background-color: #f0ad4e;
+	border-color: #eea236;
+	color: white;
+}
+
+.search-container .btn-success {
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+	color: white;
+}
+
+.search-container button:hover {
+	opacity: 0.9;
+}
+/* 제목을 중앙 정렬 */
+h1 {
+	text-align: center; /* 수평 중앙 정렬 */
+	margin-bottom: 20px;
+	flex: 1; /* Flexbox 자식 요소로 확장 */
+}
+
+/* 제목과 내용 간의 간격 */
+.mb-4 {
+    margin-bottom: 20px; /* 간격을 기존보다 넓게 설정 */
+}
