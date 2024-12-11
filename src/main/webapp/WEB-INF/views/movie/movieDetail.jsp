@@ -73,14 +73,15 @@
                             <label class="form-label"><strong>설명</strong></label>
                             <textarea class="form-control" rows="3" readonly>${movie.description}</textarea>
                         </div>
-                        <!-- 단가 -->
+                        <!-- 개봉일 -->
                         <div class="mb-3">
-                            <label class="form-label"><strong>단가</strong></label>
-                            <input type="text" class="form-control" value="${movie.unitPrice}" readonly>
-                        </div>
-                        <!-- 입고일 -->
+                            <label class="form-label"><strong>개봉일</strong></label>
+                            <input type="text" class="form-control"
+          						 value="<fmt:formatDate value='${movie.movieDate}' pattern='yyyy-MM-dd' />" readonly>
+                        </div> 
+                        <!-- 등록일 -->
                         <div class="mb-3">
-                            <label class="form-label"><strong>입고일</strong></label>
+                            <label class="form-label"><strong>등록일</strong></label>
                             <input type="text" class="form-control"
                                 value="<fmt:formatDate value='${movie.regDate}' pattern='yyyy-MM-dd HH:mm:ss' />" readonly>
                         </div>

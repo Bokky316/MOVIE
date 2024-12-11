@@ -10,13 +10,13 @@ import com.javalab.board.vo.MovieVo;
 import com.javalab.board.vo.MovieWithImageVo;
 
 public interface MovieService {
-	// 상품 정보 등록
+	// 영화 정보 등록
 	void addMovie(MovieVo movie);
-	// 상품 이미지 정보 등록
+	// 영화 이미지 정보 등록
 	boolean saveMovieWithImages(MovieVo movie, List<MultipartFile> files, String filePath);
-	// 상품 목록 조회
+	// 영화 목록 조회
 	List<MovieVo> getAllMovies();
-	// 상품 조회
+	// 영화 조회
 	MovieWithImageVo getMovieWithImages(@Param("movieId") Long movieId);
 	// 이미지 저장
 	void insertImages(List<ImgVo> images);
@@ -24,10 +24,10 @@ public interface MovieService {
 	//MovieVo getMovieById(@Param("movieId") Long movieId);
 	//List<ImgVo> getImgagesByMovieId(@Param("movieId") Long movieId);
 	
-    // 상품 수정
+    // 영화 수정
     boolean updateMovieWithImages(MovieVo movie, List<MultipartFile> files, String filePath);
     
-    // 상품 삭제
+    // 영화 삭제
     boolean deleteMovie(@Param("movieId") Long movieId);
 
 }

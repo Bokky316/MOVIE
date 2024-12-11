@@ -80,7 +80,7 @@
                     <tr>
                         <td>${status.index + 1}</td>
                         <td><a href="<c:url value='/movie/detail/${movie.movieId}'/>">${movie.name}</a></td>
-                        <td>${movie.unitPrice}</td>
+                        <td><fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd" /></td>
                         <td>
                             <fmt:formatDate value="${movie.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
                         </td>
