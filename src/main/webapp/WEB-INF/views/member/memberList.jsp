@@ -1,15 +1,8 @@
+<%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>회원 목록</title>
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
     /* 테이블의 모든 컬럼 중앙 정렬 */
     table tbody td, table thead th {
@@ -28,8 +21,6 @@
     }
 </style>
 
-</head>
-<body>
     <div class="container mt-5">
         <!-- 페이지 헤더 -->
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -114,5 +105,5 @@
             });
         }
     </script>
-</body>
-</html>
+    <%@ include file="../include/footer.jsp" %>
+
