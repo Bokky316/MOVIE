@@ -35,7 +35,7 @@ import com.javalab.board.vo.MovieWithImageVo;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 상품 정보 등록 컨트롤러
+ * 영화 정보 등록 컨트롤러
  *
  */
 @Controller
@@ -58,7 +58,7 @@ public class MovieController {
 	private String filePath; // 읽어온 값이 저장되는 변수
 	
 	/*
-	 * 상품 등록 폼
+	 * 영화 등록 폼
 	 */
 	@GetMapping("/create")
 	public String createForm() {
@@ -66,7 +66,7 @@ public class MovieController {
 	}
 	
 	/*
-	 * 상품 등록 처리
+	 * 영화 등록 처리
 	 */
 	@PostMapping("/create")
 	public String handleUpload(MovieVo movieVo, 
@@ -75,7 +75,7 @@ public class MovieController {
 		log.info("movieVo 화면에서 받은 값 : {}", movieVo);
 		log.info("filepath 화면에서 받은 값 : {}", filePath);
 		
-		// 서비스 레이어로 파일 업로드 및 상품/이미지 등록 위임
+		// 서비스 레이어로 파일 업로드 및 영화/이미지 등록 위임
 		boolean isUploaded = movieService.saveMovieWithImages(movieVo, files, filePath);
 		
 		if (!isUploaded) {
@@ -86,7 +86,7 @@ public class MovieController {
 
 	
 	/*
-	 * 상품 목록 조회
+	 * 영화 목록 조회
 	 */
 	@GetMapping("/list")
 	public String listMovies(Model model) {
@@ -96,14 +96,14 @@ public class MovieController {
 	}
 	
 	/*
-	 * 상품 내용 보기 
+	 * 영화 내용 보기 
 	 * @PathVariable : URL 경로에 있는 값을 파라미터로 받을 때 사용
 	 * - {movieId} : URL 경로에 있는 movieId의 값을 파라미터로 받음
 	 * - {PathVariable("movieId") : URL 경로에 있는 movieId값을 받아서 Long movieId에 할당
 	 */
 	@GetMapping("/detail/{movieId}")
 	public String movieDetail(@PathVariable("movieId") Long movieId, Model model) {
-		// 상품 조회 
+		// 영화 조회 
 		MovieWithImageVo movieWithImages = movieService.getMovieWithImages(movieId);
 		
 		log.info("detail movie : " + movieWithImages);
@@ -166,8 +166,8 @@ public class MovieController {
     
     
 	/*
-	 * 게시물 수정 폼 보기 메소드
-	 * - 게시물 번호를 받아서 해당 게시물의 정보를 조회해서 수정 폼으로 이동
+	 * 영화 수정 폼 보기 메소드
+	 * - 영화Id를 받아서 해당 게시물의 정보를 조회해서 수정 폼으로 이동
 	 */
 	@GetMapping("/update")
 	   public String updateMovieForm(@RequestParam("movieId") Long movieId, 
@@ -187,16 +187,16 @@ public class MovieController {
 	       //}
 
 		
-		// 게시물 조회 
+		// 영화 조회 
 		MovieWithImageVo  existingMovie = movieService.getMovieWithImages(movieId);
 		
 //		// 게시물이 없거나 작성자와 로그인한 사용자가 다를 경우
 //		 if (existingMovie == null || !existingMovie.getMemberId().equals(loginUser.getMemberId())) {
 //	           redirectAttributes.addFlashAttribute("errorMessage", "수정 권한이 없습니다.");
-//	           return "redirect:/movie/view?movieId=" + movieId; // 게시물 상세 보기로 이동
+//	           return "redirect:/movie/view?movieId=" + movieId; // 영화 상세 보기로 이동
 //	       }
         if (existingMovie == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "수정할 상품이 존재하지 않습니다.");
+            redirectAttributes.addFlashAttribute("errorMessage", "수정할 영화가 존재하지 않습니다.");
             return "redirect:/movie/list";
         }
 
@@ -207,7 +207,7 @@ public class MovieController {
 //			 model.addAttribute("movie", movieVo); // 모델에 저장
 //		    }
         
-    	// 모델에 상품 정보 저장
+    	// 모델에 영화 정보 저장
         model.addAttribute("movie", existingMovie);
 		// 수정폼(화면)으로 이동
 		 return "movie/movieUpdate";
@@ -215,31 +215,31 @@ public class MovieController {
 	}
 
 	/*
-     * 상품 수정 처리
+     * 영화 수정 처리
      */
     @PostMapping("/update")
     public String updateMovie(@ModelAttribute MovieVo movieVo,
                                 @RequestParam("files") ArrayList<MultipartFile> files,
                                 RedirectAttributes redirectAttributes) {
         try {
-            // 상품 정보 업데이트 및 새 이미지 저장
+            // 영화 정보 업데이트 및 새 이미지 저장
             boolean isUpdated = movieService.updateMovieWithImages(movieVo, files, filePath);
             if (isUpdated) {
-                redirectAttributes.addFlashAttribute("successMessage", "상품이 성공적으로 수정되었습니다.");
+                redirectAttributes.addFlashAttribute("successMessage", "영화가 성공적으로 수정되었습니다.");
                 return "redirect:/movie/detail/" + movieVo.getMovieId();
             } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "상품 수정에 실패했습니다.");
+                redirectAttributes.addFlashAttribute("errorMessage", "영화 수정에 실패했습니다.");
                 return "redirect:/movie/update?movieId=" + movieVo.getMovieId();
             }
         } catch (Exception e) {
-            log.error("상품 수정 중 오류 발생", e);
-            redirectAttributes.addFlashAttribute("errorMessage", "상품 수정 중 오류가 발생했습니다.");
+            log.error("영화 수정 중 오류 발생", e);
+            redirectAttributes.addFlashAttribute("errorMessage", "영화 수정 중 오류가 발생했습니다.");
             return "redirect:/movie/update?movieId=" + movieVo.getMovieId();
         }
     }
 
     /*
-     * 상품 삭제 메소드
+     * 영화 삭제 메소드
      */
     @PostMapping("/delete")
     public String deleteMovie(@RequestParam("movieId") Long movieId,
@@ -247,13 +247,13 @@ public class MovieController {
         try {
             boolean isDeleted = movieService.deleteMovie(movieId);
             if (isDeleted) {
-                redirectAttributes.addFlashAttribute("successMessage", "상품이 성공적으로 삭제되었습니다.");
+                redirectAttributes.addFlashAttribute("successMessage", "영화가 성공적으로 삭제되었습니다.");
             } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "상품 삭제에 실패했습니다.");
+                redirectAttributes.addFlashAttribute("errorMessage", "영화 삭제에 실패했습니다.");
             }
         } catch (Exception e) {
-            log.error("상품 삭제 중 오류 발생", e);
-            redirectAttributes.addFlashAttribute("errorMessage", "상품 삭제 중 오류가 발생했습니다.");
+            log.error("영화 삭제 중 오류 발생", e);
+            redirectAttributes.addFlashAttribute("errorMessage", "영화 삭제 중 오류가 발생했습니다.");
         }
         return "redirect:/movie/list";
     }
