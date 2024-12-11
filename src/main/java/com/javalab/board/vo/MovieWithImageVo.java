@@ -3,6 +3,8 @@ package com.javalab.board.vo;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +25,10 @@ public class MovieWithImageVo {
 	private Long movieId;			// 영화ID
 	private String name;			// 영화명
 	private String description;		// 영화설명
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date movieDate;			// 영화개봉일
+	
 	private Date regDate;			// 영화등록일
 	private String imgPath;			// 대표 이미지 경로
 	private String fileName;		// 대표 이미지명

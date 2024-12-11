@@ -47,7 +47,7 @@
             // 유효성 검사 및 CKEditor 데이터 동기화
             $('#movieForm').on('submit', function (event) {
                 const name = $('#nameInput').val().trim();
-                const unitPrice = $('#unitPriceInput').val().trim();
+                const movieDate = $('#movieDateInput').val().trim();
 
                 // CKEditor 데이터 가져오기 및 태그 제거
                 const editorData = editorInstance.getData();
@@ -68,12 +68,12 @@
                     return;
                 }
 
-                if (!unitPrice || isNaN(unitPrice) || parseFloat(unitPrice) <= 0) {
-                    alert("올바른 가격을 입력하세요.");
-                    $('#unitPriceInput').focus();
+                if (movieDate === "") {
+                    alert("영화 개봉일을 입력하세요.");
+                    $('#movieDateInput').focus();
                     event.preventDefault();
                     return;
-                }
+                } 
             });
 
             // 취소 버튼 클릭 시 확인
@@ -98,7 +98,7 @@
                             <!-- 영화명 -->
                             <div class="mb-3">
                                 <label for="nameInput" class="form-label">영화명</label>
-                                <input type="text" class="form-control" id="nameInput" name="name" maxlength="100" />
+                                <input type="text" class="form-control" id="nameInput" name="name" maxlength="100" required />
                                 <div class="form-text">영화명은 필수 입력 항목입니다.</div>
                             </div>
                             <!-- 설명 -->
@@ -110,10 +110,10 @@
                             </div>
                             <!-- 개봉일 -->
                             <div class="mb-3">
-                                <label for="unitPriceInput" class="form-label">가격</label>
-                                <input type="text" class="form-control" id="unitPriceInput" name="unitPrice" />
-                                <div class="form-text">가격은 숫자로만 입력하세요.</div>
-                            </div>
+                                <label for="movieDateInput" class="form-label">개봉일</label>
+                                <input type="date" class="form-control" id="movieDateInput" name="movieDate" required />
+                                <div class="form-text">개봉일은 필수 입력 항목입니다.</div>
+                            </div> 
                             <!-- 파일 업로드 -->
                             <div class="mb-3">
                                 <label class="form-label">파일 업로드</label>
