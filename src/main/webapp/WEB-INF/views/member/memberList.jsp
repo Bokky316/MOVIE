@@ -1,16 +1,9 @@
+<%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>회원 목록</title>
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<style>
+<!-- <style>
     /* 테이블의 모든 컬럼 중앙 정렬 */
     table tbody td, table thead th {
         text-align: center;
@@ -26,15 +19,13 @@
         margin-bottom: 20px;
         flex: 1; /* Flexbox 자식 요소로 확장 */
     }
-</style>
+</style> -->
 
-</head>
-<body>
     <div class="container mt-5">
         <!-- 페이지 헤더 -->
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h1>회원 목록</h1>
-            <!-- 로그인/로그아웃 버튼 -->
+            <%-- <!-- 로그인/로그아웃 버튼 -->
             <div>
                 <c:choose>
                     <c:when test="${not empty loginUser}">
@@ -47,7 +38,7 @@
                         <button id="loginButton" class="btn btn-primary btn-sm">로그인</button>
                     </c:otherwise>
                 </c:choose>
-            </div>
+            </div> --%>
         </div>
 
         <!-- 회원 목록 테이블 -->
@@ -78,13 +69,13 @@
             </tbody>
         </table>
 
-        <!-- 회원가입 버튼 -->
+        <%-- <!-- 회원가입 버튼 -->
         <div class="text-end">
             <c:if test="${empty loginUser}">
                 <button id="addMemberButton" class="btn btn-success">회원가입</button>
             </c:if>
         </div>
-    </div>
+    </div> --%>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -114,5 +105,5 @@
             });
         }
     </script>
-</body>
-</html>
+    <%@ include file="../include/footer.jsp" %>
+

@@ -1,14 +1,7 @@
+<%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원 정보 보기</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* 버튼 컨테이너 */
         .button-container {
@@ -59,8 +52,7 @@
             margin-bottom: 20px;
         }
     </style>
-</head>
-<body>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -87,6 +79,12 @@
                             <input type="text" class="form-control" id="nameInput" name="name" 
                                    value="${member.name}" readonly>
                         </div>
+                        <!-- 휴대폰 번호 -->
+							<div class="mb-3">
+								<label for="phoneInput" class="form-label">휴대폰 번호</label> <input
+									type="text" class="form-control" id="phoneInput" name="phone"
+									value="${member.phone}" required>
+							</div>
                         <!-- 이메일 -->
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">이메일</label>
@@ -143,5 +141,4 @@
             alert(decodeURIComponent(errorMessage));
         }        
     </script>
-</body>
-</html>
+ 	<%@ include file="../include/footer.jsp" %>
