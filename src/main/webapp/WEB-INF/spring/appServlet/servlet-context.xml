@@ -55,24 +55,28 @@
     	2. 게시물의 저장/수정/삭제시
     	LoginInterceptor 가 처리하도록 서정
     	-->
-    <!-- <mvc:interceptors>
+    <mvc:interceptors>
         <mvc:interceptor>
-            LoginInterceptor 등록
-            회원관련 요청
+            <!-- LoginInterceptor 등록
+            회원관련 요청 -->
             <mvc:mapping path="/member/view" />
             <mvc:mapping path="/member/list" />
             <mvc:mapping path="/member/update" />
             <mvc:mapping path="/member/delete" />
-            게시물의 저장/수정/삭제 관련 요청
+           <!--  영화의 저장/수정/삭제 관련 요청 -->
+            <mvc:mapping path="/movie/insert" />
+            <mvc:mapping path="/movie/update" />
+            <mvc:mapping path="/movie/delete" />
+            <!--  리뷰의 저장/수정/삭제 관련 요청 -->
             <mvc:mapping path="/board/insert" />
             <mvc:mapping path="/board/update" />
             <mvc:mapping path="/board/delete" />
-            제외 경로
+           <!--  제외 경로 -->
             <mvc:exclude-mapping path="/resources/**"/>
-            Interceptor 클래스
+            <!-- Interceptor 클래스 -->
             <bean class="com.javalab.board.interceptor.LoginInterceptor" />
         </mvc:interceptor>
-    </mvc:interceptors> -->
+    </mvc:interceptors>
     
     <!-- 트랜잭션 매니저 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
