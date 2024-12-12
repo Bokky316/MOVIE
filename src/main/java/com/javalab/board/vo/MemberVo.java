@@ -1,6 +1,7 @@
 package com.javalab.board.vo;
 
-import java.util.Date;
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ public class MemberVo {
     private String name; // 이름
     private String email; // 이메일
     private Date regDate; // 가입 날짜
-    private RoleVo role; // 역할 정보를 포함 (RoleVo 객체)
+    private String phone; // 전화번호 
+    private String roleId; // 역할 ID
 }

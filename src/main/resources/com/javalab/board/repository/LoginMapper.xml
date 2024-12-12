@@ -12,9 +12,9 @@
         m.password,
         m.name,
         m.email,
+        m.phone,
         m.reg_date,
-        r.role_id,
-        r.role_name
+        r.role_id
     FROM 
         member m
     LEFT JOIN 

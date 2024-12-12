@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.javalab.board.service.LoginService;
 import com.javalab.board.vo.MemberVo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class LoginController {
 
@@ -24,7 +27,7 @@ public class LoginController {
         MemberVo loginUser = (MemberVo) session.getAttribute("loginUser");
 
         if (loginUser != null) {
-            // 이미 로그인된 경우 게시물 목록 페이지로 이동
+
             return "redirect:/";
         }
 
@@ -37,7 +40,7 @@ public class LoginController {
     public String login(String memberId, String password, HttpSession session, Model model) {
         // 로그인 서비스 호출
         MemberVo loginUser = loginService.checkLogin(memberId, password);
-
+        log.info("loginUser" + loginUser);
         if (loginUser != null) {
             // 로그인 성공 시 세션에 사용자 정보 저장
             session.setAttribute("loginUser", loginUser);
