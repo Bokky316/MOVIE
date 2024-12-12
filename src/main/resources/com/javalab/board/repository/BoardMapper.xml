@@ -14,8 +14,7 @@
 			member_id, 
 			hit_no, 
 			reg_date,  
-			rating,
-			image_path
+			rating
 		FROM board 
 		ORDER BY reg_date DESC	
 	</select>
@@ -68,7 +67,6 @@
 			reply_order,
 			reply_indent,  
 			rating,
-			image_path, 
 			spoiler
 		FROM board 
 		WHERE board_no = #{boardNo}
@@ -105,7 +103,6 @@
 			reply_order, 
 			reply_indent,  
 			rating,
-			image_path, 
 			spoiler
 		)
 		VALUES (
@@ -119,7 +116,6 @@
 			#{replyOrder},
 			#{replyIndent},
 			#{rating},
-			#{imagePath},
 			#{spoiler}
 		)
 	</insert>
@@ -128,7 +124,7 @@
 	<update id="updateReplyOrder" parameterType="BoardVo">
 		UPDATE board
 		SET reply_order = reply_order + 1
-		WHERE reply_group = #{replyGroup} AND reply_order > #{replyOrder}
+		WHERE reply_group = #{replyGroup} AND reply_order >= #{replyOrder}
 	</update>
 
 	<!-- 답글 등록 -->
@@ -142,7 +138,8 @@
 			reg_date, 
 			reply_group, 
 			reply_order, 
-			reply_indent
+			reply_indent,
+			spoiler
 		) VALUES (
 			board_seq.NEXTVAL, 
 			#{title}, 
@@ -152,7 +149,8 @@
 			SYSDATE, 
 			#{replyGroup}, 
 			#{replyOrder}, 
-			#{replyIndent}
+			#{replyIndent},
+			#{spoiler}
 		)
 	</insert>
 
@@ -160,7 +158,8 @@
 	<update id="updateBoard" parameterType="BoardVo">
 		UPDATE board
 		SET title = #{title},
-			content = #{content}
+			content = #{content},
+			rating = #{rating}
 		WHERE board_no = #{boardNo}
 	</update>
 

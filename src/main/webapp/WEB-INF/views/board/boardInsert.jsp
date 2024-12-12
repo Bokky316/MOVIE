@@ -43,7 +43,7 @@
                 <div class="form-text">내용은 500자 이내로 작성해주세요.</div>
             </div>
             <!-- 별점 RATING -->
-            <div class="mb-3">
+          <!--   <div class="mb-3">
                 <label for="rating">별점 :</label>
                 <select id="rating" name="rating" required>
                     <option value="" disabled selected>별점을 선택하세요</option>
@@ -57,12 +57,23 @@
                     <option value="4.5">4.5</option>
                     <option value="5.0">5.0</option>
                 </select>
-            </div>
+            </div> -->
+            
+            <!-- 별점 RATING -->
+<!-- 별점 RATING --> 
+<div class="mb-3">
+    <label for="rating">별점 :</label>
+    <select id="rating" name="rating" required>
+        <option value="" disabled selected>별점을 선택하세요</option>
+        <option value="1.0">⭐</option> 
+        <option value="2.0">⭐⭐</option>
+        <option value="3.0">⭐⭐⭐</option>
+        <option value="4.0">⭐⭐⭐⭐</option>
+        <option value="5.0">⭐⭐⭐⭐⭐</option>
+    </select>
+</div>
             <!-- 사진첨부 -->
-            <div class="mb-3">
-                <label for="image">사진 첨부:</label>
-                <input type="file" id="image" name="image" accept="image/*">
-            </div>
+
             <!-- 스포일러 포함 여부 -->
             <div class="mb-3">
                 <label for="spoilerCheck" class="form-label">스포일러 포함 여부</label>

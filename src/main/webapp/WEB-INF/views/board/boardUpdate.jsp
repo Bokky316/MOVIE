@@ -37,6 +37,22 @@
                     <label for="contentInput" class="form-label"><strong>내용</strong></label>
                     <textarea id="contentInput" class="form-control" name="content" rows="5" required>${board.content}</textarea>
                 </div>
+                <!-- 별점 RATING -->
+	            <div class="mb-3">
+	                <label for="rating">별점 :</label>
+	                <select id="rating" name="rating" required>
+	                    <option value="" disabled selected>별점을 선택하세요</option>
+	                    <option value="1.0">1.0</option>
+	                    <option value="1.5">1.5</option>
+	                    <option value="2.0">2.0</option>
+	                    <option value="2.5">2.5</option>
+	                    <option value="3.0">3.0</option>
+	                    <option value="3.5">3.5</option>
+	                    <option value="4.0">4.0</option>
+	                    <option value="4.5">4.5</option>
+	                    <option value="5.0">5.0</option>
+	                </select>
+	            </div>
                 <!-- 작성자 ID -->
                 <div class="mb-3">
                     <label class="form-label"><strong>작성자 ID</strong></label>

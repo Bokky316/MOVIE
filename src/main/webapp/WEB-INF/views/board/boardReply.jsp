@@ -6,7 +6,7 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8">
-                <h2 class="text-white mb-5">리뷰</h2>
+                <h2 class="text-white mb-5">답글작성</h2>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <form id="replyForm" action="<c:url value='/board/reply' />" method="post">
             <!-- 부모 게시물 정보 -->
             <div class="mb-3">
-                <label for="parentInfo" class="form-label">부모 게시물</label>
+                <label for="parentInfo" class="form-label">본문 게시글</label>
                 <textarea class="form-control" id="parentInfo" rows="3" readonly>
                     제목: ${parentBoard.title}
                     작성자: ${parentBoard.memberId}
@@ -49,10 +49,7 @@
             </div>
 
 			<!-- 사진첨부 -->
-            <div class="mb-3">
-                <label for="image">사진 첨부:</label>
-                <input type="file" id="image" name="image" accept="image/*">
-            </div>
+
            
             <!-- 스포일러 포함 여부 -->
             <div class="mb-3">

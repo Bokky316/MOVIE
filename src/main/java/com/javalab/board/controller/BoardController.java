@@ -1,10 +1,8 @@
 package com.javalab.board.controller;
 
-import java.io.File;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/board")
 @Slf4j
 public class BoardController {
-	
-	@Value("${file.upload.2024}")
-	private String uploadDir;
 	
     private final BoardService service;
 
@@ -103,19 +98,6 @@ public class BoardController {
             boardVo.setSpoiler("Y".equals(spoiler) ? "Y" : "N");
             log.info("Spoiler set in BoardVo: {}", boardVo.getSpoiler());
 
-            // 이미지 파일 저장
-            if (!image.isEmpty()) {
-                File directory = new File(uploadDir);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
-
-                String imagePath = uploadDir + File.separator + image.getOriginalFilename();
-                image.transferTo(new File(imagePath));
-                boardVo.setImagePath(imagePath); // 이미지 경로 설정
-                log.info("Image path set in BoardVo: {}", boardVo.getImagePath());
-            }
-
             // 게시글 저장
             log.info("Saving board: {}", boardVo);
             service.insertBoard(boardVo);
@@ -174,34 +156,24 @@ public class BoardController {
 //            return "redirect:/board/update?boardNo=" + boardVo.getBoardNo();
 //        }
 //    }
-    @PostMapping("/update")
-    public String updateBoard(@ModelAttribute BoardVo boardVo,
-                              @RequestParam("image") MultipartFile image,
-                              RedirectAttributes redirectAttributes) {
-        try {
-            // 새 사진 업로드 처리
-            if (!image.isEmpty()) {
-                // 업로드 디렉토리 존재 확인 및 생성
-                File directory = new File(uploadDir);
-                if (!directory.exists()) {
-                    directory.mkdirs();
-                }
+	@PostMapping("/update")
+	public String updateBoard(@ModelAttribute BoardVo boardVo,
+			@RequestParam(value = "rating", required = false) Float rating, 
+			RedirectAttributes redirectAttributes) {
+		try {
+			// 별점 설정
+			boardVo.setRating(rating);
 
-                String imagePath = uploadDir + File.separator + image.getOriginalFilename();
-                image.transferTo(new File(imagePath));
-                boardVo.setImagePath(imagePath);
-            }
-
-            // 게시글 수정
-            service.updateBoard(boardVo);
-            redirectAttributes.addFlashAttribute("successMessage", "게시물이 수정되었습니다.");
-            return "redirect:/board/view?boardNo=" + boardVo.getBoardNo();
-        } catch (Exception e) {
-            log.error("Error while updating board", e);
-            redirectAttributes.addFlashAttribute("errorMessage", "게시물 수정 중 오류가 발생했습니다.");
-            return "redirect:/board/update?boardNo=" + boardVo.getBoardNo();
-        }
-    }
+			// 게시글 수정
+			service.updateBoard(boardVo);
+			redirectAttributes.addFlashAttribute("successMessage", "게시물이 수정되었습니다.");
+			return "redirect:/board/view?boardNo=" + boardVo.getBoardNo();
+		} catch (Exception e) {
+			log.error("Error while updating board", e);
+			redirectAttributes.addFlashAttribute("errorMessage", "게시물 수정 중 오류가 발생했습니다.");
+			return "redirect:/board/update?boardNo=" + boardVo.getBoardNo();
+		}
+	}
     
 
     /**
@@ -209,23 +181,10 @@ public class BoardController {
      * @param boardNo 삭제할 게시물 번호
      * @return 게시물 목록 페이지로 리다이렉트
      */
-//    @PostMapping("/delete")
-//    public String deleteBoard(@RequestParam int boardNo) {
-//        service.deleteBoard(boardNo);
-//        return "redirect:/board/list";
-//    }
     @PostMapping("/delete")
     public String deleteBoard(@RequestParam int boardNo, RedirectAttributes redirectAttributes) {
         try {
             BoardVo board = service.getBoard(boardNo);
-
-            // 이미지 삭제
-            if (board.getImagePath() != null) {
-                File imageFile = new File(board.getImagePath());
-                if (imageFile.exists()) {
-                    imageFile.delete();
-                }
-            }
 
             // 게시글 삭제
             service.deleteBoard(boardNo);
@@ -262,30 +221,10 @@ public class BoardController {
      * @param redirectAttributes 리다이렉트 시 메시지 전달
      * @return 게시물 목록 페이지로 리다이렉트
      */
-//    @PostMapping("/reply")
-//    public String replyBoard(BoardVo replyBoard, RedirectAttributes redirectAttributes) {
-//        try {
-//            // 부모 게시물 번호로 조회한 데이터 설정
-//            BoardVo parentBoard = service.getBoard(replyBoard.getReplyGroup());
-//
-//            // 부모 게시물 데이터를 기반으로 답글 설정
-//            replyBoard.setReplyGroup(parentBoard.getReplyGroup());
-//            replyBoard.setReplyOrder(parentBoard.getReplyOrder() + 1);
-//            replyBoard.setReplyIndent(parentBoard.getReplyIndent() + 1);
-//
-//            // 답글 등록
-//            service.insertReply(replyBoard);
-//            redirectAttributes.addFlashAttribute("successMessage", "답글이 등록되었습니다.");
-//            return "redirect:/board/list";
-//        } catch (Exception e) {
-//            log.error("Error while inserting reply", e);
-//            redirectAttributes.addFlashAttribute("errorMessage", "답글 등록 중 오류가 발생했습니다.");
-//            return "redirect:/board/reply?parentBoardNo=" + replyBoard.getReplyGroup();
-//        }
-//    }
-    
     @PostMapping("/reply")
-    public String replyBoard(BoardVo replyBoard, RedirectAttributes redirectAttributes) {
+    public String replyBoard(BoardVo replyBoard, 
+                             @RequestParam(value = "spoiler", required = false) String spoiler,
+                             RedirectAttributes redirectAttributes) {
         try {
             // 부모 게시물 정보 가져오기
             BoardVo parentBoard = service.getBoard(replyBoard.getReplyGroup());
@@ -296,9 +235,15 @@ public class BoardController {
             }
 
             // 답글 설정
-            replyBoard.setReplyGroup(parentBoard.getReplyGroup());
-            replyBoard.setReplyOrder(parentBoard.getReplyOrder() + 1);
-            replyBoard.setReplyIndent(parentBoard.getReplyIndent() + 1);
+            replyBoard.setReplyGroup(parentBoard.getReplyGroup()); // 그룹 번호는 부모와 동일
+            replyBoard.setReplyOrder(parentBoard.getReplyOrder() + 1); // 부모의 순서 + 1
+            replyBoard.setReplyIndent(parentBoard.getReplyIndent() + 1); // 부모의 들여쓰기 + 1
+
+            // 기존 답글들의 순서 조정 (reply_order)
+            service.updateReplyOrder(replyBoard);
+
+            // 스포일러 처리
+            replyBoard.setSpoiler("Y".equalsIgnoreCase(spoiler) ? "Y" : "N");
 
             // 답글 저장
             service.insertReply(replyBoard);
@@ -311,5 +256,5 @@ public class BoardController {
         }
     }
 
-
+    
 }

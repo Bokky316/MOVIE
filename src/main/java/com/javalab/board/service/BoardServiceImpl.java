@@ -24,15 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor // 생성자 자동으로 만들어준다.
 @Slf4j
 public class BoardServiceImpl implements BoardService {
-	// @Autowired : 스프링에서 지정한 타입의 빈을 찾아서 주입
-	// BoardRepository 타입의 빈을 찾아서 주입해줌.
-	// 필드, 생성자 이존성 주입시 필드를 final하는 이유는 불변성을 지키기 위함이다.
-	private final BoardRepository repository;
 
-	// 생성자 의존성이 좋은 점은 이 객체 생성시 타입을 체크해준다. 안정성 보장
-	// public BoardServiceImpl(BoardRepository repository) {
-	// this.repository = repository;
-	// }
+	private final BoardRepository repository;
 
 	/*
 	 * 게시물 조회
