@@ -21,68 +21,7 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-lg-8">
-                        <h2 class="text-white mb-4">추천 영화</h2>
-						    <div class="gallery-item">
-							    <c:if test="${not empty randomMovie}">
-							        <a href="<c:url value='/movie/detail/${randomMovie.movieId}'/>">
-							            <img src="${pageContext.request.contextPath}/movie/upload/${randomMovie.imgList[0].imgPath}/${randomMovie.imgList[0].fileName}" 
-							                 alt="${randomMovie.name}" 
-							                 onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-							            <div class="movie-title">${randomMovie.name}</div>
-							            <div class="movie-info">
-							                개봉일: <fmt:formatDate value="${randomMovie.movieDate}" pattern="yyyy-MM-dd"/>
-							            </div>
-							        </a>
-							    </c:if>
-							</div>
-                        
-                        <p class="text-white-50">
-                            Grayscale is a free Bootstrap theme created by Start Bootstrap. It can be yours right now, simply download the template on
-                            <a href="https://startbootstrap.com/theme/grayscale/">the preview page.</a>
-                            The theme is open source, and you can use it for any purpose, personal or commercial.
-                        </p>
-                    </div>
-                </div>
-                <img class="img-fluid" src="assets/img/ipad.png" alt="..." />
-            </div>
-        </section>
-        <!-- 랜덤 영화 섹션 -->
-<section class="projects-section bg-light" id="random-movies">
-    <div class="container px-4 px-lg-5">
-        <h2 class="text-center">랜덤 영화 추천</h2>
-        <div class="gallery">
-            <c:forEach items="${randomMovies}" var="movie">
-                <div class="gallery-item">
-                    <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
-                        <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
-                             alt="${movie.name}" 
-                             onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-                        <div class="movie-title">${movie.name}</div>
-                        <div class="movie-info">
-                            개봉일: <fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd"/>
-                        </div>
-                    </a>
-                </div>
-            </c:forEach>
-
-            <!-- 랜덤 영화가 없을 경우 메시지 -->
-            <c:if test="${empty randomMovies}">
-                <div class="col mb-5 text-center">
-                    <h5>추천할 영화가 없습니다.</h5>
-                </div>
-            </c:if>
-        </div>
-    </div>
-</section>
-
-
-
-<section class="signup-section" id="signup">
-    <div class="container px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5">
-            <div class="col-md-10 col-lg-8 mx-auto text-center">
-                <i class="far fa-paper-plane fa-2x mb-2 text-white"></i>
-                <h2 class="text-white mb-5">영화 제목을 검색하세요.</h2>
+                        <h2 class="text-white mb-5">영화 제목을 검색하세요.</h2>
                 <!-- 검색 폼 -->
                 <form class="form-signup" id="searchForm" action="<c:url value='/movie/list' />" method="get">
                     <!-- 영화 제목 입력 -->
@@ -100,7 +39,68 @@
             </div>
         </div>
     </div>
-</section>
+    <!-- Projects-->  
+   <section class="projects-section bg-light" id="projects">
+		<div class="container px-4 px-lg-5">
+			<!-- Featured Project Row-->
+			<div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+				<div class="col-xl-8 col-lg-7">
+					<img class="img-fluid mb-3 mb-lg-0"
+						src="assets/img/bg-masthead.jpg" alt="..." />
+				</div>
+				<div class="col-xl-4 col-lg-5">
+					<div class="featured-text text-center text-lg-left">
+						<h4>Shoreline</h4>
+						<p class="text-black-50 mb-0">Grayscale is open source and MIT
+							licensed. This means you can use it for any project - even
+							commercial projects! Download it, customize it, and publish your
+							website!</p>
+					</div>
+				</div>
+			</div>   
+        
+   <!-- Project Two Row-->
+			
+
+<c:forEach items="${randomMovies}" var="movie">
+			<div class="row gx-0 justify-content-center">
+				<div class="col-lg-6">
+				    <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
+				        <img class="img-fluid mb-3 mb-lg-0" 
+				             src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
+				             alt="${movie.name}" 
+				             onerror="this.onerror=null; this.src='https://dummyimage.com/670x480/dee2e6/6c757d.jpg';" 
+				             style="width: 670px; height: 480px; object-fit: cover;">
+				    </a> 
+				</div>
+
+				<div class="col-lg-6 order-lg-first">
+					<div class="bg-black text-center h-100 project">
+						<div class="d-flex h-100">
+							<div class="project-text w-100 my-auto text-center text-lg-right">
+								<h4 class="text-white">${movie.name}</h4>
+								<p class="mb-0 text-white-50">
+									개봉일:
+									<fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd" />
+								</p>
+								<p class="text-white-50">${movie.description}</p>
+								<!-- 영화 설명 추가 -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</c:forEach>
+
+			<!-- 랜덤 영화가 없을 경우 메시지 -->
+			<c:if test="${empty randomMovies}">
+				<div class="col mb-5 text-center">
+					<h5>추천할 영화가 없습니다.</h5>
+				</div>
+			</c:if> 
+
+
+
 
         <!-- Contact-->
        <!--  <section class="contact-section bg-black">
@@ -144,6 +144,9 @@
                 </div>
             </div>
         </section> -->
+        
+        	</div>
+	</section>
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Your Website 2023</div></footer>
         <!-- Bootstrap core JS-->
