@@ -1,19 +1,84 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
+<%@ include file="../include/header.jsp" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영화 등록</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- CKEditor 5 CDN -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script>
+</head>
+
+<!-- 본문-->
+<section class="about-section text-center" id="about">
+   <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+         <div class="col-lg-8">
+            <h2 class="text-white mb-5">영화 등록</h2>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- 내용-->  
+<section class="projects-section bg-light" id="projects">
+   <div class="container px-4 px-lg-5">
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>영화 등록</h3>
+                    </div>
+                    <div class="card-body">
+                        <form id="movieForm" action="<c:url value='/movie/create'/>" method="post" enctype="multipart/form-data">
+                            <!-- 영화명 -->
+                            <div class="mb-3">
+                                <label for="nameInput" class="form-label">영화명</label>
+                                <input type="text" class="form-control" id="nameInput" name="name" maxlength="100" required />
+                                <div class="form-text">영화명은 필수 입력 항목입니다.</div>
+                            </div>
+                            <!-- 설명 -->
+                            <div class="mb-3">
+                                <label for="descriptionInput" class="form-label">설명</label>
+                                <textarea id="descriptionInput" name="description" style="height: 300px;"></textarea>
+
+                                <div class="form-text">영화 설명을 작성하세요.</div>
+                            </div>
+                            <!-- 개봉일 -->
+                            <div class="mb-3">
+                                <label for="movieDateInput" class="form-label">개봉일</label>
+                                <input type="date" class="form-control" id="movieDateInput" name="movieDate" required />
+                                <div class="form-text">개봉일은 필수 입력 항목입니다.</div>
+                            </div> 
+                            <!-- 파일 업로드 -->
+                            <div class="mb-3">
+                                <label class="form-label">파일 업로드</label>
+                                <div id="fileInputs">
+                                    <div class="mb-3">
+                                        <input type="file" class="form-control file-input" name="files" />
+                                    </div>
+                                </div>
+                                <button type="button" id="addFileButton" class="btn btn-outline-secondary">파일 추가</button>
+                                <div class="form-text">최대 5개의 파일을 업로드할 수 있습니다.</div>
+                            </div>
+                            <!-- 버튼 -->
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" id="submitButton" class="btn btn-primary">등록</button>
+                                <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+     <script>
         let editorInstance;
 
         $(document).ready(function () {
@@ -84,60 +149,4 @@
             });
         });
     </script>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h3>영화 등록</h3>
-                    </div>
-                    <div class="card-body">
-                        <form id="movieForm" action="<c:url value='/movie/create'/>" method="post" enctype="multipart/form-data">
-                            <!-- 영화명 -->
-                            <div class="mb-3">
-                                <label for="nameInput" class="form-label">영화명</label>
-                                <input type="text" class="form-control" id="nameInput" name="name" maxlength="100" required />
-                                <div class="form-text">영화명은 필수 입력 항목입니다.</div>
-                            </div>
-                            <!-- 설명 -->
-                            <div class="mb-3">
-                                <label for="descriptionInput" class="form-label">설명</label>
-                                <textarea id="descriptionInput" name="description" style="height: 300px;"></textarea>
-
-                                <div class="form-text">영화 설명을 작성하세요.</div>
-                            </div>
-                            <!-- 개봉일 -->
-                            <div class="mb-3">
-                                <label for="movieDateInput" class="form-label">개봉일</label>
-                                <input type="date" class="form-control" id="movieDateInput" name="movieDate" required />
-                                <div class="form-text">개봉일은 필수 입력 항목입니다.</div>
-                            </div> 
-                            <!-- 파일 업로드 -->
-                            <div class="mb-3">
-                                <label class="form-label">파일 업로드</label>
-                                <div id="fileInputs">
-                                    <div class="mb-3">
-                                        <input type="file" class="form-control file-input" name="files" />
-                                    </div>
-                                </div>
-                                <button type="button" id="addFileButton" class="btn btn-outline-secondary">파일 추가</button>
-                                <div class="form-text">최대 5개의 파일을 업로드할 수 있습니다.</div>
-                            </div>
-                            <!-- 버튼 -->
-                            <div class="d-flex justify-content-between">
-                                <button type="submit" id="submitButton" class="btn btn-primary">등록</button>
-                                <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<%@ include file="../include/footer.jsp" %>

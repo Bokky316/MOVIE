@@ -1,63 +1,51 @@
 <%@ include file="../include/header.jsp" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>영화 목록</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        h1 {
-            text-align: center; /* 수평 중앙 정렬 */
-            margin-bottom: 20px;
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .gallery-item {
-            margin: 15px;
-            text-align: center;
-            max-width: 200px; /* 포스터 크기 조정 */
-        }
-        .gallery-item img {
-            width: 100%; /* 포스터 이미지가 갤러리 아이템의 너비에 맞도록 설정 */
-            border-radius: 8px; /* 모서리 둥글게 */
-        }
-        .movie-title {
-            font-size: 1.1em; /* 영화 제목 크기 */
-            font-weight: bold;
-            margin-top: 5px;
-        }
-        .movie-info {
-            font-size: 0.9em; /* 기본 정보 크기 */
-            color: #555; /* 기본 정보 색상 */
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <!-- 페이지 헤더 -->
-        <header class="d-flex justify-content-between align-items-center mb-3">
-            <h1>영화 목록</h1>
-            <!-- 로그인/로그아웃 버튼 -->
-            <div>
-                <c:choose>
-                    <c:when test="${not empty loginUser}">
-                        <span class="me-2 text-secondary">${sessionScope.loginUser.memberId}님</span>
-                        <button id="logoutButton" class="btn btn-danger btn-sm">로그아웃</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button id="loginButton" class="btn btn-primary btn-sm">로그인</button>
-                    </c:otherwise>
-                </c:choose>
-            </div>
-        </header>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- 스타일 -->
+<style>
+    h1 {
+        text-align: center; /* 수평 중앙 정렬 */
+        margin-bottom: 20px;
+    }
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .gallery-item {
+        margin: 15px;
+        text-align: center;
+        max-width: 200px; /* 포스터 크기 조정 */
+    }
+    .gallery-item img {
+        width: 100%; /* 포스터 이미지가 갤러리 아이템의 너비에 맞도록 설정 */
+        border-radius: 8px; /* 모서리 둥글게 */
+    }
+    .movie-title {
+        font-size: 1.1em; /* 영화 제목 크기 */
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    .movie-info {
+        font-size: 0.9em; /* 기본 정보 크기 */
+        color: #555; /* 기본 정보 색상 */
+    }
+</style>
+
+<!-- 본문-->
+<section class="about-section text-center" id="about">
+   <div class="container px-4 px-lg-5">
+      <div class="row gx-4 gx-lg-5 justify-content-center">
+         <div class="col-lg-8">
+            <h2 class="text-white mb-5">영화 목록</h2>        
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- 내용-->  
+<section class="projects-section bg-light" id="projects">
+      <div class="container px-4 px-lg-5">
 
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container mb-4">
@@ -128,28 +116,27 @@
         </div>
 
     </div>
+</section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- 로그인/로그아웃 버튼 이벤트 처리 -->
-    <script>
-        const loginButton = document.getElementById('loginButton');
-        const logoutButton = document.getElementById('logoutButton');
+<!-- 로그인/로그아웃 버튼 이벤트 처리 -->
+<script>
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
 
-        if (loginButton) {
-            loginButton.addEventListener('click', function () {
-                window.location.href = "<c:url value='/login' />";
-            });
-        }
+    if (loginButton) {
+        loginButton.addEventListener('click', function () {
+            window.location.href = "<c:url value='/login' />";
+        });
+    }
 
-        if (logoutButton) {
-            logoutButton.addEventListener('click', function () {
-                window.location.href = "<c:url value='/logout' />";
-            });
-        }
-    </script>
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function () {
+            window.location.href = "<c:url value='/logout' />";
+        });
+    }
+</script>
 
-</body>
-</html>
-
+<%@ include file="../include/footer.jsp" %>
