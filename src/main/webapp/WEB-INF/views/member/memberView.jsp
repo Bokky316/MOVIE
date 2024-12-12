@@ -1,7 +1,14 @@
 <%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<head>
+<!-- Google fonts-->
+<link href="https://fonts.googleapis.com/css?family=Varela+Round"
+	rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet" />
+</head>
     <style>
         /* 버튼 컨테이너 */
         .button-container {
@@ -51,8 +58,13 @@
             font-weight: bold;
             margin-bottom: 20px;
         }
+        
+        .left-align {
+        text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+    }
     </style>
-
+<!-- 본문-->
+<section class="about-section text-center" id="about">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -105,7 +117,7 @@
             </div>
         </div>
     </div>
-
+</section>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>

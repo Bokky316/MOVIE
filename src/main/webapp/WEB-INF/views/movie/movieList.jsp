@@ -1,3 +1,4 @@
+<%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -70,31 +71,29 @@
 
       
         <!-- 영화 갤러리 -->
-        <div class="gallery">
-            <c:forEach var="movie" items="${movieList}">
-                <div class="gallery-item">
-                    <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
-                        <!-- 대표 이미지 표시 -->
-                        <!-- 이미지 경로를 올바르게 설정 -->
-                        <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
-					     alt="${movie.name}" 
-					     onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
+		<div class="gallery">
+		    <c:forEach var="movie" items="${movieList}">
+		        <div class="gallery-item">
+		            <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
+		                <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
+		                     alt="${movie.name}" 
+		                     onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
+		                <div class="movie-title">${movie.name}</div>
+		                <div class="movie-info">
+		                    개봉일: <fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd"/>
+		                </div>
+		            </a>
+		        </div>
+		    </c:forEach>
+		
+		    <!-- 영화가 없을 경우 메시지 -->
+		    <c:if test="${empty movieList}">
+		        <div class="col mb-5 text-center">
+		            <h5>등록된 영화가 없습니다.</h5>
+		        </div>
+		    </c:if>
+		</div>
 
-                        <div class="movie-title">${movie.name}</div>
-                        <div class="movie-info">
-                            개봉일: <fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd"/>
-                        </div>
-                    </a>
-                </div>
-            </c:forEach>
-
-            <!-- 영화가 없을 경우 메시지 -->
-            <c:if test="${empty movieList}">
-                <div class="col mb-5 text-center">
-                    <h5>등록된 영화가 없습니다.</h5>
-                </div>
-            </c:if>
-        </div>
 
         <!-- 페이징 -->
         <div class="pagination-container mt-4">

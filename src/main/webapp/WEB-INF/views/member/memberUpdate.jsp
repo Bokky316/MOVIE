@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<!-- 본문-->
+<section class="about-section text-center" id="about">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -52,7 +54,7 @@
             </div>
         </div>
     </div>
-
+</section>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

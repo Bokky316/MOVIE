@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -90,11 +92,24 @@ public class MovieController {
 	 * 영화 목록 조회
 	 */
 	@GetMapping("/list")
-	public String listMovies(Model model) {
-		List<MovieWithImageVo> movieList = movieService.getAllMovies();
-		model.addAttribute("movieList", movieList);
-		return "/movie/movieList";
+	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Model model) {
+	    List<MovieWithImageVo> movieList;
+
+	    if (searchText != null && !searchText.isEmpty()) {
+	        // 제목으로 영화 검색
+	        movieList = movieService.searchMoviesByTitle(searchText);
+	    } else {
+	        // 모든 영화 조회
+	        movieList = movieService.getAllMovies();
+	    }
+
+	    model.addAttribute("movieList", movieList);
+	    model.addAttribute("searchText", searchText); // 검색어를 JSP로 전달
+	    return "/movie/movieList";
 	}
+
+
+
 
 	/*
 	 * 영화 내용 보기
@@ -274,5 +289,20 @@ public class MovieController {
 			redirectAttributes.addFlashAttribute("errorMessage", "영화 삭제 중 오류가 발생했습니다.");
 		}
 		return "redirect:/movie/list";
+	}
+	
+	/*
+	 * 랜덤 영화 3개 선택 (또는 가능한 만큼)
+	 */
+	@GetMapping("/random")
+	public List<MovieWithImageVo> getRandomMovies() {
+	    List<MovieWithImageVo> allMovies = movieService.getAllMovies();
+	    
+	    if (!allMovies.isEmpty()) {
+	        Collections.shuffle(allMovies);
+	        return allMovies.stream().limit(Math.min(3, allMovies.size())).collect(Collectors.toList());
+	    }
+	    
+	    return Collections.emptyList(); // 영화가 없을 경우에만 빈 리스트 반환
 	}
 }
