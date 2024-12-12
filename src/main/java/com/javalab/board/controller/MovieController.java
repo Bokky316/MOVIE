@@ -110,6 +110,7 @@ public class MovieController {
 
 
 
+
 	/*
 	 * 영화 내용 보기
 	 * 
