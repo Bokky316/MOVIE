@@ -56,8 +56,12 @@
 						href="<c:url value='/movie/list' /> ">영화 목록</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="<c:url value='/board/list' /> ">리뷰 목록</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="<c:url value='/member/list' /> ">회원 목록</a></li>
+					<li class="nav-item">
+					    <c:if test="${not empty loginUser and not empty loginUser.role and loginUser.role.roleId == 'admin'}">
+					        <a class="nav-link" href="<c:url value='/member/list' />">회원 목록</a>
+					    </c:if>
+					</li>
+
 					<li class="nav-item">
 					<c:if test="${not empty loginUser.memberId}">
 							<a class="nav-link" href="${pageContext.request.contextPath}/logout"> 

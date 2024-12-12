@@ -1,22 +1,21 @@
 package com.javalab.board.vo;
 
 import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor	// 매개변수가 없는 생성자를 자동 생성
-@AllArgsConstructor	// 모든 필드를 매개변수로 갖는 생성자 자동 생성
-@Getter @Setter	// 게터/세터 메소드를 자동 생성
-@ToString		// toString() 메소드 자동 생성
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter @Setter
+@ToString
 public class MemberVo {
-	private String memberId;
-	private String password;
-	private String name;
-	private String phone;
-	private String email;
-	private Date regDate;	
+    private String memberId; // 회원 ID
+    private String password; // 비밀번호
+    private String name; // 이름
+    private String email; // 이메일
+    private Date regDate; // 가입 날짜
+    private RoleVo role; // 역할 정보를 포함 (RoleVo 객체)
 }
