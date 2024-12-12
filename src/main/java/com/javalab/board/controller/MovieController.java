@@ -92,11 +92,23 @@ public class MovieController {
 	 * 영화 목록 조회
 	 */
 	@GetMapping("/list")
-	public String listMovies(Model model) {
-		List<MovieWithImageVo> movieList = movieService.getAllMovies();
-		model.addAttribute("movieList", movieList);
-		return "/movie/movieList";
+	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Model model) {
+	    List<MovieWithImageVo> movieList;
+
+	    if (searchText != null && !searchText.isEmpty()) {
+	        // 제목으로 영화 검색
+	        movieList = movieService.searchMoviesByTitle(searchText);
+	    } else {
+	        // 모든 영화 조회
+	        movieList = movieService.getAllMovies();
+	    }
+
+	    model.addAttribute("movieList", movieList);
+	    model.addAttribute("searchText", searchText); // 검색어를 JSP로 전달
+	    return "/movie/movieList";
 	}
+
+
 
 	/*
 	 * 영화 내용 보기

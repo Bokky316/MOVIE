@@ -36,6 +36,8 @@ public interface MovieService {
     
     // 영화 삭제
     boolean deleteMovie(@Param("movieId") Long movieId);
+    
+    // 제목에 특정 문자열이 포함된 영화 조회
+    List<MovieWithImageVo> searchMoviesByTitle(String title);
+    }
 
-	
-}

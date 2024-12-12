@@ -7,6 +7,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- 본문-->
 <section class="about-section text-center" id="about">
+	<body class="bg-gradient-primary">
+
+		<div class="container">
+
+			<!-- Outer Row -->
+			<div class="row justify-content-center">
+
 	<div class="container mt-5">
 		<div class="row justify-content-center">
 			<div class="col-md-8">

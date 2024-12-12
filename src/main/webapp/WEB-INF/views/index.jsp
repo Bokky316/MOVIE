@@ -121,7 +121,7 @@
             </div>
         </section>
         <!-- Contact-->
-        <section class="contact-section bg-black">
+       <!--  <section class="contact-section bg-black">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5">
                     <div class="col-md-4 mb-3 mb-md-0">
@@ -161,7 +161,7 @@
                     <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
                 </div>
             </div>
-        </section>
+        </section> -->
         <!-- Footer-->
         <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; Your Website 2023</div></footer>
         <!-- Bootstrap core JS-->
