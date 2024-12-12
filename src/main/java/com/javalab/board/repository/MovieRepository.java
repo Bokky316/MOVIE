@@ -35,4 +35,8 @@ public interface MovieRepository {
 
     // 영화 삭제
     void deleteMovie(@Param("movieId") Long movieId);
+    
+   // 수정 _ 기존 이미지 삭제
+    void deleteImageById(@Param("imageId") Long imageId);
+	
 }

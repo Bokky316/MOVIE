@@ -158,14 +158,16 @@
 		<delete id="deleteImagesByMovieId" parameterType="long">
 		    DELETE FROM prod_img WHERE movie_id = #{movieId}
 		</delete>
+		
+		<delete id="deleteImageById" parameterType="long">
+		    DELETE FROM prod_img WHERE img_id = #{imageId}
+		</delete>
+		
 
 		<!-- 영화 삭제 -->
 		<delete id="deleteMovie" parameterType="long">
 		    DELETE FROM movie
 		    WHERE movie_id = #{movieId}
 		</delete>
-   		
-   		
-   		
-   		
+  
    </mapper>

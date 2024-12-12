@@ -22,50 +22,14 @@
                 .create(document.querySelector('#descriptionInput'))
                 .then(editor => {
                     editorInstance = editor;
+
+                    // 에디터 컨테이너의 스타일 변경 (높이 200px)
                     const editorContainer = editor.ui.view.editable.element;
-                    editorContainer.style.height = "200px"; // 에디터 높이 설정
+                    editorContainer.style.height = "200px"; 
                 })
                 .catch(error => {
                     console.error(error);
                 });
-         // 이미지 제거 함수 
-            function removeImage(element) {
-                const imageItem = element.closest('.image-item');
-                const hiddenCheckbox = imageItem.querySelector('input[type="checkbox"]');
-
-                if (hiddenCheckbox) {
-                    // 체크 상태에 따라 이미지의 투명도 조정
-                    if (hiddenCheckbox.checked) {
-                        hiddenCheckbox.checked = false; // 체크 해제
-                        imageItem.style.opacity = '1'; // 원래 상태로 복원
-                    } else {
-                        hiddenCheckbox.checked = true; // 체크
-                        imageItem.style.opacity = '0.5'; // 연하게 보이게
-                    }
-                } else {
-                    // 새 이미지 삭제 (이 부분은 필요에 따라 수정)
-                    imageItem.remove();
-                }
-            }
-
-            // X 버튼에 이벤트 리스너 추가
-            document.querySelectorAll('.image-item span').forEach(span => {
-                span.addEventListener('click', (e) => removeImage(e.target));
-            });
-
-            // 동적 파일 추가
-            $('#addFileButton').on('click', function () {
-                const fileCount = $('.file-input').length;
-                if (fileCount < 5) {
-                    $('#fileInputs').append(`
-                        <div class="mb-3">
-                            <input type="file" class="form-control file-input" name="files" />
-                        </div>
-                    `);
-                } else {
-                    alert("파일은 최대 5개까지 업로드할 수 있습니다.");
-                }
-            });
 
             // 유효성 검사 및 CKEditor 데이터 동기화
             $('#movieForm').on('submit', function (event) {
@@ -137,41 +101,36 @@
                                 <label for="movieDateInput" class="form-label">개봉일</label>
                                 <input type="date" class="form-control" id="movieDateInput" name="movieDate" required />
                                 <div class="form-text">영화 개봉일은 필수 입력 항목입니다.</div>
+                            </div> 
+                            <!-- 파일 업로드 -->
+                            <div class="mb-3">
+                                <label class="form-label">파일 업로드</label>
+                                <div id="fileInputs">
+                                    <!-- 기존 이미지 보여주기 -->
+                                    <c:if test="${not empty movie.imgList}">
+                                        <h5>현재 이미지 목록</h5>
+                                        <c:forEach var="image" items="${movie.imgList}">
+                                            <img src="${pageContext.request.contextPath}/movie/upload/${image.imgPath.replace('\\', '/')}/${image.fileName}" 
+                                                 alt="${image.fileName}" style="max-width: 100px; margin-right: 10px;"/>
+                                        </c:forEach>
+                                    </c:if>
+
+                                    <!-- 새 이미지 업로드 필드 -->
+                                    <div class="mb-3">
+                                        <input type="file" class="form-control file-input" name="files"/>
+                                    </div>
+                                </div>
+
+                                <!-- 버튼 -->
+                                <button type="button" id="addFileButton" class="btn btn-outline-secondary">파일 추가</button>
+                                <div class="form-text">최대 5개의 파일을 업로드할 수 있습니다.</div>
                             </div>
-
-                           <!-- 기존 이미지 목록 -->
-							<h5>현재 이미지 목록</h5>
-							<c:if test="${not empty movie.imgList}">
-							    <div class='image-container mb-3'>
-							        <c:forEach var='image' items='${movie.imgList}'>
-							            <div class='image-item mb-2 position-relative'>
-							                <img src="${pageContext.request.contextPath}/movie/upload/${image.imgPath.replace('\\', '/')}/${image.fileName}" 
-							                     alt="${image.fileName}" style='max-width: 100%; height: auto;'>
-							                <!-- 삭제 체크박스 추가 -->
-							                <input type='checkbox' name='existingImageIds' value='${image.imgId}' style='display:none;' />
-							                <!-- 회색의 X 표시 추가 -->
-							                <span class="remove-button" style="position:absolute; top:0; right:0; cursor:pointer; color:gray; background-color:white; padding:2px; border-radius:50%;">✖</span>
-							            </div>
-							        </c:forEach>
-							    </div>
-							</c:if>
-
-							
-							 <!-- 새 이미지 업로드 -->
-                            <h5>파일 업로드</h5>
-                            <div id='fileInputs' class='mb-3'>
-                                <input type='file' class='form-control file-input' name='files' />
-                            </div>
-                            <button type='button' id='addFileButton' class='btn btn-outline-secondary'>파일 추가</button>
-							</div>
-
 
                             <!-- 버튼 -->
-                            <div class='d-flex justify-content-between mt-3'>
-                                <button type='submit' id='submitButton' class='btn btn-primary'>수정</button>
-                                <button type='button' id='cancelButton' class='btn btn-secondary'>취소</button>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" id="submitButton" class="btn btn-primary">수정</button>
+                                <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -180,6 +139,6 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
