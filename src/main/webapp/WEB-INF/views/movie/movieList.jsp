@@ -82,9 +82,8 @@
 		    </c:if>
 		</div>
 
-
-        <!-- 페이징 -->
-        <div class="pagination-container mt-4">
+<!-- 페이징 -->
+        <div class="pagination-container">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
@@ -114,12 +113,10 @@
                 </c:if>
             </ul>
         </div>
-
     </div>
 </section>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- 로그인/로그아웃 버튼 이벤트 처리 -->
 <script>

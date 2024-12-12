@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.javalab.board.dto.Criteria;
+import com.javalab.board.dto.PageDto;
 import com.javalab.board.service.MovieService;
 import com.javalab.board.service.MovieServiceImpl;
 import com.javalab.board.vo.BoardVo;
@@ -107,8 +109,6 @@ public class MovieController {
 	    model.addAttribute("searchText", searchText); // 검색어를 JSP로 전달
 	    return "/movie/movieList";
 	}
-
-
 
 
 	/*
