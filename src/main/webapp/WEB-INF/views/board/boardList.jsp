@@ -12,12 +12,11 @@
 		</div>
 	</div>
 </section>
-        
-	
+<!-- 내용-->
 <section class="projects-section bg-light" id="projects">
 	<div class="container px-4 px-lg-5">
-	
-	<!-- 검색 입력란 및 버튼 -->
+
+        <!-- 검색 입력란 및 버튼 -->
         <div class="search-container">
           <form id="searchForm" action="<c:url value='/board/list' />" method="get" class="d-flex">
               <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="검색어를 입력하세요" value="${pageMaker.cri.searchText}">
@@ -26,7 +25,9 @@
               <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/board/insert' />'">게시물 등록</button>
           </form>
       </div>
-	
+
+<section class="projects-section bg-light" id="projects">
+	<div class="container px-4 px-lg-5">
         <!-- 게시물 테이블 -->
         <div>
             <table class="table table-bordered table-striped table-hover"
@@ -102,7 +103,6 @@
         </div>
     </div>
 </section>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -123,4 +123,5 @@
             });
         }
     </script>
+    </div>
 <%@ include file="../include/footer.jsp"%>
