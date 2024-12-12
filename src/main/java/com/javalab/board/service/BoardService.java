@@ -25,4 +25,5 @@ public interface BoardService {
 	public int getTotalBoardCount(Criteria cri);
 	// 답글 작성
 	public int insertReply(BoardVo boardVo);
+	public void updateReplyOrder(BoardVo replyBoard);
 }

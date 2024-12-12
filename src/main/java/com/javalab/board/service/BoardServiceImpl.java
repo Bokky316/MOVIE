@@ -85,21 +85,30 @@ public class BoardServiceImpl implements BoardService {
 	 * 답글 작성
 	 */
 	@Override
-	@Transactional // 여러개의 SQL을 하나의 작업 단위로 묶어서 실행(All or Nothing)
+	@Transactional
 	public int insertReply(BoardVo reply) {
+	    // 부모 게시물 조회
+	    BoardVo parentBoard = repository.getBoard(reply.getReplyGroup());
 
-		// 1. 기존 답글의 순서 조정
-		repository.updateReplyOrder(reply);
-		
-		// 2. 부모 게시물의 reply_order와 reply_indent을 기반으로 새로운 답글 설정
-		//  새로운 답글의 순서와 들여쓰기 계산
-		reply.setReplyOrder(reply.getReplyOrder() + 1);
-		reply.setReplyIndent(reply.getReplyIndent() + 1);
-		
-		// 3. 새로운 답글 삽입
-		int result = repository.insertReply(reply);
-		return result;
+	    if (parentBoard == null) {
+	        throw new IllegalArgumentException("부모 게시물을 찾을 수 없습니다.");
+	    }
 
+	    // 기존 답글 순서 조정
+	    reply.setReplyGroup(parentBoard.getReplyGroup());
+	    reply.setReplyOrder(parentBoard.getReplyOrder() + 1);
+	    reply.setReplyIndent(parentBoard.getReplyIndent() + 1);
+
+	    repository.updateReplyOrder(reply);
+
+	    // 새 답글 삽입
+	    return repository.insertReply(reply);
 	}
+	@Override
+	public void updateReplyOrder(BoardVo replyBoard) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

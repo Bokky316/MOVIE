@@ -2,45 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<!-- 스타일 -->
-<style>
-.image-container img {
-	max-width: 100%;
-	height: auto;
-	margin-bottom: 20px;
-	border: 2px solid #007bff;
-	border-radius: 8px;
-}
-
-.button-container button {
-	color: white;
-}
-
-.btn-update {
-	background-color: #007bff;
-}
-
-.btn-update:hover {
-	background-color: #0056b3;
-}
-
-.btn-delete {
-	background-color: #e74c3c;
-}
-
-.btn-delete:hover {
-	background-color: #c0392b;
-}
-
-.btn-list {
-	background-color: #4CAF50;
-}
-
-.btn-list:hover {
-	background-color: #45a049;
-}
-</style>
-
 <!-- 본문-->
 <section class="about-section text-center" id="about">
 	<div class="container px-4 px-lg-5">
