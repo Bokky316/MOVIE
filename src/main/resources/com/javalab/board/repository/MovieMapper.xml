@@ -27,12 +27,12 @@
         description,
         movie_date,
         reg_date,
-        genre,           <!-- 장르 추가 -->
-        running_time,    <!-- 상영시간 추가 -->
-        rating,          <!-- 별점 추가 -->
-        age_rating,      <!-- 연령등급 추가 -->
-        director,        <!-- 감독 추가 -->
-        cast             <!-- 출연 추가 -->
+        genre,           -- 장르 추가 
+        running_time,    -- 상영시간 추가 
+        rating,          -- 별점 추가
+        age_rating,      -- 연령등급 추가 
+        director,        -- 감독 추가 
+        cast             -- 출연 추가 
     )
     values(
         #{movieId},
@@ -40,12 +40,11 @@
         #{description},
         #{movieDate},
         sysdate,
-        #{genre},        <!-- 장르 추가 -->
-        #{runningTime},  <!-- 상영시간 추가 -->
-        #{rating},       <!-- 별점 추가 -->
-        #{ageRating},    <!-- 연령등급 추가 -->
-        #{director},     <!-- 감독 추가 -->
-        #{cast}          <!-- 출연 추가 -->
+        #{genre},        -- 상영시간 추가
+        #{rating},       -- 별점 추가 
+        #{ageRating},    -- 연령등급 추가 
+        #{director},     -- 감독 추가 
+        #{cast}          -- 출연 추가 
     )
 </insert>
    
@@ -57,12 +56,12 @@
         p.description,
         p.movie_date AS movieDate,
         p.reg_date AS regDate,
-        p.genre,           <!-- 장르 추가 -->
-        p.running_time,    <!-- 상영시간 추가 -->
-        p.rating,          <!-- 별점 추가 -->
-        p.age_rating,      <!-- 연령등급 추가 -->
-        p.director,        <!-- 감독 추가 -->
-        p.cast,            <!-- 출연 추가 -->
+        p.genre,           -- 장르 추가
+        p.running_time,    -- 상영시간 추가 
+        p.rating,          -- 별점 추가
+        p.age_rating,      -- 연령등급 추가 
+        p.director,        -- 감독 추가 
+        p.cast,            -- 출연 추가 
         pi.img_id AS imgId,
         pi.img_path AS imgPath,
         pi.file_name AS fileName,
@@ -81,12 +80,12 @@
 	        p.description,
 	        p.movie_date AS movieDate,
 	        p.reg_date AS regDate,
-	        p.genre,           <!-- 장르 추가 -->
-	        p.running_time,    <!-- 상영시간 추가 -->
-	        p.rating,          <!-- 별점 추가 -->
-	        p.age_rating,      <!-- 연령등급 추가 -->
-	        p.director,        <!-- 감독 추가 -->
-	        p.cast,            <!-- 출연 추가 -->
+	        p.genre,           -- 장르 추가 
+	        p.running_time,    -- 상영시간 추가 
+	        p.rating,          -- 별점 추가 
+	        p.age_rating,      -- 연령등급 추가 
+	        p.director,        -- 감독 추가 
+	        p.cast,            -- 출연 추가 
 	        pi.img_id AS imgId,
 	        pi.img_path AS imgPath,
 	        pi.file_name AS fileName,
@@ -183,12 +182,12 @@
 		    SET name = #{name},
 		        description = #{description},
 		        movie_date = #{movieDate},
-		        genre = #{genre},           	<!-- 장르 추가 -->
-		        running_time = #{runningTime},  <!-- 상영시간 추가 -->
-		        rating = #{rating},        		<!-- 별점 추가 -->
-		        age_rating = #{ageRating},  	<!-- 연령등급 추가 -->
-		        director = #{director},    		<!-- 감독 추가 -->
-		        cast = #{cast}              	<!-- 출연 추가 -->
+		        genre = #{genre},           	-- 장르 추가
+		        running_time = #{runningTime},  -- 상영시간 추가
+		        rating = #{rating},        		-- 별점 추가
+		        age_rating = #{ageRating},  	-- 연령등급 추가
+		        director = #{director},    		-- 감독 추가
+		        cast = #{cast}              	-- 출연 추가
 		    WHERE movie_id = #{movieId}
 		</update>
 		
@@ -218,12 +217,12 @@
 		        p.description,
 		        p.movie_date AS movieDate,
 		        p.reg_date AS regDate,
-		        p.genre,           <!-- 장르 추가 -->
-	            p.running_time,    <!-- 상영시간 추가 -->
-	            p.rating,          <!-- 별점 추가 -->
-	            p.age_rating,      <!-- 연령등급 추가 -->
-	            p.director,        <!-- 감독 추가 -->
-	            p.cast,            <!-- 출연 추가 -->
+		        p.genre,           -- 장르 추가
+	            p.running_time,    -- 상영시간 추가
+	            p.rating,          -- 별점 추가
+	            p.age_rating,      -- 연령등급 추가
+	            p.director,        -- 감독 추가
+	            p.cast,            -- 출연 추가
 		        pi.img_id AS imgId,
 		        pi.img_path AS imgPath,
 		        pi.file_name AS fileName,
