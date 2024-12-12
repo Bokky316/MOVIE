@@ -4,13 +4,22 @@
 
 <!-- 본문-->
 <section class="about-section text-center" id="about">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h3>회원 수정</h3>
-                    </div>
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-lg-8">
+				<h2 class="text-white mb-5">회원 수정</h2>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- 내용-->
+<section class="projects-section bg-light" id="projects">
+	<div class="container px-4 px-lg-5">
+		
+		<div class="row justify-content-center">
+			<!-- 가운데 정렬을 위한 클래스 추가 -->
+			<div class="col-lg-9">
+				<!-- 9칸 차지하는 컬럼 -->
                     <div class="card-body">
                         <form id="updateForm" action="<c:url value='/member/update' />" method="post">
                             <!-- 아이디 -->
@@ -53,7 +62,6 @@
                 </div>
             </div>
         </div>
-    </div>
 </section>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
