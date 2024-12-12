@@ -14,8 +14,8 @@
 				member_id, 
 				hit_no, 
 				reg_date,  
-				RATING,
-				IMAGE_PATH
+				rating,
+				Image_path
 			FROM board 
 			ORDER BY reg_date DESC		
 		</select>
@@ -87,7 +87,8 @@
               reg_date, 
               reply_group, 
               reply_order, 
-              reply_indent
+              reply_indent,
+              spoiler
           FROM (
               SELECT 
                   board_no, 
@@ -98,6 +99,7 @@
                   reply_group, 
                   reply_order, 
                   reply_indent,
+                  spoiler,
                   ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC, reply_indent ASC) AS rnum
               FROM board
               <where>
@@ -128,7 +130,8 @@
             	reply_order,
             	reply_indent,  
 				rating,
-				image_path
+				image_path, 
+				spoiler
 			from board 
 			where board_no = #{boardNo}
 		</select>
@@ -177,7 +180,8 @@
 		        reply_order, 
 		        reply_indent,  
 				rating,
-				image_path
+				image_path, 
+				spoiler
 		        )
 			values (
 				board_seq.nextval,
@@ -190,7 +194,8 @@
 		        #{replyOrder}, 	 <!-- 부모 order + 1 --> 
 		        #{replyIndent},	 <!-- 부모 indent +1 -->
 		        #{rating},
-		        #{imagePath}
+		        #{imagePath},
+		        #{spoiler}
 		        )				
 		</insert>	
 		

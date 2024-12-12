@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,11 +92,27 @@
                     <c:forEach var="board" items="${boardList}">
                         <tr>
                             <td>${board.boardNo}</td>
-                            <td style="text-align: left;">
+                           <%--  <td style="text-align: left;">
                             	<div style="margin-left: ${board.replyIndent * 20}px;">
                                 	<a href="<c:url value='/board/view?boardNo=${board.boardNo }' />">${board.title}</a>
                                 </div>
-                            </td>
+                            </td> --%>
+                            <td style="text-align: left; ">
+					            <div style="margin-left: ${board.replyIndent * 20}px; position: relative;">
+								    <!-- 제목 링크 -->
+								    <a href="<c:url value='/board/view?boardNo=${board.boardNo }' />" 
+								       style="${board.spoiler == 'Y' ? 'filter: blur(5px); text-decoration: underline;' : ''}">
+								       ${board.title}
+								    </a>
+								    <!-- 스포일러 경고 -->
+								    <c:if test="${board.spoiler == 'Y'}">
+								        <span class="text-secondary" 
+								              style="position: absolute; top:0; left: 0; z-index: 10; width: 100%; pointer-events: none; cursor:none;">
+								            ( 스포일러가 포함되어 있습니다. )
+								        </span>
+								    </c:if>
+								</div>
+					        </td>
                             <td>${board.memberId}</td>
                             <td>${board.hitNo}</td>
                             <td>
@@ -165,4 +182,3 @@
     </script>
 </body>
 </html>
-

@@ -95,11 +95,16 @@ public class BoardController {
     @PostMapping("/insert")
     public String insertBoard(@ModelAttribute BoardVo boardVo,
             @RequestParam("image") MultipartFile image,
+            @RequestParam(value = "spoiler", required = false) String spoiler,
             RedirectAttributes redirectAttributes) {
         try {
+        	// 스포일러 처리
+            log.info("Received spoiler value from form: {}", spoiler);
+            boardVo.setSpoiler("Y".equals(spoiler) ? "Y" : "N");
+            log.info("Spoiler set in BoardVo: {}", boardVo.getSpoiler());
+
             // 이미지 파일 저장
             if (!image.isEmpty()) {
-                // 업로드 디렉토리 존재 확인 및 생성
                 File directory = new File(uploadDir);
                 if (!directory.exists()) {
                     directory.mkdirs();
@@ -108,9 +113,11 @@ public class BoardController {
                 String imagePath = uploadDir + File.separator + image.getOriginalFilename();
                 image.transferTo(new File(imagePath));
                 boardVo.setImagePath(imagePath); // 이미지 경로 설정
+                log.info("Image path set in BoardVo: {}", boardVo.getImagePath());
             }
 
             // 게시글 저장
+            log.info("Saving board: {}", boardVo);
             service.insertBoard(boardVo);
             redirectAttributes.addFlashAttribute("successMessage", "게시물이 등록되었습니다.");
             return "redirect:/board/list";
@@ -121,7 +128,6 @@ public class BoardController {
             return "redirect:/board/insert";
         }
     }
-
     /**
      * 게시물 수정 폼 보기
      * @param boardNo 수정할 게시물 번호
