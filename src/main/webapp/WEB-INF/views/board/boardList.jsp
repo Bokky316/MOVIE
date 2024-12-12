@@ -1,6 +1,18 @@
 <%@ include file="../include/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<style>
+  /* 모든 td를 가운데 정렬 */
+  table td {
+      text-align: center;
+  }
+
+  /* 두 번째 td만 왼쪽 정렬 */
+  table td:nth-child(2) {
+      text-align: left;
+  }
+</style>
+
 <!-- 본문-->
 <section class="about-section text-center" id="about">
     <div class="container px-4 px-lg-5">
@@ -27,31 +39,22 @@
         <!-- 게시물 테이블 -->
         <div>
             <table class="table table-bordered table-striped table-hover" style="background-color: #333; color: white;">
-                <thead class="table-light" style="background-color: #555; color: black;">
+                <thead class="table-light" style="background-color: #555; color: black; text-align: center;">
                     <tr>
-                        <th style="color: #444;">게시글 번호</th>
+                        <th style="color: #444;">NO.</th>
                         <th style="color: #444;">제목</th>
                         <th style="color: #444;">작성자 ID</th>
                         <th style="color: #444;">조회수</th>
                         <th style="color: #444;">작성일</th>
-                        <th style="color: #444;">replyGroup</th>
+                        <!-- <th style="color: #444;">replyGroup</th>
                         <th style="color: #444;">replyOrder</th>
-                        <th style="color: #444;">replyIndent</th>
+                        <th style="color: #444;">replyIndent</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="board" items="${boardList}">
                         <tr style="background-color: #444;">
-                            <td style="color: white;">${board.boardNo}</td>
-                            
-                            <%-- <td style="text-align: left;">
-                                <div style="margin-left: ${board.replyIndent * 20}px;">
-                                    <a href="<c:url value='/board/view?boardNo=${board.boardNo }' />" class="text-decoration-none" style="color: lightblue;">
-                                        ${board.title}
-                                    </a>
-                                </div>
-                            </td> --%>
-                            
+                            <td style="color: white; width:100px;">${board.boardNo}</td>
                             <td style="text-align: left; ">
 					            <div style="margin-left: ${board.replyIndent * 20}px; position: relative;">
 								    <!-- 제목 링크 -->
@@ -61,25 +64,20 @@
 								    </a>
 								    <!-- 스포일러 경고 -->
 								    <c:if test="${board.spoiler == 'Y'}">
-								        <span class="text-muted" 
-								              style="position: absolute; top:0; left: 0; z-index: 10; width: 100%; pointer-events: none; cursor:none;">
-								            [ 스포일러 주의 ]
+								        <span style="color: #A9A9A9; position: absolute; top:0; left: 0; z-index: 10; width: 100%; pointer-events: none; cursor:none;">
+								            ※ 이 글은 스포일러를 포함할 수 있습니다.
 								        </span>
 								    </c:if>
 								</div>
 					        </td>
-                            
-                            
-                            
-                            
-                            <td style="color: white;">${board.memberId}</td>
-                            <td style="color: white;">${board.hitNo}</td>
-                            <td style="color: white;">
+                            <td style="color: white; width:200px;">${board.memberId}</td>
+                            <td style="color: white; width:200px;">${board.hitNo}</td>
+                            <td style="color: white; width:200px;">
                                 <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
                             </td>
-                            <td style="color: white;">${board.replyGroup }</td>
+                            <%-- <td style="color: white;">${board.replyGroup }</td>
                             <td style="color: white;">${board.replyOrder }</td>
-                            <td style="color: white;">${board.replyIndent }</td>
+                            <td style="color: white;">${board.replyIndent }</td> --%>
                         </tr>
                     </c:forEach>
                 </tbody>
