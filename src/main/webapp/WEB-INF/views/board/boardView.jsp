@@ -60,6 +60,17 @@
                             <label class="form-label"><strong>제목</strong></label>
                             <input type="text" class="form-control" value="${board.title}" readonly>
                         </div>
+                        <!-- 별점표시 -->
+						<div class="mb-3">
+							<p>별점: ⭐ ${board.rating}</p>
+						</div>
+						<!-- 사진첨부 -->
+						<div class="mb-3">
+							<c:if test="${not empty board.imagePath}">
+								<img src="/uploads/${board.imagePath}" alt="첨부된 사진"
+									style="max-width: 400px;">
+							</c:if>
+						</div>
                         <!-- 내용 -->
                         <div class="mb-3">
                             <label class="form-label"><strong>내용</strong></label>
@@ -81,17 +92,18 @@
                             <input type="text" class="form-control" 
                                    value="<fmt:formatDate value='${board.regDate}' pattern='yyyy-MM-dd HH:mm:ss' />" readonly>
                         </div>
-                        <div class="d-flex justify-content-end gap-2">
-                            <button id="updateButton" type="button" class="btn btn-update">수정</button>
-                            <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
-                                <input type="hidden" name="boardNo" value="${board.boardNo}">
-                                <button id="deleteButton" type="submit" class="btn btn-delete">삭제</button>
-                            </form>
-                            <!-- 답글쓰기 버튼 -->
-    						<button id="replyButton" type="button" class="btn btn-warning">답글쓰기</button>
-                            <button id="listButton" type="button" class="btn btn-list">목록으로</button>
-                        </div>
-                    </div>
+						<div class="d-flex justify-content-end gap-2">
+							<button id="updateButton" type="button" class="btn btn-update">수정</button>
+							<form id="deleteForm" action="<c:url value='/board/delete' />"
+								method="post" class="d-inline">
+								<input type="hidden" name="boardNo" value="${board.boardNo}">
+								<button id="deleteButton" type="submit" class="btn btn-delete">삭제</button>
+							</form>
+							<!-- 답글쓰기 버튼 -->
+							<button id="replyButton" type="button" class="btn btn-warning">답글쓰기</button>
+							<button id="listButton" type="button" class="btn btn-list">목록으로</button>
+						</div>
+					</div>
                 </div>
             </div>
         </div>

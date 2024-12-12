@@ -67,7 +67,7 @@
                         <h3>게시물 작성</h3>
                     </div>
                     <div class="card-body">
-                        <form id="insertForm" action="<c:url value='/board/insert' />" method="post">
+                        <form id="insertForm" action="<c:url value='/board/insert' />" method="post" enctype="multipart/form-data" >
                             <!-- 제목 -->
                             <div class="mb-3">
                                 <label for="titleInput" class="form-label">제목</label>
@@ -81,13 +81,34 @@
                                 <textarea class="form-control" id="contentInput" name="content" rows="5" maxlength="500" required>${board.content}</textarea>
                                 <div class="form-text">내용은 500자 이내로 작성해주세요.</div>
                             </div>
+                            <!-- 사진첨부 -->
+                            <div class="mb-3">
+                            	<label for="image">사진 첨부:</label>
+    							<input type="file" id="image" name="image" accept="image/*">
+   							</div>
                             <!-- 작성자 ID -->
                             <div class="mb-3">
                                 <label for="memberIdInput" class="form-label">작성자 ID</label>
                                 <input type="text" class="form-control" id="memberIdInput" name="memberId" 
                                        value="${sessionScope.loginUser.memberId}" readonly required>
                             </div>
-                            <!-- 버튼 -->
+                            <!-- 별점 RATING -->
+							<div class="mb-3">
+								<label for="rating">별점 : </label> <select id="rating"
+									name="rating" required>
+									<option value="" disabled selected>별점을 선택하세요</option>
+									<option value="1.0">1.0</option>
+									<option value="1.5">1.5</option>
+									<option value="2.0">2.0</option>
+									<option value="2.5">2.5</option>
+									<option value="3.0">3.0</option>
+									<option value="3.5">3.5</option>
+									<option value="4.0">4.0</option>
+									<option value="4.5">4.5</option>
+									<option value="5.0">5.0</option>
+								</select>
+							</div>
+							<!-- 버튼 -->
                             <div class="d-flex justify-content-between">
                                 <button type="submit" id="submitButton" class="btn btn-primary">등록</button>
                                 <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>

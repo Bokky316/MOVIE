@@ -52,7 +52,15 @@
                                 <label for="contentInput" class="form-label"><strong>내용</strong></label>
                                 <textarea id="contentInput" class="form-control" name="content" rows="5" required>${board.content}</textarea>
                             </div>
-                            <!-- 작성자 ID -->
+                            <!-- 내용 -->
+							<div class="mb-3">
+								<p>현재 사진:</p>
+								<img src="/uploads/${board.imagePath}" alt="첨부된 사진"
+									style="max-width: 200px;"> <label for="image">새
+									사진 첨부:</label> <input type="file" id="image" name="image"
+									accept="image/*">
+							</div>
+							<!-- 작성자 ID -->
                             <div class="mb-3">
                                 <label class="form-label"><strong>작성자 ID</strong></label>
                                 <input type="text" class="form-control" value="${board.memberId}" readonly>

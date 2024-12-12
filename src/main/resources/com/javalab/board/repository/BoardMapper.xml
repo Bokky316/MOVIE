@@ -13,7 +13,9 @@
 				content, 
 				member_id, 
 				hit_no, 
-				reg_date  
+				reg_date,  
+				RATING,
+				IMAGE_PATH
 			FROM board 
 			ORDER BY reg_date DESC		
 		</select>
@@ -124,7 +126,9 @@
 				reg_date,
 				reply_group,
             	reply_order,
-            	reply_indent
+            	reply_indent,  
+				rating,
+				image_path
 			from board 
 			where board_no = #{boardNo}
 		</select>
@@ -171,7 +175,9 @@
 				reg_date,
 				reply_group, 
 		        reply_order, 
-		        reply_indent
+		        reply_indent,  
+				rating,
+				image_path
 		        )
 			values (
 				board_seq.nextval,
@@ -180,9 +186,11 @@
 				#{memberId}, 
 				0,
 				sysdate,
-				#{reply_Group},  <!-- 부모와 같은 그룹번호 -->  
-		        #{reply_Order}, 	 <!-- 부모 order + 1 --> 
-		        #{reply_Indent}	 <!-- 부모 indent +1 -->
+				#{replyGroup},  <!-- 부모와 같은 그룹번호 -->  
+		        #{replyOrder}, 	 <!-- 부모 order + 1 --> 
+		        #{replyIndent},	 <!-- 부모 indent +1 -->
+		        #{rating},
+		        #{imagePath}
 		        )				
 		</insert>	
 		

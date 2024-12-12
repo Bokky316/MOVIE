@@ -2,9 +2,12 @@ package com.javalab.board.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.javalab.board.dto.Criteria;
 import com.javalab.board.vo.BoardVo;
 
+@Service
 public interface BoardService {
 	// 게시물 목록 조회
 	public List<BoardVo> getBoardList();
