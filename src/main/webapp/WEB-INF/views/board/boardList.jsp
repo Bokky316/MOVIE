@@ -26,39 +26,44 @@
           </form>
       </div>
 
-
+<section class="projects-section bg-light" id="projects">
+	<div class="container px-4 px-lg-5">
         <!-- 게시물 테이블 -->
         <div>
-            <table class="table table-bordered table-striped table-hover">
-                <thead class="table-light">
+            <table class="table table-bordered table-striped table-hover"
+			style="background-color: #333; color: white;">
+			<thead class="table-light"
+				style="background-color: #555; color: black;">
                     <tr>
-                        <th>게시글 번호</th>
-                        <th>제목</th>
-                        <th>작성자 ID</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
-                        <th>replyGroup</th>
-                        <th>replyOrder</th>
-                        <th>replyIndent</th>
+                        <th style="color: #444;">게시글 번호</th>
+                        <th style="color: #444;">제목</th>
+                        <th style="color: #444;">작성자 ID</th>
+                        <th style="color: #444;">조회수</th>
+                        <th style="color: #444;">작성일</th>
+                        <th style="color: #444;">replyGroup</th>
+                        <th style="color: #444;">replyOrder</th>
+                        <th style="color: #444;">replyIndent</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="board" items="${boardList}">
-                        <tr>
-                            <td>${board.boardNo}</td>
+                        <tr style="background-color: #444;">
+                            <td style="color: white;">${board.boardNo}</td>
                             <td style="text-align: left;">
                             	<div style="margin-left: ${board.replyIndent * 20}px;">
-                                	<a href="<c:url value='/board/view?boardNo=${board.boardNo }' />">${board.title}</a>
+                                	<a href="<c:url value='/board/view?boardNo=${board.boardNo }' />"
+                                	class="text-decoration-none" style="color: lightblue;">
+                                	${board.title}</a>
                                 </div>
                             </td>
-                            <td>${board.memberId}</td>
-                            <td>${board.hitNo}</td>
-                            <td>
+                            <td style="color: white;">${board.memberId}</td>
+                            <td style="color: white;">${board.hitNo}</td>
+                            <td style="color: white;">
                                 <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
                             </td>
-                            <td>${board.replyGroup }</td>
-                            <td>${board.replyOrder }</td>
-                            <td>${board.replyIndent }</td>
+                            <td style="color: white;">${board.replyGroup }</td>
+                            <td style="color: white;">${board.replyOrder }</td>
+                            <td style="color: white;">${board.replyIndent }</td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -118,4 +123,5 @@
             });
         }
     </script>
+    </div>
 <%@ include file="../include/footer.jsp"%>
