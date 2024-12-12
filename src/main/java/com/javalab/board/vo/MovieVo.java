@@ -36,4 +36,11 @@ public class MovieVo {
 	private String imgPath;			// 대표 이미지 경로
 	private String fileName;		// 대표 이미지명
 	private List<ImgVo> imgList;	// 한 영화의 여러개 이미지
+	
+	private String genre;             // 장르
+    private String runningTime;       // 상영시간
+    private String rating;            // 평점
+    private String ageRating;         // 연령등급
+    private String director;          // 감독
+    private String cast;              // 출연 배우들
 }

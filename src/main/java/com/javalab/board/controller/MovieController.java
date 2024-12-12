@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.javalab.board.dto.Criteria;
+import com.javalab.board.dto.PageDto;
 import com.javalab.board.service.MovieService;
 import com.javalab.board.service.MovieServiceImpl;
 import com.javalab.board.vo.BoardVo;
@@ -92,12 +94,12 @@ public class MovieController {
 	 * 영화 목록 조회
 	 */
 	@GetMapping("/list")
-	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Model model) {
+	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Criteria cri, Model model) {
 	    List<MovieWithImageVo> movieList;
-
+	    
 	    if (searchText != null && !searchText.isEmpty()) {
 	        // 제목으로 영화 검색
-	        movieList = movieService.searchMoviesByTitle(searchText);
+	        movieList = movieService.searchMoviesByTitle(searchText, cri);
 	    } else {
 	        // 모든 영화 조회
 	        movieList = movieService.getAllMovies();
@@ -105,6 +107,15 @@ public class MovieController {
 
 	    model.addAttribute("movieList", movieList);
 	    model.addAttribute("searchText", searchText); // 검색어를 JSP로 전달
+	    
+	    // 게시물 건수 조회
+        int total = movieService.getTotalMovieCount(cri); 
+        // 페이징관련 정보와 게시물 정보를 PageDto에 포장
+        // 페이지 하단에 표시될 페이지그룹과 관련된 정보 생성
+        PageDto dto = new PageDto(cri, total);
+        
+        model.addAttribute("pageMaker", dto); 
+
 	    return "/movie/movieList";
 	}
 

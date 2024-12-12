@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.javalab.board.dto.Criteria;
 import com.javalab.board.repository.MovieRepository;
 import com.javalab.board.vo.ImgVo;
 import com.javalab.board.vo.MovieVo;
@@ -233,7 +234,16 @@ public class MovieServiceImpl implements MovieService {
      * @return 검색 결과 리스트.
      */
     @Override
-    public List<MovieWithImageVo> searchMoviesByTitle(String title) {
-        return movieRepository.searchMoviesByTitle(title); 
+    public List<MovieWithImageVo> searchMoviesByTitle(String title, Criteria cri) {
+        return movieRepository.searchMoviesByTitle(title, cri); 
     }
+      
+    /*
+     * 게시물 총 갯수 조회
+     */
+    @Override
+    public int getTotalMovieCount(Criteria cri) {
+       return this.movieRepository.getTotalMovieCount(cri);
+    }
+
 }
