@@ -5,19 +5,23 @@
 
 <mapper namespace="com.javalab.board.repository.LoginRepository">
 
-    <!-- 사용자 조회 -->
-    <select id="checkLogin" parameterType="Map" resultType="MemberVo">
-        SELECT 
-            member_id,
-            password,
-            name,
-            email,
-            reg_date
-        FROM 
-            member
-        WHERE 
-            member_id = #{memberId} 
-            AND password = #{password}
-    </select>
+ <!-- 사용자 조회 -->
+<select id="checkLogin" parameterType="map" resultType="com.javalab.board.vo.MemberVo">
+    SELECT 
+        m.member_id,
+        m.password,
+        m.name,
+        m.email,
+        m.phone,
+        m.reg_date,
+        r.role_id
+    FROM 
+        member m
+    LEFT JOIN 
+        role r ON m.role_id = r.role_id
+    WHERE 
+        m.member_id = #{memberId} 
+        AND m.password = #{password}
+</select>
 
 </mapper>

@@ -226,4 +226,14 @@ public class MovieServiceImpl implements MovieService {
             throw new RuntimeException("영화 삭제 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
         }
     }
+
+    /**
+     * 제목으로 영화 검색하는 메서드 추가.
+     * @param title 검색할 영화 제목.
+     * @return 검색 결과 리스트.
+     */
+    @Override
+    public List<MovieWithImageVo> searchMoviesByTitle(String title) {
+        return movieRepository.searchMoviesByTitle(title); 
+    }
 }

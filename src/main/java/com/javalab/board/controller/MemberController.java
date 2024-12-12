@@ -4,7 +4,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.javalab.board.service.MemberService;
-import com.javalab.board.vo.BoardVo;
 import com.javalab.board.vo.MemberVo;
 import com.javalab.board.vo.ResponseVo;
 
@@ -27,48 +25,44 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class MemberController {
-    private final MemberService memberService;
+    private final MemberService memberService; // 회원 서비스 주입
 
     /**
      * 회원 목록 조회
-     * - @GetMapping : @RequestMapping + get요청
+     * - 모든 회원 정보를 가져와서 모델에 추가하고, 회원 목록 JSP를 반환합니다.
      */
-    //@RequestMapping(value = "/member/list", method = RequestMethod.GET)
     @GetMapping("/list")
     public String listMembers(Model model) {
-        List<MemberVo> memberList = memberService.getMemberList();
-        model.addAttribute("memberList", memberList);
-        return "member/memberList"; // JSP 이름
+        List<MemberVo> memberList = memberService.getMemberList(); // 회원 목록 조회
+        model.addAttribute("memberList", memberList); // 모델에 회원 목록 추가
+        return "member/memberList"; // JSP 이름 반환
     }
 
     /**
      * 회원 상세 보기
-     * @RequestParam : 클라이언트에서 전달된 파라미터를 추출
+     * - 특정 회원 ID를 받아 해당 회원 정보를 조회하여 모델에 추가합니다.
      */
     @GetMapping("/view")
     public String viewMember(@RequestParam("memberId") String memberId, Model model) {
-        MemberVo member = memberService.getMember(memberId);
-        model.addAttribute("member", member);
-        return "member/memberView"; // JSP 이름
+        MemberVo member = memberService.getMember(memberId); // 회원 정보 조회
+        model.addAttribute("member", member); // 모델에 회원 정보 추가
+        return "member/memberView"; // JSP 이름 반환
     }
 
     /**
      * 회원 등록 폼
+     * - 빈 MemberVo 객체를 모델에 추가하여 회원 등록 폼을 표시합니다.
      */
     @GetMapping("/insert")
     public String insertMemberForm(Model model) {
         model.addAttribute("member", new MemberVo()); // 빈 객체를 모델에 추가
-        return "member/memberInsert"; // JSP 이름
+        return "member/memberInsert"; // JSP 이름 반환
     }
 
     /**
      * 회원 등록 처리
-     * @PostMapping : @RequestMapping + post요청
-     * 1. MemberVo memberVo : 화면의 회원정보를 MemberVo객체로 자동 바인딩됨.
-     * 2. 자동으로 바인딩된 객체는 다시 회원 등록 페이지로 자동 전달.
-     * 3. @ModelAttribute("member") : 폼 데이터를 MemberVo 바인딩 한 후에 다시 회원가입 페이지로
-     *    이동할 때 이동하는 객체의 이름을 "member"로 지정한다. 그러면 jsp에서는 member꺼내 쓰면 된다.
-     * 4. @ModelAttribute("member")를 사용하지 않으면 MemberVo -> memberVo 이름으로 전달된다.   
+     * - 폼에서 입력된 회원 정보를 MemberVo 객체로 바인딩하여 처리합니다.
+     * - 아이디 중복 여부를 확인하고, 중복일 경우 오류 메시지를 모델에 추가합니다.
      */
     @PostMapping("/insert")
     public String insertMember(@ModelAttribute("member") MemberVo memberVo, Model model) {
@@ -77,86 +71,74 @@ public class MemberController {
         try {
             // 아이디 중복 확인
             if (memberService.isMemberIdDuplicated(memberVo.getMemberId())) {
-                model.addAttribute("errorMessage", "이미 사용 중인 아이디입니다.");
+                model.addAttribute("errorMessage", "이미 사용 중인 아이디입니다."); // 오류 메시지 추가
                 return "member/memberInsert"; // 입력 화면으로 돌아감
             }
-            memberService.insertMember(memberVo);
-            return "redirect:/member/list";
+            memberService.insertMember(memberVo); // 회원 등록 처리
+            return "redirect:/member/list"; // 성공 시 회원 목록으로 리다이렉트
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "회원 등록 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "회원 등록 중 오류가 발생했습니다."); // 오류 메시지 추가
             return "member/memberInsert"; // 입력 화면으로 돌아감
         }
     }
 
-
-
     /**
      * 회원 수정 폼
-     * @RequestParam : 회원 ID를 받아 기존 데이터 조회
+     * - 특정 회원 ID를 받아 기존 데이터를 조회하여 수정 폼을 표시합니다.
      */
     @GetMapping("/update")
     public String updateMemberForm(@RequestParam("memberId") String memberId, Model model) {
-        MemberVo member = memberService.getMember(memberId);
-        model.addAttribute("member", member);
-        return "member/memberUpdate"; // JSP 이름
+        MemberVo member = memberService.getMember(memberId); // 기존 데이터 조회
+        model.addAttribute("member", member); // 모델에 기존 데이터 추가
+        return "member/memberUpdate"; // JSP 이름 반환
     }
 
     /**
      * 회원 수정 처리
-     * @ModelAttribute : 폼 데이터를 MemberVo 객체로 매핑
-     * 잘못 입력된 경우 기존 입력 데이터를 유지
+     * - 수정된 정보를 받아서 업데이트하고, 성공 시 목록으로 리다이렉트합니다.
      */
     @PostMapping("/update")
     public String updateMember(@ModelAttribute("member") MemberVo memberVo, Model model) {
         try {
-            memberService.updateMember(memberVo);
-            return "redirect:/member/list"; // 성공 시 회원 목록을 보여주는 메소드 호출
+            memberService.updateMember(memberVo); // 회원 정보 수정 처리
+            return "redirect:/member/list"; // 성공 시 회원 목록으로 리다이렉트
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "회원 수정 중 오류가 발생했습니다.");
+            model.addAttribute("errorMessage", "회원 수정 중 오류가 발생했습니다."); // 오류 메시지 추가
             return "member/memberUpdate"; // 오류 발생 시 수정 폼으로 다시 이동
         }
     }
 
     /**
-     * 회원 삭제
-     * @RequestParam : 회원 ID를 받아 삭제 처리
+     * 회원 삭제 처리
+     * - 특정 회원 ID를 받아 해당 회원을 삭제하고, 성공 시 목록으로 리다이렉트합니다.
      */
     @PostMapping("/delete")
     public String deleteMember(@RequestParam("memberId") String memberId, Model model) {
         try {
-            memberService.deleteMember(memberId);
+            memberService.deleteMember(memberId); // 회원 삭제 처리
             return "redirect:/member/list"; // 성공 시 회원 목록 페이지로 이동
         } catch (Exception e) {
             try {
                 // 오류 메시지를 URL에 포함시키기 위해 인코딩
                 String errorMessage = URLEncoder.encode("회원 삭제 중 오류가 발생했습니다: ", StandardCharsets.UTF_8.toString());
-                return "redirect:/member/view?memberId=" + memberId + "&errorMessage=" + errorMessage;
+                return "redirect:/member/view?memberId=" + memberId + "&errorMessage=" + errorMessage; // 오류 발생 시 상세 보기로 리다이렉트
             } catch (Exception encodingException) {
-                // 인코딩 실패 시 기본 오류 메시지 처리
-                return "redirect:/member/view?memberId=" + memberId + "&errorMessage=Unknown%20error";
+                return "redirect:/member/view?memberId=" + memberId + "&errorMessage=Unknown%20error"; // 인코딩 실패 시 기본 오류 메시지 처리
             }
         }
     }
+
     /**
-     * 아이디 중복 확인
-     * ResponseEntity : 서버의 처리 상태코드와 전달하려는 데이터를 함께 담아서 보낼 수 있다.
-     * @param memberId
-     * @return
+     * 아이디 중복 확인 처리
+     * - 클라이언트에서 전달된 아이디의 중복 여부를 확인하여 응답합니다.
      */
     @GetMapping("/checkId")
     public ResponseEntity<ResponseVo> checkId(@RequestParam("memberId") String memberId) {
-        // 중복 여부를 확인하는 비즈니스 로직 호출
-        boolean isDuplicate = memberService.isMemberIdDuplicated(memberId);
-        String message = isDuplicate ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다."; // 삼항연산자 사용
+        boolean isDuplicate = memberService.isMemberIdDuplicated(memberId); // 중복 여부 확인
+        String message = isDuplicate ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다."; // 메시지 설정
 
-        // ResponseVo 객체 생성
-        ResponseVo responseVo = new ResponseVo(isDuplicate, message);
+        ResponseVo responseVo = new ResponseVo(isDuplicate, message); // 응답 객체 생성
 
-        //HttpStatus status = HttpStatus.OK;
-        //ResponseEntity<BoardVo> responseEntity = ResponseEntity.status(status).body(responseVo);
-        
-        // ResponseEntity로 응답 반환 ok() : 응답상태코드 : 200, body 부분에 자동으로 responseVo 담긴다.
-        return ResponseEntity.ok(responseVo); // HttpStatus.OK는 기본값
+        return ResponseEntity.ok(responseVo); // HttpStatus.OK와 함께 응답 반환
     }
-
 }

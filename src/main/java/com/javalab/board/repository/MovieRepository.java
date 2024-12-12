@@ -38,5 +38,11 @@ public interface MovieRepository {
     
    // 수정 _ 기존 이미지 삭제
     void deleteImageById(@Param("imageId") Long imageId);
+    
+    // 제목으로 영화 검색
+    List<MovieWithImageVo> searchMoviesByTitle(@Param("title") String title);
+
+
+
 	
 }
