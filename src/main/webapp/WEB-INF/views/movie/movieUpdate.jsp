@@ -138,8 +138,8 @@
 
 				<!-- 버튼 -->
 				<div class='d-flex justify-content-between mt-3'>
-					<button type='submit' id='submitButton' class='btn btn-primary'>수정</button>
-					<button type='button' id='cancelButton' class='btn btn-secondary'>취소</button>
+					<button type='submit' id='submitButton' class='btn btn-light'>수정</button>
+					<button type='button' id='cancelButton' class='btn btn-light'>취소</button>
 				</div>
 			</form>
 		</div>

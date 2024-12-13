@@ -11,7 +11,7 @@
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">무비무빗</h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">당신의 영화 여정을 한 편의 스토리처럼 만들어가는 영화 리뷰 플랫폼</h2>
-                        <a class="btn btn-primary" href="#about">Get Started</a>
+                        <a class="btn btn-light" href="#about">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -39,6 +39,7 @@
             </div>
         </div>
     </div>
+    </section>
     <!-- Projects-->  
    <section class="projects-section bg-dark" id="projects">
 		<div class="container px-4 px-lg-5">

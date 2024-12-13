@@ -54,8 +54,8 @@
                             </div>
                             <!-- 버튼 -->
                             <div class="d-flex justify-content-between">
-                                <button id="submitButton" type="submit" class="btn btn-primary">수정</button>
-                                <button id="cancelButton" type="button" class="btn btn-secondary">목록으로</button>
+                                <button id="submitButton" type="submit" class="btn btn-light">수정</button>
+                                <button id="cancelButton" type="button" class="btn btn-light">목록으로</button>
                             </div>
                         </form>
                     </div>

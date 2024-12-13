@@ -51,11 +51,11 @@
         <div class="search-container mb-4">
             <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex justify-content-center">
                 <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
-                <button type="submit" class="btn btn-info me-2">검색</button>
-                <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
+                <button type="submit" class="btn btn-light me-2">검색</button>
+                <button type="button" class="btn btn-light me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
                 <!-- 관리자가 아닐 경우 버튼 숨김 -->
                 <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">			
-	                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+	                <button type="button" class="btn btn-light" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
 				</c:if>
             </form>
         </div>

@@ -30,9 +30,9 @@
         <div class="search-container">
             <form id="searchForm" action="<c:url value='/board/list' />" method="get" class="d-flex">
                 <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="검색어를 입력하세요" value="${pageMaker.cri.searchText}">
-                <button type="submit" class="btn btn-info me-2">검색</button>
-                <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/board/list' />'">전체보기</button>
-                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/board/insert' />'">게시물 등록</button>
+                <button type="submit" class="btn btn-light me-2">검색</button>
+                <button type="button" class="btn btn-light me-2" onclick="location.href='<c:url value='/board/list' />'">전체보기</button>
+                <button type="button" class="btn btn-light" onclick="location.href='<c:url value='/board/insert' />'">게시물 등록</button>
             </form>
         </div>
 

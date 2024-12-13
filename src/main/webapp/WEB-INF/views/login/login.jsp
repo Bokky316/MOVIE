@@ -13,7 +13,7 @@
 	</div>
 </section>
 <!-- 내용-->
-<section class="projects-section bg-dark" id="projects">
+<section class="projects-section bg-light" id="projects">
 	<div class="container px-4 px-lg-5">
 		<!-- 회원 가입 폼 -->
 		<div class="row justify-content-center">
@@ -61,6 +61,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </section>
 <script>
 	// 로그인 폼 제출 시 유효성 검사

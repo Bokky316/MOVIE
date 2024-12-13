@@ -25,7 +25,7 @@
 </section>
 
 <!-- 내용 -->
-<section class="projects-section bg-dark" id="projects">
+<section class="projects-section bg-dark text-lighttext-light" id="projects">
     <div class="container px-4 px-lg-5">
         <div class="card-body">
             <!-- 오류 메시지 표시 -->
@@ -64,11 +64,11 @@
 
             </div>
 			  <!-- 제목 및 사용자 정보 -->
-			<div class="d-flex justify-content-between mb-3">
+			<div class="d-flex justify-content-between mb-3 ">
 			    <label class="form-label">
 			        <strong>
 			            <input type="text" class="form-control d-inline" value="${board.title}" readonly 
-			                   style="width:auto; border: none; background: transparent; font-size: 1.5em; font-weight: bold;">
+			                   style="width:auto; border: none; background: transparent; font-size: 1.5em; font-weight: bold; color:white;">
 			        </strong>
 			    </label>
 			    <div class="text-end">
@@ -81,7 +81,7 @@
             <!-- 내용 -->
 			<div class="mb-3">
 			    <textarea class="form-control" rows="5" readonly 
-			              style="border: none; background: transparent; padding-left: 0; text-align: left; font-size: 1em; font-weight: normal;">      ${board.content}
+			              style="border: none; background: transparent; padding-left: 0; text-align: left; font-size: 1em; font-weight: normal; color:white;">      ${board.content}
 			    </textarea>
 			</div>
 
@@ -100,13 +100,13 @@
 
             <!-- 버튼 섹션 -->
             <div class="d-flex justify-content-end gap-2">
-                <button id="updateButton" type="button" class="btn btn-update">수정</button>
+                <button id="updateButton" type="button" class="btn btn-light">수정</button>
                 <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
                     <input type="hidden" name="boardNo" value="${board.boardNo}">
-                    <button id="deleteButton" type="submit" class="btn btn-delete">삭제</button>
+                    <button id="deleteButton" type="submit" class="btn btn-light">삭제</button>
                 </form>
                 <!-- 답글쓰기 버튼 -->
-                <button id="replyButton" type="button" class="btn btn-warning">답글쓰기</button>
+                <button id="replyButton" type="button" class="btn btn-light">답글쓰기</button>
                 <button id="listButton" type="button" class="btn btn-list">목록으로</button>
             </div>
 
