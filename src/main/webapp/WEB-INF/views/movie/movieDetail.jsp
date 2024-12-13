@@ -5,7 +5,7 @@
 <style>
 /* 이미지 크기 조정 */
 .image-container img {
-    max-height: 450px; /* 적당한 높이로 제한 */
+    max-height: 650px; /* 적당한 높이로 제한 */
     border-radius: 10px;
 }
 
@@ -17,11 +17,11 @@
 .btn-sm {
     padding: 6px 10px;
     font-size: 14px;
-    margin-right: 5px; /* 버튼 사이의 간격 */
+    margin-right: 3px; /* 버튼 사이의 간격 */
 }
 
 .d-flex .me-2 {
-    margin-right: 10px; /* 버튼들 사이 간격 */
+    margin-right: 5px; /* 버튼들 사이 간격 */
 }
 </style>	
 
@@ -48,7 +48,7 @@
                                 src="${pageContext.request.contextPath}/movie/upload/${image.imgPath.replace('\\', '/')}/${image.fileName}"
                                 alt="Movie Image"
                                 class="img-fluid rounded shadow mb-4"
-                                style="max-width: 100%; max-height: 450px; object-fit: cover;">
+                                style="max-width: 100%; max-height: 650px; object-fit: cover;">
                         </c:forEach>
                     </c:if>
                 </div>
@@ -100,7 +100,7 @@
                         </div>
 
                         <!-- 버튼 섹션 -->
-                        <div class="d-flex justify-content-between mt-3">
+                        <div class="d-flex justify-content-end mt-8">
                             <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
                                 <button id="updateButton" type="button" class="btn btn-primary btn-sm me-2">수정</button>
                                 <form id="deleteForm" action="<c:url value='/movie/delete' />" method="post" class="d-inline">

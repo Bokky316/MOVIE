@@ -30,6 +30,19 @@
         font-size: 0.9em; /* 기본 정보 크기 */
         color: #555; /* 기본 정보 색상 */
     }
+    
+    /* 버튼 스타일 공통 설정 */
+	.btn {
+	    display: inline-flex; /* 플렉스 박스 적용 */
+	    align-items: center; /* 수직 중앙 정렬 */
+	    justify-content: center; /* 가로 중앙 정렬 */
+	    padding: 10px 15px; /* 버튼의 크기 조정 */
+	    font-size: 14px; /* 글씨 크기 */
+	    line-height: 1.2; /* 텍스트 간격 조정 */
+	    border-radius: 5px; /* 버튼 모서리 둥글게 */
+	    cursor: pointer;
+	    transition: background-color 0.3s ease; /* 호버 효과 */
+	}
 </style>
 
 <!-- 본문-->
@@ -50,11 +63,15 @@
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container mb-4">
             <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex justify-content-center">
-                <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
-                <button type="submit" class="btn btn-info me-2">검색</button>
-                <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
-                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
-            </form>
+			    <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
+			    <button type="submit" class="btn me-2" style="background-color: #212529; border-color: #212529; color: white;">검색</button>
+			    <button type="button" class="btn btn-warning me-2" style="background-color: #64a19d ; border-color: #64a19d ; color: white;" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
+
+
+			    <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
+			        <button type="button" class="btn" style="background-color: #5a9bd5; border-color: #5a9bd5; color: white;" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+			    </c:if>
+			</form>
         </div>
 
       
@@ -83,7 +100,7 @@
 		</div>
 
 <!-- 페이징 -->
-        <div class="pagination-container">
+        <div class="pagination-container  mt-4 position-absolute top-100 start-50 translate-middle">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">

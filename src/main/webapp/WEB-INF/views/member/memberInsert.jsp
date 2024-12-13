@@ -89,6 +89,7 @@
 					</div>
 				</div>
 			</div>
+		  </div>
        </section>
       <!-- jQuery 라이브러리 import -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -160,7 +161,7 @@
 	                    console.error("Response Message:", responseMessage);
 	                } // end error 콜백
 	            }); // end ajax
-	        }); // end btnCheckIdDup onclick
+	        }); 
 
 	     // 유효성 검사 함수
 	        function validateFormInputs(event) {
