@@ -1,24 +1,77 @@
 <%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<head>
+<!-- Google fonts-->
+<link href="https://fonts.googleapis.com/css?family=Varela+Round"
+	rel="stylesheet" />
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet" />
+</head>
+    <style>
+        /* 버튼 컨테이너 */
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* 버튼 스타일 */
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .btn-update {
+            background-color: #007bff;
+        }
+
+        .btn-update:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-list {
+            background-color: #4CAF50;
+        }
+
+        .btn-list:hover {
+            background-color: #45a049;
+        }
+
+        /* 오류 메시지 스타일 */
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .left-align {
+        text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+    }
+    </style>
 <!-- 본문-->
 <section class="about-section text-center" id="about">
-	<div class="container px-4 px-lg-5">
-		<div class="row gx-4 gx-lg-5 justify-content-center">
-			<div class="col-lg-8">
-				<h2 class="text-white mb-5">회원 상세</h2>
-			</div>
-		</div>
-	</div>
-</section>
-<!-- 내용-->
-<section class="projects-section bg-light" id="projects">
-	<div class="container px-4 px-lg-5">
-		
-		<div class="row justify-content-center">
-			<!-- 가운데 정렬을 위한 클래스 추가 -->
-			<div class="col-lg-9">
-				<!-- 9칸 차지하는 컬럼 -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>회원 정보 보기</h3>
+                    </div>
                     <div class="card-body">
                         <!-- 아이디 -->
                         <div class="mb-3">
@@ -39,11 +92,11 @@
                                    value="${member.name}" readonly>
                         </div>
                         <!-- 휴대폰 번호 -->
-                     <div class="mb-3">
-                        <label for="phoneInput" class="form-label">휴대폰 번호</label> <input
-                           type="text" class="form-control" id="phoneInput" name="phone"
-                           value="${member.phone}" required>
-                     </div>
+							<div class="mb-3">
+								<label for="phoneInput" class="form-label">휴대폰 번호</label> <input
+									type="text" class="form-control" id="phoneInput" name="phone"
+									value="${member.phone}" required>
+							</div>
                         <!-- 이메일 -->
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">이메일</label>
@@ -51,13 +104,13 @@
                                    value="${member.email}" readonly>
                         </div>
                         <!-- 버튼 섹션 -->
-                                    <div class="d-flex justify-content-between">
+                        <div class="button-container">
                             <button id="updateButton" type="button" class="btn btn-update">수정</button>
                             <form id="deleteForm" action="<c:url value='/member/delete' />" method="post" >
                                 <input type="hidden" name="memberId" value="${member.memberId}">
                                 <button id="deleteButton" type="submit" class="btn btn-delete">삭제</button>
                             </form>
-                            
+                            <button id="listButton" type="button" class="btn btn-list">목록으로</button>
                         </div>
                     </div>
                 </div>
@@ -100,4 +153,4 @@
             alert(decodeURIComponent(errorMessage));
         }        
     </script>
-    <%@ include file="../include/footer.jsp" %>
+ 	<%@ include file="../include/footer.jsp" %>

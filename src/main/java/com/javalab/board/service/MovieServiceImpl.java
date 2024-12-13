@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.javalab.board.dto.Criteria;
 import com.javalab.board.repository.MovieRepository;
 import com.javalab.board.vo.ImgVo;
 import com.javalab.board.vo.MovieVo;
@@ -32,14 +33,14 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	/*
-	 * 상품 정보 저장, 관련된 이미지 업로드하여 저장 경로(파일시스템)에 저장한 후 그 정보를 DB에 저장
+	 * 영화 정보 저장, 관련된 이미지 업로드하여 저장 경로(파일시스템)에 저장한 후 그 정보를 DB에 저장
 	 * UUID.randomUUID() : 랜덤한 UUID를 생성하는 메소드로 파일명 중복을 방지하기 위함.
 	 * UUID : Universally Unique Identifier, 범용 고유 식별자
-	 * 파라미터 movie : 저장할 상품 정보 보관 객체
-	 * 파라미터 files : 상품의 이미지 파일 리스트
+	 * 파라미터 movie : 저장할 영화 정보 보관 객체
+	 * 파라미터 files : 영화의 이미지 파일 리스트
 	 * 파라미터 filePath : 파일이 저장될 디렉토리 경로
-	 * 반환값 : 상품정보 + 이미지 저장 성공 시 true, 실패시 false 
-	 * @Transactional : 상품 정보 저장과 상품 이미지 저장을 하나의 작업단위로 묶어서 모두 성공 또는 모두 실패로 처리
+	 * 반환값 : 영화정보 + 이미지 저장 성공 시 true, 실패시 false 
+	 * @Transactional : 영화 정보 저장과 영화 이미지 저장을 하나의 작업단위로 묶어서 모두 성공 또는 모두 실패로 처리
 	 * - 만약 실패시 예외가 발생하면 @Transactional 어노테이션이 같은 작업 단위로 묶인 작업을 모두 롤백처리한다.  
 	 */
 	@Override
@@ -47,10 +48,10 @@ public class MovieServiceImpl implements MovieService {
 	public boolean saveMovieWithImages(MovieVo movie, List<MultipartFile> files, String filePath) {
 		try {
 			
-			// 상품 정보를 데이터베이스에 저장
+			// 영화 정보를 데이터베이스에 저장
 			addMovie(movie);
 			
-			// 저장된 상품의 ID를 가져옴
+			// 저장된 영화의 ID를 가져옴
 			Long movieId = movie.getMovieId();
 			
 			// 날짜 기반으로 파일 저장 경로를 생성
@@ -78,7 +79,7 @@ public class MovieServiceImpl implements MovieService {
 					
 					// 이미지 정보를 생성하여 리스트에 추가
 					ImgVo img = new ImgVo();
-					img.setMovieId(movieId); // 상품 ID 설정
+					img.setMovieId(movieId); // 영화 ID 설정
 					img.setImgPath(uploadFolderPath); // 이미지가 저장된 폴더 경로 설정
 					img.setFileName(uniqueFileName); // 저장된 파일명 설정
 					img.setIsMain(i == 0 ? 1 : 0); // 첫 번째 이미지를 메인 이미지로 설정
@@ -109,18 +110,18 @@ public class MovieServiceImpl implements MovieService {
 	}
 	
 	/**
-	 * 모든 상품 정보를 조회하는 메소드
-	 * @return 상품 리스트
+	 * 모든 영화 정보를 조회하는 메소드
+	 * @return 영화 리스트
 	 */
 	@Override
-	public List<MovieVo> getAllMovies() {
-		return movieRepository.getAllMovies();
+	public List<MovieWithImageVo> getAllMovies() {
+		return movieRepository.getAllMoviesWithImages();
 	}
 
 	/**
-	 * 특정 상품 정보를 조회하는 메소드
-	 * @param movieId 조회할 상품 ID
-	 * @retrun 상품 정보
+	 * 특정 영화 정보를 조회하는 메소드
+	 * @param movieId 조회할 영화 ID
+	 * @retrun 영화 정보
 	 */
 	@Override
 	public MovieWithImageVo getMovieWithImages(Long movieId) {
@@ -140,61 +141,74 @@ public class MovieServiceImpl implements MovieService {
 	
 	
 	/**
-     * 상품 정보를 수정하고 관련된 이미지를 업데이트하는 메소드.
-     * @param movie 수정할 상품 정보 (MovieVo 객체)
+     * 영화 정보를 수정하고 관련된 이미지를 업데이트하는 메소드.
+     * @param movie 수정할 영화 정보 (MovieVo 객체)
      * @param files 수정할 이미지 파일 리스트
      * @param filePath 파일이 저장될 디렉토리 경로
      * @return 성공 시 true, 실패 시 false
      */
-    @Override
-    @Transactional
-    public boolean updateMovieWithImages(MovieVo movie, List<MultipartFile> files, String filePath) {
-        try {
-            // 상품 정보를 업데이트
-            movieRepository.updateMovieWithImages(movie);
-
-            // 이미지 처리 로직은 saveMovieWithImages와 유사하게 구현 가능
-            Long movieId = movie.getMovieId();
-            String uploadFolderPath = getFolder();
-            String uploadPath = filePath + File.separator + uploadFolderPath;
-            File uploadFilePath = new File(uploadPath);
-
-            if (!uploadFilePath.exists()) {
-                uploadFilePath.mkdirs();
-            }
-
-            List<ImgVo> imageList = new ArrayList<>();
-            for (int i = 0; i < files.size(); i++) {
-                MultipartFile file = files.get(i);
-                if (!file.isEmpty()) {
-                    String originalFileName = file.getOriginalFilename();
-                    String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
-                    File saveFile = new File(uploadFilePath, uniqueFileName);
-                    file.transferTo(saveFile);
-
-                    ImgVo img = new ImgVo();
-                    img.setMovieId(movieId);
-                    img.setImgPath(uploadFolderPath);
-                    img.setFileName(uniqueFileName);
-                    img.setIsMain(i == 0 ? 1 : 0); // 첫 번째 이미지를 메인 이미지로 설정
-                    imageList.add(img);
+	@Override
+	@Transactional
+	public boolean updateMovieWithImages(MovieVo movie, List<MultipartFile> files, List<Long> existingImageIds, String filePath) {
+	    try {
+	        // 영화 정보를 업데이트
+	        movieRepository.updateMovieWithImages(movie);
+	        
+	        // 기존 이미지 삭제 처리
+            if (existingImageIds != null && !existingImageIds.isEmpty()) {
+                for (Long imageId : existingImageIds) {
+                    deleteImageById(imageId); // 기존 이미지 삭제
                 }
             }
 
-            if (!imageList.isEmpty()) {
-                insertImages(imageList); // 새로운 이미지 정보를 데이터베이스에 삽입
-            }
-            
-            return true; // 모든 작업이 성공적으로 완료된 경우 true 반환
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("상품 수정 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
-        }
-    }
+	        // 이미지 처리 로직은 saveMovieWithImages와 유사하게 구현 가능
+	        Long movieId = movie.getMovieId();
+	        String uploadFolderPath = getFolder();
+	        String uploadPath = filePath + File.separator + uploadFolderPath;
+	        File uploadFilePath = new File(uploadPath);
+
+	        if (!uploadFilePath.exists()) {
+	            uploadFilePath.mkdirs();
+	        }
+
+	        List<ImgVo> imageList = new ArrayList<>();
+	        for (int i = 0; i < files.size(); i++) {
+	            MultipartFile file = files.get(i);
+	            if (!file.isEmpty()) {
+	                String originalFileName = file.getOriginalFilename();
+	                String uniqueFileName = UUID.randomUUID() + "_" + originalFileName;
+	                File saveFile = new File(uploadFilePath, uniqueFileName);
+	                file.transferTo(saveFile);
+
+	                ImgVo img = new ImgVo();
+	                img.setMovieId(movieId);
+	                img.setImgPath(uploadFolderPath);
+	                img.setFileName(uniqueFileName);
+	                img.setIsMain(i == 0 ? 1 : 0); // 첫 번째 이미지를 메인 이미지로 설정
+	                imageList.add(img);
+	            }
+	        }
+
+	        if (!imageList.isEmpty()) {
+	            insertImages(imageList); // 새로운 이미지 정보를 데이터베이스에 삽입
+	        }
+	        
+	        return true; // 모든 작업이 성공적으로 완료된 경우 true 반환
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("영화 수정 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
+	    }
+	}
+
+	// 기존 이미지 삭제 메서드 추가
+	private void deleteImageById(Long imageId) {
+	    movieRepository.deleteImageById(imageId); // 수정: 특정 이미지 ID로 삭제
+	}
+
 
     /**
-     * 상품을 삭제하는 메소드.
-     * @param movieId 삭제할 상품 ID
+     * 영화를 삭제하는 메소드.
+     * @param movieId 삭제할 영화 ID
      * @return 성공 시 true, 실패 시 false
      */
     @Override
@@ -203,14 +217,33 @@ public class MovieServiceImpl implements MovieService {
         try {
         	// 먼저 관련된 이미지 삭제
         	movieRepository.deleteImagesByMovieId(movieId);
-        	// 그 다음 상품 삭제
-            movieRepository.deleteMovie(movieId); // 상품 삭제 로직 실행
+        	// 그 다음 영화 삭제
+            movieRepository.deleteMovie(movieId); // 영화 삭제 로직 실행
             
             
             return true; // 성공적으로 삭제된 경우 true 반환
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("상품 삭제 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
+            throw new RuntimeException("영화 삭제 실패", e); // 트랜잭션 롤백을 위해 런타임 예외 발생
         }
     }
+
+    /**
+     * 제목으로 영화 검색하는 메서드 추가.
+     * @param title 검색할 영화 제목.
+     * @return 검색 결과 리스트.
+     */
+    @Override
+    public List<MovieWithImageVo> searchMoviesByTitle(String title, Criteria cri) {
+        return movieRepository.searchMoviesByTitle(title, cri); 
+    }
+      
+    /*
+     * 게시물 총 갯수 조회
+     */
+    @Override
+    public int getTotalMovieCount(Criteria cri) {
+       return this.movieRepository.getTotalMovieCount(cri);
+    }
+
 }

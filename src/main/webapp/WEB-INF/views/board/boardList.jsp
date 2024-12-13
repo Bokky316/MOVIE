@@ -1,109 +1,83 @@
+<%@ include file="../include/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>게시판 목록</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        /* 테이블의 모든 컬럼 중앙 정렬 */
-        table tbody td, table thead th {
-            text-align: center;
-            vertical-align: middle; /* 수직 정렬 */
-        }
-        /* 제목을 중앙 정렬 */
-        h1 {
-            text-align: center; /* 수평 중앙 정렬 */
-            margin-bottom: 20px;
-            flex: 1; /* Flexbox 자식 요소로 확장 */
-        }
-        /* 페이징 중앙 정렬 */
-        .pagination-container {
-            display: flex;
-            justify-content: center; /* 중앙 정렬 */
-            margin-top: 20px;
-        }
-        /* 검색 입력란과 버튼 정렬 */
-        .search-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .search-container .form-control {
-            width: 300px;
-            margin-right: 10px;
-        }
-        .search-container .btn {
-            margin-right: 5px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <!-- 페이지 헤더 -->
-        <header class="d-flex justify-content-between align-items-center mb-3">
-            <h1>게시물 목록</h1>
-            <!-- 로그인/로그아웃 버튼 -->
-            <div>
-                <c:choose>
-                    <c:when test="${not empty loginUser}">
-                        <span class="me-2 text-secondary">${sessionScope.loginUser.memberId}님</span>
-                        <button id="logoutButton" class="btn btn-danger btn-sm">로그아웃</button>
-                    </c:when>
-                    <c:otherwise>
-                        <button id="loginButton" class="btn btn-primary btn-sm">로그인</button>
-                    </c:otherwise>
-                </c:choose>
+<style>
+  /* 모든 td를 가운데 정렬 */
+  table td {
+      text-align: center;
+  }
+
+  /* 두 번째 td만 왼쪽 정렬 */
+  table td:nth-child(2) {
+      text-align: left;
+  }
+</style>
+
+<!-- 본문-->
+<section class="about-section text-center" id="about">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="text-white mb-5">리뷰 목록</h2>
             </div>
-        </header>
+        </div>
+    </div>
+</section>
 
+<section class="projects-section bg-light" id="projects">
+    <div class="container px-4 px-lg-5">
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container">
-          <form id="searchForm" action="<c:url value='/board/list' />" method="get" class="d-flex">
-              <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="검색어를 입력하세요" value="${pageMaker.cri.searchText}">
-              <button type="submit" class="btn btn-info me-2">검색</button>
-              <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/board/list' />'">전체보기</button>
-              <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/board/insert' />'">게시물 등록</button>
-          </form>
-      </div>
-
+            <form id="searchForm" action="<c:url value='/board/list' />" method="get" class="d-flex">
+                <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="검색어를 입력하세요" value="${pageMaker.cri.searchText}">
+                <button type="submit" class="btn btn-info me-2">검색</button>
+                <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/board/list' />'">전체보기</button>
+                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/board/insert' />'">게시물 등록</button>
+            </form>
+        </div>
 
         <!-- 게시물 테이블 -->
         <div>
-            <table class="table table-bordered table-striped table-hover">
-                <thead class="table-light">
+            <table class="table table-bordered table-striped table-hover" style="background-color: #333; color: white;">
+                <thead class="table-light" style="background-color: #555; color: black; text-align: center;">
                     <tr>
-                        <th>게시글 번호</th>
-                        <th>제목</th>
-                        <th>작성자 ID</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
-                        <th>replyGroup</th>
-                        <th>replyOrder</th>
-                        <th>replyIndent</th>
+                        <th style="color: #444;">NO.</th>
+                        <th style="color: #444;">제목</th>
+                        <th style="color: #444;">작성자 ID</th>
+                        <th style="color: #444;">조회수</th>
+                        <th style="color: #444;">작성일</th>
+                        <!-- <th style="color: #444;">replyGroup</th>
+                        <th style="color: #444;">replyOrder</th>
+                        <th style="color: #444;">replyIndent</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="board" items="${boardList}">
-                        <tr>
-                            <td>${board.boardNo}</td>
-                            <td style="text-align: left;">
-                            	<div style="margin-left: ${board.replyIndent * 20}px;">
-                                	<a href="<c:url value='/board/view?boardNo=${board.boardNo }' />">${board.title}</a>
-                                </div>
-                            </td>
-                            <td>${board.memberId}</td>
-                            <td>${board.hitNo}</td>
-                            <td>
+                        <tr style="background-color: #444;">
+                            <td style="color: white; width:100px;">${board.boardNo}</td>
+                            <td style="text-align: left; ">
+					            <div style="margin-left: ${board.replyIndent * 20}px; position: relative;">
+								    <!-- 제목 링크 -->
+								    <a href="<c:url value='/board/view?boardNo=${board.boardNo }' />" class="text-decoration-none"
+								       style="color: lightblue; ${board.spoiler == 'Y' ? 'filter: blur(5px); text-decoration: underline;' : ''}">
+								       ${board.title}
+								    </a>
+								    <!-- 스포일러 경고 -->
+								    <c:if test="${board.spoiler == 'Y'}">
+								        <span style="color: #A9A9A9; position: absolute; top:0; left: 0; z-index: 10; width: 100%; pointer-events: none; cursor:none;">
+								            ※ 이 글은 스포일러를 포함할 수 있습니다.
+								        </span>
+								    </c:if>
+								</div>
+					        </td>
+                            <td style="color: white; width:200px;">${board.memberId}</td>
+                            <td style="color: white; width:200px;">${board.hitNo}</td>
+                            <td style="color: white; width:200px;">
                                 <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
                             </td>
-                            <td>${board.replyGroup }</td>
-                            <td>${board.replyOrder }</td>
-                            <td>${board.replyIndent }</td>
+                            <%-- <td style="color: white;">${board.replyGroup }</td>
+                            <td style="color: white;">${board.replyOrder }</td>
+                            <td style="color: white;">${board.replyIndent }</td> --%>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -142,27 +116,26 @@
             </ul>
         </div>
     </div>
+</section>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // 로그인/로그아웃 버튼 이벤트 처리
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
 
-    <script>
-        // 로그인/로그아웃 버튼 이벤트 처리
-        const loginButton = document.getElementById('loginButton');
-        const logoutButton = document.getElementById('logoutButton');
+    if (loginButton) {
+        loginButton.addEventListener('click', function() {
+            window.location.href = "<c:url value='/login' />";
+        });
+    }
 
-        if (loginButton) {
-            loginButton.addEventListener('click', function() {
-                window.location.href = "<c:url value='/login' />";
-            });
-        }
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            window.location.href = "<c:url value='/logout' />";
+        });
+    }
+</script>
 
-        if (logoutButton) {
-            logoutButton.addEventListener('click', function() {
-                window.location.href = "<c:url value='/logout' />";
-            });
-        }
-    </script>
-</body>
-</html>
-
+<%@ include file="../include/footer.jsp"%>
