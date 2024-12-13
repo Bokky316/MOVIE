@@ -27,7 +27,6 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h3>영화 등록</h3>
                     </div>
                     <div class="card-body">
                         <form id="movieForm" action="<c:url value='/movie/create'/>" method="post" enctype="multipart/form-data">

@@ -30,6 +30,30 @@
         font-size: 0.9em; /* 기본 정보 크기 */
         color: #555; /* 기본 정보 색상 */
     }
+    
+     .search-container {
+        margin-top: 10px; /* 위쪽 여백 */
+        margin-bottom: 30px; /* 아래쪽 여백 */
+    }
+
+    #searchForm {
+        display: flex;
+        align-items: center; /* 수직 중앙 정렬 */
+    }
+
+    #searchText {
+    	 height: 50px; /* 입력란 높이 조정 */
+        flex: 1; /* 입력창이 가능한 공간을 모두 차지하도록 설정 */
+        min-width: 150px; /* 최소 너비 설정 (필요에 따라 조정) */
+        margin-right: 5px; /* 오른쪽 여백 */
+    }
+
+    .btn {
+    
+        height: 50px; /* 버튼 높이 조정 */
+        flex-shrink: 0; /* 버튼의 너비가 줄어들지 않도록 설정 */
+
+    }
 </style>
 
 <!-- 본문-->
@@ -46,42 +70,45 @@
 
 <!-- 내용-->
 <section class="projects-section bg-dark" id="projects">
-	<div class="container px-4 px-lg-5">
+    <div class="container px-4 px-lg-5">
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container mb-4">
             <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex justify-content-center">
                 <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
                 <button type="submit" class="btn btn-info me-2">검색</button>
-                <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
-                <!-- 관리자가 아닐 경우 버튼 숨김 -->
-                <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">			
-	                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
-				</c:if>
+                <button type="button" class="btn btn-dark me-2" onclick="location.href='<c:url value='/movie/list' />'">전체</button>
             </form>
         </div>
 
-		<!-- 영화 갤러리 -->
-		<div class="gallery">
-			<c:forEach var="movie" items="${movieList}">
-				<div class="gallery-item">
-					<a href="<c:url value='/movie/detail/${movie.movieId}'/>"> <img
-						src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}"
-						alt="${movie.name}"
-						onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-					</a>
-				</div>
-			</c:forEach>
-			<!-- 영화가 없을 경우 메시지 -->
-			<c:if test="${empty movieList}">
-				<div class="col mb-5 text-center">
-					<h5>등록된 영화가 없습니다.</h5>
-				</div>
-			</c:if>
-		</div>
+        <!-- 영화 갤러리 -->
+        <div class="gallery">
+            <c:forEach var="movie" items="${movieList}">
+                <div class="gallery-item">
+                    <a href="<c:url value='/movie/detail/${movie.movieId}'/>"> 
+                        <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}"
+                             alt="${movie.name}"
+                             onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
+                    </a>
+                </div>
+            </c:forEach>
+            <!-- 영화가 없을 경우 메시지 -->
+            <c:if test="${empty movieList}">
+                <div class="col mb-5 text-center">
+                    <h5>등록된 영화가 없습니다.</h5>
+                </div>
+            </c:if>
+        </div>
+
+        <!-- 관리자가 아닐 경우 버튼 숨김 -->
+        <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">			
+            <div class="text-end mb-3"> <!-- 오른쪽 정렬을 위한 div -->
+                <button type="button" class="btn btn-outline-light" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+            </div>
+        </c:if>
 
         <!-- 페이징 -->
-        <div class="pagination-container mt-4 position-absolute top-100 start-50 translate-middle">
-            <ul class="pagination">
+        <div class="pagination-container mt-4 position-relative">
+            <ul class="pagination justify-content-center"> <!-- 중앙 정렬 -->
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
                     <li class="page-item">
@@ -112,6 +139,7 @@
         </div>
     </div>
 </section>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

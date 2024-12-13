@@ -36,7 +36,7 @@
 	</div>
 </section>
 
-<section class="projects-section bg-dark pt-5 pb-5" id="projects">
+<section class="projects-section bg-dark text-lightpt-5 pb-5" id="projects">
     <div class="container px-4 px-lg-5">
         <div class="row align-items-start">
             <!-- 왼쪽: 영화 이미지 -->
@@ -108,7 +108,6 @@
                                     <button id="deleteButton" type="submit" class="btn btn-danger btn-sm me-2">삭제</button>
                                 </form>
                             </c:if>
-                            <a href="<c:url value='/movie/list' />" class="btn btn-dark btn-sm">목록으로</a>
                         </div>
                     </div>
                 </div>
