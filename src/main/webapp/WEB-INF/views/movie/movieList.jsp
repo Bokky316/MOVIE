@@ -53,10 +53,7 @@
                 <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
                 <button type="submit" class="btn btn-info me-2">검색</button>
                 <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
-                <!-- 관리자가 아닐 경우 버튼 숨김 -->
-                <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">			
-	                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
-				</c:if>
+                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
             </form>
         </div>
 
@@ -85,9 +82,8 @@
 		    </c:if>
 		</div>
 
-
-        <!-- 페이징 -->
-        <div class="pagination-container mt-4 position-absolute top-100 start-50 translate-middle">
+<!-- 페이징 -->
+        <div class="pagination-container">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
@@ -117,12 +113,10 @@
                 </c:if>
             </ul>
         </div>
-
     </div>
 </section>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- 로그인/로그아웃 버튼 이벤트 처리 -->
 <script>
