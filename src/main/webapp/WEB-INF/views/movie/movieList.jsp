@@ -43,10 +43,10 @@
    </div>
 </section>
 
-<!-- 내용-->  
-<section class="projects-section bg-light" id="projects">
-      <div class="container px-4 px-lg-5">
 
+<!-- 내용-->
+<section class="projects-section bg-light" id="projects">
+	<div class="container px-4 px-lg-5">
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container mb-4">
             <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex justify-content-center">
@@ -60,39 +60,36 @@
             </form>
         </div>
 
-      
-        <!-- 영화 갤러리 -->
+
+		<!-- 영화 갤러리 -->
 		<div class="gallery">
-		    <c:forEach var="movie" items="${movieList}">
-		        <div class="gallery-item">
-		            <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
-		                <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
-		                     alt="${movie.name}" 
-		                     onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-		                <div class="movie-title">${movie.name}</div>
-		                <div class="movie-info">
-		                    개봉일: <fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd"/>
-		                </div>
-		            </a>
-		        </div>
-		    </c:forEach>
-		
-		    <!-- 영화가 없을 경우 메시지 -->
-		    <c:if test="${empty movieList}">
-		        <div class="col mb-5 text-center">
-		            <h5>등록된 영화가 없습니다.</h5>
-		        </div>
-		    </c:if>
+			<c:forEach var="movie" items="${movieList}">
+				<div class="gallery-item">
+					<a href="<c:url value='/movie/detail/${movie.movieId}'/>"> <img
+						src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}"
+						alt="${movie.name}"
+						onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
+						<div class="movie-title">${movie.name}</div>
+						<div class="movie-info">
+							개봉일:
+							<fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd" />
+						</div>
+					</a>
+				</div>
+			</c:forEach>
+			<!-- 영화가 없을 경우 메시지 -->
+			<c:if test="${empty movieList}">
+				<div class="col mb-5 text-center">
+					<h5>등록된 영화가 없습니다.</h5>
+				</div>
+			</c:if>
 		</div>
-
-<<<<<<< HEAD
-<!-- 페이징 -->
-        <div class="pagination-container">
-=======
-
+	</div>
+</section>
+<section class="projects-section bg-light" id="projects">
+	<div class="container px-4 px-lg-5">
         <!-- 페이징 -->
         <div class="pagination-container mt-4 position-absolute top-100 start-50 translate-middle">
->>>>>>> 332137000e72b2c7a179c034e88fa5638ac70995
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
@@ -123,7 +120,7 @@
             </ul>
         </div>
     </div>
-</section>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -66,9 +66,9 @@
 
                             <!-- 별점 -->
                             <div class="mb-3">
-                                <label for="ratingInput" class="form-label">별점</label>
+                                <label for="ratingInput" class="form-label">평점</label>
                                 <input type="text" class="form-control" id="ratingInput" name="rating" required />
-                                <div class="form-text">별점은 필수 입력 항목입니다.</div>
+                                <div class="form-text">평점은 필수 입력 항목입니다.</div>
                             </div>
 
                             <!-- 연령 등급 -->
