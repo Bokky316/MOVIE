@@ -85,7 +85,7 @@
         </div>
 
         <!-- 페이징 -->
-        <div class="pagination-container">
+        <div class="pagination-container mt-4 position-absolute top-90 start-50 translate-middle" >
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">

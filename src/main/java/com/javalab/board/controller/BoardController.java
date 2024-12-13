@@ -89,7 +89,6 @@ public class BoardController {
      */
     @PostMapping("/insert")
     public String insertBoard(@ModelAttribute BoardVo boardVo,
-            @RequestParam("image") MultipartFile image,
             @RequestParam(value = "spoiler", required = false) String spoiler,
             RedirectAttributes redirectAttributes) {
         try {
