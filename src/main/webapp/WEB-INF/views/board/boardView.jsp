@@ -22,19 +22,32 @@
 
 <!-- 내용-->
 <section class="projects-section bg-light" id="projects">
-	<div class="container px-4 px-lg-5">
-		<div class="card-body">
-        <!-- 오류 메시지 표시 -->
-        <c:if test="${not empty errorMessage}">
-            <div class="alert alert-danger" role="alert">
-                ${errorMessage}
-            </div>
-        </c:if>
+    <div class="container px-4 px-lg-5">
+        <div class="card-body">
+            <!-- 오류 메시지 표시 -->
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger" role="alert">
+                    ${errorMessage}
+                </div>
+            </c:if>
             <!-- 제목 -->
             <div class="mb-3">
                 <label class="form-label"><strong>제목</strong></label>
                 <input type="text" class="form-control" value="${board.title}" readonly>
             </div>
+            <!-- 별점표시 -->
+			<div class="mb-3">
+			    <p>별점:
+			        <c:choose>
+			            <c:when test="${board.rating == 1.0}">⭐</c:when>
+			            <c:when test="${board.rating == 2.0}">⭐⭐</c:when>
+			            <c:when test="${board.rating == 3.0}">⭐⭐⭐</c:when>
+			            <c:when test="${board.rating == 4.0}">⭐⭐⭐⭐</c:when>
+			            <c:when test="${board.rating == 5.0}">⭐⭐⭐⭐⭐</c:when>
+			            <c:otherwise>평점 없음</c:otherwise>
+			        </c:choose>
+			    </p>
+			</div>
             <!-- 내용 -->
             <div class="mb-3">
                 <label class="form-label"><strong>내용</strong></label>
@@ -56,6 +69,7 @@
                 <input type="text" class="form-control"
                        value="<fmt:formatDate value='${board.regDate}' pattern='yyyy-MM-dd HH:mm:ss' />" readonly>
             </div>
+            <!-- 버튼 섹션 -->
             <div class="d-flex justify-content-end gap-2">
                 <button id="updateButton" type="button" class="btn btn-update">수정</button>
                 <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
@@ -66,7 +80,7 @@
                 <button id="replyButton" type="button" class="btn btn-warning">답글쓰기</button>
                 <button id="listButton" type="button" class="btn btn-list">목록으로</button>
             </div>
-        </div> <!-- 카드 바디 닫는 태그 추가 -->
+        </div> <!-- 카드 바디 닫기 -->
     </div> <!-- 컨테이너 닫기 -->
 </section>
 

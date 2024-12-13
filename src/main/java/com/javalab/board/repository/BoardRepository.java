@@ -2,6 +2,8 @@ package com.javalab.board.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import com.javalab.board.dto.Criteria;
 import com.javalab.board.vo.BoardVo;
 
@@ -18,6 +20,7 @@ import com.javalab.board.vo.BoardVo;
  * 3. 메소드의 반환타입은 매퍼XML 파일의 쿼리문이 반환하는 타입과 동일해야 한다.  
  * 4. 메소드의 반환타입이 List<BoardVo> 매퍼XML의 resultType에는 BoardVo로 해야 한다.
  */
+@Mapper
 public interface BoardRepository {
 	// 게시물 목록 조회
 	public List<BoardVo> getBoardList();
