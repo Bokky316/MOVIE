@@ -46,38 +46,38 @@
                         <th style="color: #444;">작성자 ID</th>
                         <th style="color: #444;">조회수</th>
                         <th style="color: #444;">작성일</th>
-                        <!-- <th style="color: #444;">replyGroup</th>
-                        <th style="color: #444;">replyOrder</th>
-                        <th style="color: #444;">replyIndent</th> -->
+                        <th style="color: #444;">영화 제목</th> <!-- 영화 제목 추가 -->
                     </tr>
                 </thead>
                 <tbody>
                     <c:forEach var="board" items="${boardList}">
                         <tr style="background-color: #444;">
                             <td style="color: white; width:100px;">${board.boardNo}</td>
-                            <td style="text-align: left; ">
-					            <div style="margin-left: ${board.replyIndent * 20}px; position: relative;">
-								    <!-- 제목 링크 -->
-								    <a href="<c:url value='/board/view?boardNo=${board.boardNo }' />" class="text-decoration-none"
-								       style="color: lightblue; ${board.spoiler == 'Y' ? 'filter: blur(5px); text-decoration: underline;' : ''}">
-								       ${board.title}
-								    </a>
-								    <!-- 스포일러 경고 -->
-								    <c:if test="${board.spoiler == 'Y'}">
-								        <span style="color: #A9A9A9; position: absolute; top:0; left: 0; z-index: 10; width: 100%; pointer-events: none; cursor:none;">
-								            ※ 이 글은 스포일러를 포함할 수 있습니다.
-								        </span>
-								    </c:if>
-								</div>
-					        </td>
+                            <td style="text-align: left;">
+                                <div style="margin-left: ${board.replyIndent * 20}px; position: relative;">
+                                    <!-- 제목 링크 -->
+                                    <a href="<c:url value='/board/view?boardNo=${board.boardNo }' />" class="text-decoration-none"
+                                       style="color: lightblue; ${board.spoiler == 'Y' ? 'filter: blur(5px); text-decoration: underline;' : ''}">
+                                       ${board.title}
+                                    </a>
+                                    <!-- 스포일러 경고 -->
+                                    <c:if test="${board.spoiler == 'Y'}">
+                                        <span style="color: #A9A9A9; position: absolute; top:0; left: 0; z-index: 10; width: 100%; pointer-events: none; cursor:none;">
+                                            ※ 스포일러 주의
+                                        </span>
+                                    </c:if>
+                                </div>
+                            </td>
                             <td style="color: white; width:200px;">${board.memberId}</td>
                             <td style="color: white; width:200px;">${board.hitNo}</td>
                             <td style="color: white; width:200px;">
                                 <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
                             </td>
-                            <%-- <td style="color: white;">${board.replyGroup }</td>
-                            <td style="color: white;">${board.replyOrder }</td>
-                            <td style="color: white;">${board.replyIndent }</td> --%>
+                            <!-- 영화 제목 표시 -->
+                            <td style="color: white; width:200px;">
+                                <!-- 영화 제목을 가져오는 부분 (예시로 board.movieId 사용) -->
+                                ${movieList[board.movieId].name}
+                            </td> 
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -138,4 +138,4 @@
     }
 </script>
 
-<%@ include file="../include/footer.jsp"%>
+<%@ include file="../include/footer.jsp"%> 

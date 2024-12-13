@@ -36,6 +36,5 @@ public class BoardVo implements Serializable {
     private String spoiler;       // 스포일러 체크
 
     private Long movieId;         // 영화 ID (외래키)
-    
     private MovieWithImageVo movieWithImage;  // 영화 정보 추가
 }

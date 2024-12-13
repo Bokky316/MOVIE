@@ -24,63 +24,65 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardServiceImpl implements BoardService {
 
-	private final BoardRepository repository;
+    private final BoardRepository repository;
 
-	/*
-	 * 게시물 조회
-	 */
-	@Override
-	public List<BoardVo> getBoardList() {
-		List<BoardVo> boardList = repository.getBoardList();
-		return boardList;
-	}
+    /*
+     * 게시물 조회
+     */
+    @Override
+    public List<BoardVo> getBoardList() {
+        List<BoardVo> boardList = repository.getBoardList();
+        return boardList;
+    }
 
-	/*
-	 * 페이징, 검색 기능이 추가된 메소드 호출
-	 */
-	@Override
-	public List<BoardVo> getBoardListPaging(Criteria cri) {
-		List<BoardVo> boardList = repository.getBoardListPaging(cri);
-		return boardList;
-	}
+    /*
+     * 페이징, 검색 기능이 추가된 메소드 호출
+     */
+    @Override
+    public List<BoardVo> getBoardListPaging(Criteria cri) {
+        List<BoardVo> boardList = repository.getBoardListPaging(cri);
+        return boardList;
+    }
 
-	// 게시물 내용 보기
-	@Override
-	public BoardVo getBoard(int boardNo) {
-		// 조회수 증가
-		repository.increaseHitNo(boardNo);
-		// 게시물 조회
-		BoardVo boardVo = repository.getBoard(boardNo);
-		return boardVo;
-	}
+    // 게시물 내용 보기 및 조회수 증가
+    @Override
+    @Transactional // 트랜잭션 관리 추가
+    public BoardVo getBoard(int boardNo) {
+        // 조회수 증가
+        repository.increaseHitNo(boardNo);
+        // 게시물 조회
+        BoardVo boardVo = repository.getBoard(boardNo);
+        return boardVo;
+    }
 
-	// 게시물 저장
-	@Override
-	public int insertBoard(BoardVo boardVo) {
-		return repository.insertBoard(boardVo);
-	}
+    // 게시물 저장
+    @Override
+    public int insertBoard(BoardVo boardVo) {
+        return repository.insertBoard(boardVo);
+    }
 
-	// 게시물 수정
-	@Override
-	public int updateBoard(BoardVo boardVo) {
-		return repository.updateBoard(boardVo);
-	}
+    // 게시물 수정
+    @Override
+    @Transactional // 트랜잭션 관리 추가
+    public int updateBoard(BoardVo boardVo) {
+        return repository.updateBoard(boardVo);
+    }
 
-	// 게시물 삭제
-	@Override
-	public int deleteBoard(int boardNo) {
-		return repository.deleteBoard(boardNo);
-	}
+    // 게시물 삭제
+    @Override
+    public int deleteBoard(int boardNo) {
+        return repository.deleteBoard(boardNo);
+    }
 
-	/*
+    /*
      * 게시물 총 갯수 조회
      */
-	@Override
-	public int getTotalBoardCount(Criteria cri) {
-		return this.repository.getTotalBoardCount(cri);
-	}
+    @Override
+    public int getTotalBoardCount(Criteria cri) {
+        return this.repository.getTotalBoardCount(cri);
+    }
 
-	/*
+    /*
      * 답글 작성
      */
    @Override
