@@ -106,7 +106,7 @@
                     <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
                 </form>
                 <!-- 답글쓰기 버튼 -->
-                <button id="replyButton" type="button" class="btn btn-primary">답글쓰기</button>
+                <button id="replyButton" type="button" class="btn btn-dark">답글쓰기</button>
                 <button id="listButton" type="button" class="btn btn-list">목록으로</button>
             </div>
 
