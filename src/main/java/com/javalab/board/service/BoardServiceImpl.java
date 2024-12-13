@@ -24,15 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor // 생성자 자동으로 만들어준다.
 @Slf4j
 public class BoardServiceImpl implements BoardService {
-	// @Autowired : 스프링에서 지정한 타입의 빈을 찾아서 주입
-	// BoardRepository 타입의 빈을 찾아서 주입해줌.
-	// 필드, 생성자 이존성 주입시 필드를 final하는 이유는 불변성을 지키기 위함이다.
-	private final BoardRepository repository;
 
-	// 생성자 의존성이 좋은 점은 이 객체 생성시 타입을 체크해준다. 안정성 보장
-	// public BoardServiceImpl(BoardRepository repository) {
-	// this.repository = repository;
-	// }
+	private final BoardRepository repository;
 
 	/*
 	 * 게시물 조회
@@ -85,21 +78,30 @@ public class BoardServiceImpl implements BoardService {
 	 * 답글 작성
 	 */
 	@Override
-	@Transactional // 여러개의 SQL을 하나의 작업 단위로 묶어서 실행(All or Nothing)
+	@Transactional
 	public int insertReply(BoardVo reply) {
+	    // 부모 게시물 조회
+	    BoardVo parentBoard = repository.getBoard(reply.getReplyGroup());
 
-		// 1. 기존 답글의 순서 조정
-		repository.updateReplyOrder(reply);
-		
-		// 2. 부모 게시물의 reply_order와 reply_indent을 기반으로 새로운 답글 설정
-		//  새로운 답글의 순서와 들여쓰기 계산
-		reply.setReplyOrder(reply.getReplyOrder() + 1);
-		reply.setReplyIndent(reply.getReplyIndent() + 1);
-		
-		// 3. 새로운 답글 삽입
-		int result = repository.insertReply(reply);
-		return result;
+	    if (parentBoard == null) {
+	        throw new IllegalArgumentException("부모 게시물을 찾을 수 없습니다.");
+	    }
 
+	    // 기존 답글 순서 조정
+	    reply.setReplyGroup(parentBoard.getReplyGroup());
+	    reply.setReplyOrder(parentBoard.getReplyOrder() + 1);
+	    reply.setReplyIndent(parentBoard.getReplyIndent() + 1);
+
+	    repository.updateReplyOrder(reply);
+
+	    // 새 답글 삽입
+	    return repository.insertReply(reply);
 	}
+	@Override
+	public void updateReplyOrder(BoardVo replyBoard) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

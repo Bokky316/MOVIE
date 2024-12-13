@@ -1,12 +1,13 @@
 <%@ include file="../include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <head>
-	<!-- CKEditor 5 CDN -->
+    <!-- CKEditor 5 CDN -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 
 <!-- 본문-->
 <section class="about-section text-center" id="about">
@@ -36,6 +37,22 @@
                     <label for="contentInput" class="form-label"><strong>내용</strong></label>
                     <textarea id="contentInput" class="form-control" name="content" rows="5" required>${board.content}</textarea>
                 </div>
+                <!-- 별점 RATING -->
+	            <div class="mb-3">
+	                <label for="rating">별점 :</label>
+	                <select id="rating" name="rating" required>
+	                    <option value="" disabled selected>별점을 선택하세요</option>
+	                    <option value="1.0">1.0</option>
+	                    <option value="1.5">1.5</option>
+	                    <option value="2.0">2.0</option>
+	                    <option value="2.5">2.5</option>
+	                    <option value="3.0">3.0</option>
+	                    <option value="3.5">3.5</option>
+	                    <option value="4.0">4.0</option>
+	                    <option value="4.5">4.5</option>
+	                    <option value="5.0">5.0</option>
+	                </select>
+	            </div>
                 <!-- 작성자 ID -->
                 <div class="mb-3">
                     <label class="form-label"><strong>작성자 ID</strong></label>
@@ -94,4 +111,4 @@
     });
 </script>
 
-<%@ include file="../include/footer.jsp"%>
+<%@ include file="../include/footer.jsp" %>
