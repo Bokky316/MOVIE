@@ -40,7 +40,8 @@
         #{description},
         #{movieDate},
         sysdate,
-        #{genre},        -- 상영시간 추가
+        #{genre},        -- 장르 추가 
+        #{runningTime},  -- 상영시간 추가  
         #{rating},       -- 별점 추가 
         #{ageRating},    -- 연령등급 추가 
         #{director},     -- 감독 추가 

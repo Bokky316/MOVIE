@@ -261,6 +261,12 @@ public class MovieController {
                                 @RequestParam("name") String name,
                                 @RequestParam("description") String description,
                                 @RequestParam(value = "movieDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date movieDate,
+                                @RequestParam(value = "genre", required = false) String genre,
+                                @RequestParam(value = "runningTime", required = false) String runningTime,
+                                @RequestParam(value = "rating", required = false) String rating,
+                                @RequestParam(value = "ageRating", required = false) String ageRating,
+                                @RequestParam(value = "director", required = false) String director,
+                                @RequestParam(value = "cast", required = false) String cast,
                                 @RequestParam(value = "files", required = false) List<MultipartFile> newFiles,
                                 @RequestParam(value = "existingImageIds", required = false) List<Long> existingImageIds,
                                 Model model) {
@@ -271,6 +277,12 @@ public class MovieController {
         updatedMovie.setName(name);
         updatedMovie.setDescription(description);
         updatedMovie.setMovieDate(movieDate);
+        updatedMovie.setGenre(genre);
+        updatedMovie.setRunningTime(runningTime);
+        updatedMovie.setRating(rating);
+        updatedMovie.setAgeRating(ageRating);
+        updatedMovie.setDirector(director);
+        updatedMovie.setCast(cast);
 
         // 영화 정보 업데이트 및 새 파일 처리
         boolean isUpdated = movieService.updateMovieWithImages(updatedMovie, newFiles, existingImageIds, filePath);
