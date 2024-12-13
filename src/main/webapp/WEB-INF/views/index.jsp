@@ -1,4 +1,3 @@
-
 <%@ include file="include/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -40,6 +39,7 @@
             </div>
         </div>
     </div>
+    </section>
     <!-- Projects-->  
    <section class="projects-section bg-light" id="projects">
 		<div class="container px-4 px-lg-5">
@@ -99,8 +99,5 @@
 					<h5>추천할 영화가 없습니다.</h5>
 				</div>
 			</c:if> 
-
-                </div>
-        </section> 
-        <%@ include file="../include/footer.jsp" %>
-      
+</div>
+</section>
