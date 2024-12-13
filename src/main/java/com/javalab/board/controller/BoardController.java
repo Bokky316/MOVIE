@@ -1,33 +1,39 @@
 package com.javalab.board.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.javalab.board.dto.Criteria;
 import com.javalab.board.dto.PageDto;
 import com.javalab.board.service.BoardService;
 import com.javalab.board.vo.BoardVo;
 import com.javalab.board.vo.MemberVo;
+import com.javalab.board.vo.MovieWithImageVo;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * 게시물 컨트롤러
  * 사용자의 요청을 처리하고 응답을 반환하는 클래스
  */
-
 @Controller
 @RequestMapping("/board")
 @Slf4j
 public class BoardController {
-	
+    
     private final BoardService service;
 
-    // 생성자를 통한 의존성 주입
     public BoardController(BoardService service) {
         this.service = service;
     }
@@ -42,14 +48,15 @@ public class BoardController {
     public String getListPaging(Criteria cri, Model model) {
         log.info("Fetching board list with criteria: {}", cri);
 
-        // 게시물 목록 조회 및 모델에 추가
         List<BoardVo> boardList = service.getBoardListPaging(cri);
         model.addAttribute("boardList", boardList);
 
-        // 총 게시물 수 조회 및 페이지 정보 생성
         int total = service.getTotalBoardCount(cri);
         PageDto pageDto = new PageDto(cri, total);
         model.addAttribute("pageMaker", pageDto);
+
+        List<MovieWithImageVo> movieList = service.getMovieList();
+        model.addAttribute("movieList", movieList);
 
         return "board/boardList";
     }
@@ -78,6 +85,10 @@ public class BoardController {
         if (!model.containsAttribute("board")) {
             model.addAttribute("board", new BoardVo());
         }
+        
+        List<MovieWithImageVo> movieList = service.getMovieList();
+        model.addAttribute("movieList", movieList);
+
         return "board/boardInsert";
     }
 
@@ -91,14 +102,16 @@ public class BoardController {
     public String insertBoard(@ModelAttribute BoardVo boardVo,
             @RequestParam("image") MultipartFile image,
             @RequestParam(value = "spoiler", required = false) String spoiler,
+            @RequestParam("movieId") Long movieId,
             RedirectAttributes redirectAttributes) {
         try {
-        	// 스포일러 처리
             log.info("Received spoiler value from form: {}", spoiler);
             boardVo.setSpoiler("Y".equals(spoiler) ? "Y" : "N");
             log.info("Spoiler set in BoardVo: {}", boardVo.getSpoiler());
 
-            // 게시글 저장
+            MovieWithImageVo movie = service.getMovie(movieId);
+            boardVo.setMovieWithImage(movie);
+
             log.info("Saving board: {}", boardVo);
             service.insertBoard(boardVo);
             redirectAttributes.addFlashAttribute("successMessage", "게시물이 등록되었습니다.");
@@ -110,61 +123,49 @@ public class BoardController {
             return "redirect:/board/insert";
         }
     }
-    /**
-     * 게시물 수정 폼 보기
-     * @param boardNo 수정할 게시물 번호
-     * @param model 뷰로 전달할 데이터를 저장하는 객체
-     * @param session 현재 사용자 세션
-     * @param redirectAttributes 리다이렉트 시 메시지 전달
-     * @return 게시물 수정 폼 페이지
-     */
-    @GetMapping("/update")
-    public String updateBoardForm(@RequestParam("boardNo") int boardNo, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        MemberVo loginUser = (MemberVo) session.getAttribute("loginUser");
-        BoardVo existingBoard = service.getBoard(boardNo);
 
-        if (existingBoard == null || !existingBoard.getMemberId().equals(loginUser.getMemberId())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "수정 권한이 없습니다.");
-            return "redirect:/board/view?boardNo=" + boardNo;
-        }
+	/**
+	 * 게시물 수정 폼 보기 
+	 * @param boardNo 수정할 게시물 번호 
+	 * @param model 뷰로 전달할 데이터를 저장하는 객체 
+	 * @param session 현재 사용자 세션 
+	 * @param redirectAttributes 리다이렉트 시 메시지 전달 
+	 * @return 게시물 수정 폼 페이지 
+	 */
+	@GetMapping("/update")
+	public String updateBoardForm(@RequestParam("boardNo") int boardNo, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+		MemberVo loginUser = (MemberVo) session.getAttribute("loginUser");
+		BoardVo existingBoard = service.getBoard(boardNo);
 
-        model.addAttribute("board", existingBoard);
-        return "board/boardUpdate";
-    }
+		if (existingBoard == null || !existingBoard.getMemberId().equals(loginUser.getMemberId())) {
+			redirectAttributes.addFlashAttribute("errorMessage", "수정 권한이 없습니다.");
+			return "redirect:/board/view?boardNo=" + boardNo;
+		}
 
-    /**
-     * 게시물 수정 처리
-     * @param boardVo 수정할 게시물 데이터
-     * @param redirectAttributes 리다이렉트 시 메시지 전달
-     * @return 수정 후 게시물 상세 보기 페이지로 리다이렉트
-     */
-//    @PostMapping("/update")
-//    public String updateBoard(BoardVo boardVo, RedirectAttributes redirectAttributes) {
-//        try {
-//            int rowsAffected = service.updateBoard(boardVo);
-//            if (rowsAffected > 0) {
-//                redirectAttributes.addFlashAttribute("successMessage", "게시물이 수정되었습니다.");
-//                return "redirect:/board/view?boardNo=" + boardVo.getBoardNo();
-//            } else {
-//                redirectAttributes.addFlashAttribute("errorMessage", "수정하려는 게시물이 존재하지 않습니다.");
-//                return "redirect:/board/list";
-//            }
-//        } catch (Exception e) {
-//            log.error("Error while updating board", e);
-//            redirectAttributes.addFlashAttribute("errorMessage", "게시물 수정 중 오류가 발생했습니다.");
-//            redirectAttributes.addFlashAttribute("board", boardVo);
-//            return "redirect:/board/update?boardNo=" + boardVo.getBoardNo();
-//        }
-//    }
+		model.addAttribute("board", existingBoard);
+		
+		List<MovieWithImageVo> movieList = service.getMovieList();
+		model.addAttribute("movieList", movieList);
+
+		return "board/boardUpdate";
+	}
+
+	/**
+	 * 게시물 수정 처리 
+	 * @param boardVo 수정할 게시물 데이터 
+	 * @param redirectAttributes 리다이렉트 시 메시지 전달 
+	 * @return 수정 후 게시물 상세 보기 페이지로 리다이렉트 
+	 */
 	@PostMapping("/update")
 	public String updateBoard(@ModelAttribute BoardVo boardVo,
-			@RequestParam(value = "rating", required = false) Float rating, 
+			@RequestParam(value = "rating", required = false) Float rating,
+			@RequestParam("movieId") Long movieId,
 			RedirectAttributes redirectAttributes) {
 		try {
-			// 별점 설정
 			boardVo.setRating(rating);
+			MovieWithImageVo movie = service.getMovie(movieId);
+			boardVo.setMovieWithImage(movie);
 
-			// 게시글 수정
 			service.updateBoard(boardVo);
 			redirectAttributes.addFlashAttribute("successMessage", "게시물이 수정되었습니다.");
 			return "redirect:/board/view?boardNo=" + boardVo.getBoardNo();
@@ -174,7 +175,7 @@ public class BoardController {
 			return "redirect:/board/update?boardNo=" + boardVo.getBoardNo();
 		}
 	}
-    
+
 
     /**
      * 게시물 삭제 처리

@@ -1,172 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper 
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.javalab.board.repository.BoardRepository">
 
-	<!-- 게시물 목록 조회 -->
-	<select id="getBoardList" resultType="BoardVo">
-		SELECT 
-			board_no, 
-			title, 
-			content, 
-			member_id, 
-			hit_no, 
-			reg_date,  
-			rating
-		FROM board 
-		ORDER BY reg_date DESC	
-	</select>
+    <!-- ResultMap 정의 -->
+    <resultMap id="BoardResultMap" type="com.javalab.board.vo.BoardVo">
+        <id property="boardNo" column="board_no"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="memberId" column="member_id"/>
+        <result property="hitNo" column="hit_no"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="rating" column="rating"/>
+        <result property="spoiler" column="spoiler"/>
+        <result property="replyGroup" column="reply_group"/>
+        <result property="replyOrder" column="reply_order"/>
+        <result property="replyIndent" column="reply_indent"/>
+        <association property="movieWithImage" javaType="com.javalab.board.vo.MovieWithImageVo">
+            <id property="movieId" column="movie_id"/>
+            <result property="name" column="movie_name"/>
+            <result property="description" column="movie_description"/>
+            <result property="movieDate" column="movie_date"/>
+            <result property="imgPath" column="img_path"/>
+            <result property="fileName" column="file_name"/>
+        </association>
+    </resultMap>
 
-	<!-- 게시물 목록 페이징 및 검색 -->
-	<select id="getBoardListPaging" parameterType="Criteria" resultType="BoardVo">
-		SELECT 
-			board_no, 
-			title, 
-			member_id, 
-			hit_no, 
-			reg_date, 
-			reply_group, 
-			reply_order, 
-			reply_indent,
-			spoiler
-		FROM (
-			SELECT 
-				board_no, 
-				title, 
-				member_id, 
-				hit_no, 
-				reg_date, 
-				reply_group, 
-				reply_order, 
-				reply_indent,
-				spoiler,
-				ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC, reply_indent ASC) AS rnum
-			FROM board
-			<where>
-				<if test="searchText != null and searchText != ''">
-					title LIKE '%' || #{searchText} || '%' 
-					OR content LIKE '%' || #{searchText} || '%'
-				</if>
-			</where>
-		)
-		WHERE rnum BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount})
-	</select>
+    <!-- 게시물 목록 조회 -->
+    <select id="getBoardList" resultMap="BoardResultMap">
+        SELECT 
+            b.board_no, 
+            b.title, 
+            b.content, 
+            b.member_id, 
+            b.hit_no, 
+            b.reg_date,  
+            b.rating,
+            b.reply_group,
+            b.reply_order,
+            b.reply_indent,
+            m.movie_id,
+            m.name AS movie_name,
+            m.description AS movie_description,
+            m.movie_date,
+            i.img_path,
+            i.file_name
+        FROM board b
+        LEFT JOIN movie m ON b.movie_id = m.movie_id
+        LEFT JOIN prod_img i ON m.movie_id = i.movie_id AND i.is_main = 0
+        ORDER BY b.reg_date DESC    
+    </select>
 
-	<!-- 게시물 상세 조회 -->
-	<select id="getBoard" parameterType="int" resultType="BoardVo">
-		SELECT 
-			board_no, 
-			title, 
-			content, 
-			member_id, 
-			hit_no,
-			reg_date,
-			reply_group,
-			reply_order,
-			reply_indent,  
+    <!-- 영화 목록 조회 쿼리 -->
+    <select id="getMovieList" resultMap="MovieResultMap">
+        SELECT 
+            m.movie_id,
+            m.name,
+            m.description,
+            m.movie_date,
+            m.reg_date,
+            m.genre,
+            m.running_time,
+            m.rating,
+            m.age_rating,
+            m.director,
+            m.cast
+        FROM movie m
+        ORDER BY m.reg_date DESC
+    </select>
+
+    <!-- 게시물 목록 페이징 및 검색 -->
+    <select id="getBoardListPaging" parameterType="Criteria" resultMap="BoardResultMap">
+        SELECT 
+            board_no, 
+            title, 
+            member_id, 
+            hit_no, 
+            reg_date, 
+            reply_group, 
+            reply_order,
+            reply_indent,
+            spoiler
+        FROM (
+            SELECT 
+                board_no, 
+                title, 
+                member_id, 
+                hit_no, 
+                reg_date, 
+                reply_group, 
+                reply_order,
+                reply_indent,
+                spoiler,
+                ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC) AS rnum
+            FROM board
+            <where>
+                <if test="searchText != null and searchText != ''">
+                    title LIKE '%' || #{searchText} || '%' 
+                    OR content LIKE '%' || #{searchText} || '%'
+                </if>
+            </where>
+        )
+        WHERE rnum BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount})
+    </select>
+
+    <!-- 게시물 상세 조회 -->
+    <select id="getBoard" parameterType="int" resultMap="BoardResultMap">
+        SELECT 
+            b.board_no, 
+            b.title, 
+            b.content, 
+            b.member_id, 
+            b.hit_no,
+			b.reg_date,
+			b.reply_group,
+			b.reply_order,
+			b.reply_indent,
 			rating,
-			spoiler
-		FROM board 
-		WHERE board_no = #{boardNo}
-	</select>
+			spoiler,
+			m.movie_id,
+			m.name AS movie_name,
+			m.description AS movie_description,
+			m.movie_date,
+			i.img_path,
+			i.file_name
+        FROM board b
+        LEFT JOIN movie m ON b.movie_id = m.movie_id
+        LEFT JOIN prod_img i ON m.movie_id = i.movie_id AND i.is_main = 0
+        WHERE b.board_no = #{boardNo}
+    </select>
 
-	<!-- 조회수 증가 -->
-	<update id="increaseHitNo" parameterType="int">
-		UPDATE board
-		SET hit_no = hit_no + 1
-		WHERE board_no = #{boardNo}
-	</update>
+    <!-- 조회수 증가 -->
+    <update id="increaseHitNo" parameterType="int">
+        UPDATE board
+        SET hit_no = hit_no + 1
+        WHERE board_no = #{boardNo}
+    </update>
 
-	<!-- 전체 게시물 수 조회 -->
-	<select id="getTotalBoardCount" parameterType="Criteria" resultType="int">
-		SELECT COUNT(*)
-		FROM BOARD
-		<where>
-			<if test="searchText != null">
-				TITLE LIKE '%'||#{searchText}||'%' OR CONTENT LIKE '%'||#{searchText}||'%'
-			</if>
-		</where>
-	</select>
+    <!-- 전체 게시물 수 조회 -->
+    <select id="getTotalBoardCount" parameterType="Criteria" resultType="int">
+        SELECT COUNT(*)
+        FROM BOARD
+        <where>
+            <if test ="searchText != null">
+                TITLE LIKE '%'||#{searchText}||'%' OR CONTENT LIKE '%'||#{searchText}||'%'
+           </if>
+       </where>
+   </select>
 
-	<!-- 게시물 등록 -->
-	<insert id="insertBoard" parameterType="BoardVo">
-		INSERT INTO board(
-			board_no,
-			title, 
-			content, 
-			member_id, 
-			hit_no,
-			reg_date,
-			reply_group, 
-			reply_order, 
-			reply_indent,  
-			rating,
-			spoiler
-		)
-		VALUES (
-			board_seq.nextval,
-			#{title}, 
-			#{content}, 
-			#{memberId}, 
-			0,
-			sysdate,
-			#{replyGroup},
-			#{replyOrder},
-			#{replyIndent},
-			#{rating},
-			#{spoiler}
-		)
-	</insert>
+   <!-- 게시물 등록 -->
+   <insert id ="insertBoard " parameterType ="BoardVo ">
+       INSERT INTO board(
+           board_no,title ,content ,member_id ,hit_no ,reg_date ,reply_group ,reply_order ,reply_indent ,rating ,spoiler)
+       VALUES (
+           board_seq.nextval ,#{title},#{content},#{memberId},0 ,sysdate ,#{replyGroup},#{replyOrder},#{replyIndent},#{rating},#{spoiler}
+       )
+   </insert>
 
-	<!-- 답글 순서 조정 -->
-	<update id="updateReplyOrder" parameterType="BoardVo">
-		UPDATE board
-		SET reply_order = reply_order + 1
-		WHERE reply_group = #{replyGroup} AND reply_order >= #{replyOrder}
-	</update>
+   <!-- 답글 순서 조정 -->
+   <update id ="updateReplyOrder " parameterType ="BoardVo ">
+       UPDATE board SET reply_order= reply_order + 1
+       WHERE reply_group= #{replyGroup} AND reply_order >= #{replyOrder}
+   </update>
 
-	<!-- 답글 등록 -->
-	<insert id="insertReply" parameterType="BoardVo">
-		INSERT INTO board (
-			board_no, 
-			title, 
-			content, 
-			member_id, 
-			hit_no, 
-			reg_date, 
-			reply_group, 
-			reply_order, 
-			reply_indent,
-			spoiler
-		) VALUES (
-			board_seq.NEXTVAL, 
-			#{title}, 
-			#{content}, 
-			#{memberId}, 
-			0, 
-			SYSDATE, 
-			#{replyGroup}, 
-			#{replyOrder}, 
-			#{replyIndent},
-			#{spoiler}
-		)
-	</insert>
+   <!-- 답글 등록 -->
+   <insert id ="insertReply " parameterType ="BoardVo ">
+       INSERT INTO board (
+           board_no,title ,content ,member_id ,hit_no ,reg_date ,reply_group ,reply_order ,reply_indent ,spoiler) VALUES (
+           board_seq.NEXTVAL ,#{title},#{content},#{memberId},0 ,SYSDATE ,#{replyGroup} ,#{replyOrder} ,#{replyIndent} ,#{spoiler}
+       )
+   </insert>
 
-	<!-- 게시물 수정 -->
-	<update id="updateBoard" parameterType="BoardVo">
-		UPDATE board
-		SET title = #{title},
-			content = #{content},
-			rating = #{rating}
-		WHERE board_no = #{boardNo}
-	</update>
+   <!-- 게시물 수정 -->
+   <update id ="updateBoard " parameterType ="BoardVo ">
+       UPDATE board SET title= #{title}, content= #{content}, rating= #{rating}
+       WHERE board_no= #{boardNo }
+   </update>
 
-	<!-- 게시물 삭제 -->
-	<delete id="deleteBoard" parameterType="int">
-		DELETE FROM board
-		WHERE board_no = #{boardNo}
-	</delete>
-
+   <!-- 게시물 삭제 -->
+   <delete id ="deleteBoard " parameterType ="int ">
+       DELETE FROM board WHERE board_no= #{boardNo }
+   </delete>
 </mapper>
