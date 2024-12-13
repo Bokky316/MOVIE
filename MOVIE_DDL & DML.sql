@@ -1,22 +1,22 @@
----- 1. 유저 확인 및 계정 생성
---show user;
---
---/* sys에서 작업 */
---CREATE USER mreview IDENTIFIED BY 1234;
---GRANT CONNECT, RESOURCE TO mreview;
---GRANT UNLIMITED TABLESPACE TO mreview;
+-- =====================================
+-- 1. 계정 생성 및 권한 부여 [ sys에서 작업 ]
+-- =====================================
+-- CREATE USER mreview IDENTIFIED BY 1234;
+-- GRANT CONNECT, RESOURCE TO mreview;
+-- GRANT UNLIMITED TABLESPACE TO mreview;
 
-/* mreview 접속 생성 */
+-- =====================================
+-- 2. 테이블 생성
+-- =====================================
 
-/* 2. 테이블 생성  */
+-- 2.1 등급 테이블 (ROLE)
 CREATE TABLE ROLE (
    ROLE_ID   VARCHAR2(20)   NOT NULL,    -- 등급 번호(기본키)
    ROLE_NAME   VARCHAR2(20)   NOT NULL,  -- 등급 이름
-  CONSTRAINT PK_ROLE PRIMARY KEY (ROLE_ID)   -- 기본키제약
+   CONSTRAINT PK_ROLE PRIMARY KEY (ROLE_ID)   -- 기본키 제약
 );
 
-
-/* 멤버 테이블 생성 */
+-- 2.2 멤버 테이블 (MEMBER)
 CREATE TABLE MEMBER (                     
    MEMBER_ID VARCHAR2(100)   NOT NULL,   -- 유저 ID(기본키)
    ROLE_ID   VARCHAR2(20)   NOT NULL,    -- 유저 등급(외래키)
@@ -25,119 +25,84 @@ CREATE TABLE MEMBER (
    REG_DATE DATE   DEFAULT SYSDATE,      -- 유저 가입일
    PHONE   VARCHAR2(20)   NOT NULL,      -- 유저 휴대폰 번호
    NAME   VARCHAR2(10)   NOT NULL,       -- 유저 이름
-  CONSTRAINT PK_MEMBER PRIMARY KEY (MEMBER_ID),   -- 기본키제약
-  CONSTRAINT FK_ROLE_MEMBER FOREIGN KEY (ROLE_ID) REFERENCES ROLE (ROLE_ID)   -- 외래키제약
+   CONSTRAINT PK_MEMBER PRIMARY KEY (MEMBER_ID),   -- 기본키 제약
+   CONSTRAINT FK_ROLE_MEMBER FOREIGN KEY (ROLE_ID) REFERENCES ROLE (ROLE_ID)   -- 외래키 제약
 );
 
-/* 영화 테이블 생성 */
+-- 2.3 영화 테이블 (MOVIE)
 CREATE TABLE MOVIE (  
-   MOVIE_ID   NUMBER   NOT NULL,          -- 영화ID(기본키, 시퀀스)
-   NAME   VARCHAR2(100)   NOT NULL,         -- 영화명 
-   DESCRIPTION   VARCHAR2(1000)   NOT NULL, -- 영화 설명
-   MOVIE_DATE  DATE NOT NULL,       -- 영화 개봉일
-   REG_DATE   DATE   DEFAULT SYSDATE,       -- 등록일
-  CONSTRAINT PK_MOVIE PRIMARY KEY (MOVIE_ID)   -- 기본키제약
+   MOVIE_ID       NUMBER       NOT NULL,          -- 영화ID(기본키, 시퀀스)
+   NAME           VARCHAR2(100) NOT NULL,         -- 영화명 
+   DESCRIPTION    VARCHAR2(1000) NOT NULL,        -- 영화 설명
+   MOVIE_DATE     DATE         NOT NULL,          -- 영화 개봉일
+   REG_DATE       DATE         DEFAULT SYSDATE,   -- 등록일
+   GENRE          VARCHAR2(100),                  -- 장르
+   RUNNING_TIME   VARCHAR2(50),                   -- 상영시간
+   RATING         VARCHAR2(10),                   -- 평점
+   AGE_RATING     VARCHAR2(20),                   -- 연령등급
+   DIRECTOR       VARCHAR2(100),                  -- 감독
+   CAST           VARCHAR2(1000),                 -- 출연
+   CONSTRAINT PK_MOVIE PRIMARY KEY (MOVIE_ID)    -- 기본키 제약
 );
 
-/* 영화 이미지 테이블 생성 */
-CREATE TABLE PROD_IMG (
-   IMG_ID   NUMBER   NOT NULL,      -- 영화이미지id(시퀀스)
-   MOVIE_ID   NUMBER   NOT NULL,      -- 영화id(외래키)
-   IMG_PATH   VARCHAR2(500)   NOT NULL,   -- 영화 이미지 경로(하드디스크상 경로, DB에 저장됨)
-   FILE_NAME   VARCHAR2(500)   NOT NULL,   -- 영화 이미지명 (물리적인 파일명, DB에 저장됨)-- 이미지가 여러장일 경우 대표이미지 (0-대표이미지, 1-추가이미지)
-   IS_MAIN   NUMBER(1)   default 0,         -- 이미지가 여러장일 경우 대표이미지 (0-대표이미지, 1-추가이미지)
-  CONSTRAINT PK_PROD_IMG PRIMARY KEY (IMG_ID),   -- 기본키제약
-  CONSTRAINT FK_PROD_IMG FOREIGN KEY (MOVIE_ID) REFERENCES MOVIE (MOVIE_ID)   -- 외래키제약
-);
-
-/* 게시글 테이블 생성 */
+-- 2.4 게시글 테이블 (BOARD)
 CREATE TABLE BOARD (
    BOARD_NO   NUMBER   NOT NULL,          -- 게시판 번호(기본키, 시퀀스)
    MEMBER_ID   VARCHAR2(100)   NOT NULL,   -- 멤버 아이디(외래키)
    TITLE   VARCHAR2(255)   NOT NULL,       -- 제목
-   CONTENT CLOB NOT NULL,              -- 내용
-   HIT_NO   NUMBER(4)   DEFAULT 0,        -- 조회수
-   REG_DATE   DATE   DEFAULT SYSDATE,    -- 작성일자
-   REPLY_GROUP   NUMBER(5)   DEFAULT 0, -- 답글의 그룹을 정의
-   REPLY_ORDER   NUMBER(5)   DEFAULT 0, -- 답글의 순서
-   REPLY_INDENT   NUMBER(5)   DEFAULT 0, -- 답글이 다른 답글에 대한 하위 답글인지(즉, 대댓글인지) 여부, 들여쓰기관리
-  CONSTRAINT PK_BOARD PRIMARY KEY (BOARD_NO),   -- 기본키제약
-  CONSTRAINT FK_BOARD FOREIGN KEY (MEMBER_ID) REFERENCES MEMBER (MEMBER_ID)   -- 외래키제약
+   CONTENT CLOB NOT NULL,                  -- 내용
+   HIT_NO   NUMBER(4)   DEFAULT 0,         -- 조회수
+   REG_DATE   DATE   DEFAULT SYSDATE,      -- 작성일자
+   RATING NUMBER(2, 1) DEFAULT NULL,       -- 별점
+   SPOILER VARCHAR2(1) DEFAULT 'N',        -- 스포일러 여부
+   CONSTRAINT PK_BOARD PRIMARY KEY (BOARD_NO),   -- 기본키 제약
+   CONSTRAINT FK_BOARD FOREIGN KEY (MEMBER_ID) REFERENCES MEMBER (MEMBER_ID)   -- 외래키 제약
 );
 
+-- =====================================
 -- 3. 시퀀스 생성
+-- =====================================
 
--- 3.1 영화ID용 시퀀스
-create sequence seq_movie
-start with 1
-increment by 1
-nocache    -- 캐싱(시퀀스 번호 메모리 일시 저장) 없음
-nocycle;   -- 최대치 초과시 처음부터 다시 없음
+-- 영화 시퀀스 생성
+CREATE SEQUENCE seq_movie
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
 
--- 3.2 영화이미지ID용 시퀀스
-create sequence seq_img
-start with 1
-increment by 1
-nocache
-nocycle;
-
+-- 게시글 시퀀스 생성
 CREATE SEQUENCE board_seq
-start with 1
-increment by 1
-nocache
-nocycle;
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
 
-CREATE SEQUENCE cart_seq  -- shopping_cart 시퀀스
-start with 1 -- 1부터
-increment by 1  -- 1증가
-nocache -- 캐싱(시퀀스 번호 메모리 일시 저장) 없음
-nocycle; -- 최대치 초과시 처음부터 다시 없음
+-- =====================================
+-- 4. 기본 데이터 삽입
+-- =====================================
 
-CREATE SEQUENCE order_seq -- order 시퀀스
-start with 1 -- 1부터
-increment by 1  -- 1증가
-nocache -- 캐싱(시퀀스 번호 메모리 일시 저장) 없음
-nocycle; -- 최대치 초과시 처음부터 다시 없음
-
-
-/* 권한 데이터 정보 insert */
-insert into role(role_id, role_name) values('admin', '관리자');
-insert into role(role_id, role_name) values('member', '정회원');
+-- 4.1 등급 데이터 삽입
+INSERT INTO role(role_id, role_name) VALUES('admin', '관리자');
+INSERT INTO role(role_id, role_name) VALUES('member', '정회원');
 --insert into role(role_id, role_name) values('guest', '준회원');
 
-ALTER TABLE MEMBER MODIFY (ROLE_ID DEFAULT 'member');
+-- 4.2 멤버 데이터 삽입
+INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) 
+VALUES ('bokky', '1234', '장보키', 'bokky@example.com', 'admin', '010-1111-1111', SYSDATE);
 
-/* 기본 멤버 정보 insert */
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('bokky', '1234', '장보키', 'bokky@example.com', 'admin', '010-1111-1111', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('lee', '1234', '이수빈', 'leesubin@example.com', 'member', '010-2222-2222', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('park', '1234', '박지훈', 'parkjihun@example.com', 'member', '010-3333-3333', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('choi', '1234', '최미래', 'choimirae@example.com', 'member', '010-4444-4444', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('jung', '1234', '정하늘', 'junghaneul@example.com', 'member', '010-5555-5555', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('han', '1234', '한서연', 'hanseoyeon@example.com', 'member', '010-6666-6666', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('oh', '1234', '오민재', 'ominjae@example.com', 'member', '010-7777-7777', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('lim', '1234', '임유진', 'limyujin@example.com', 'member', '010-8888-8888', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('yang', '1234', '양지민', 'yangjimin@example.com', 'member', '010-9999-9999', SYSDATE);
-INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('seo', '1234', '서준호', 'seojunho@example.com', 'member', '010-0000-0000', SYSDATE);
+INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) 
+VALUES ('lee', '1234', '이수빈', 'leesubin@example.com', 'member', '010-2222-2222', SYSDATE);
 
-/* 기본 게시글 정보 insert */
-INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, MEMBER_ID, REG_DATE)
-VALUES(1, '첫번째 게시물', '이것은 첫번째 게시물', 'hong', SYSDATE);
+-- 4.3 게시글 데이터 삽입
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, TITLE, CONTENT, HIT_NO, REG_DATE, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'bokky', '첫번째 게시물', '이것은 첫번째 게시물', 0, SYSDATE, 4.5, 'N');
 
-INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, MEMBER_ID, REG_DATE)
-VALUES(2, '두번째 게시물', '이것은 두번째 게시물', 'lee', SYSDATE);
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, TITLE, CONTENT, HIT_NO, REG_DATE, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'lee', '두번째 게시물', '이것은 두번째 게시물', 10, SYSDATE, 3.5, 'Y');
 
-INSERT INTO BOARD(BOARD_NO, TITLE, CONTENT, MEMBER_ID, REG_DATE)
-VALUES(3, '세번째 게시물', '이것은 세번째 게시물', 'kim', SYSDATE);
+-- 4.4 영화 데이터 삽입
+INSERT INTO MOVIE (MOVIE_ID, NAME, DESCRIPTION, MOVIE_DATE, REG_DATE, GENRE, RUNNING_TIME, RATING, AGE_RATING, DIRECTOR, CAST)
+VALUES (seq_movie.NEXTVAL, '인셉션', '꿈 속의 꿈을 다룬 SF 영화', TO_DATE('2010-07-21', 'YYYY-MM-DD'), SYSDATE, 
+'액션, SF', '147분', '9.5/10', '12세 이상 관람가', '크리스토퍼 놀란', '레오나르도 디카프리오, 조셉 고든 레빗, 엘리엇 페이지');
 
 commit;
-
-DELETE FROM SHOPPING_CART 
-      WHERE SP_CART_ID = 5;
-        
-
-
-    
-
-
-
-

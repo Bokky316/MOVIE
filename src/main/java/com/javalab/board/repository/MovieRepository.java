@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.javalab.board.dto.Criteria;
 import com.javalab.board.vo.ImgVo;
 import com.javalab.board.vo.MovieVo;
 import com.javalab.board.vo.MovieWithImageVo;
@@ -40,9 +41,9 @@ public interface MovieRepository {
     void deleteImageById(@Param("imageId") Long imageId);
     
     // 제목으로 영화 검색
-    List<MovieWithImageVo> searchMoviesByTitle(@Param("title") String title);
-
-
-
+    List<MovieWithImageVo> searchMoviesByTitle(@Param("title") String title, Criteria cri);
+    
+    // 게시물 총건수
+    public int getTotalMovieCount(Criteria cri);
 	
 }

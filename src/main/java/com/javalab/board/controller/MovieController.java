@@ -94,12 +94,12 @@ public class MovieController {
 	 * 영화 목록 조회
 	 */
 	@GetMapping("/list")
-	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Model model) {
+	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Criteria cri, Model model) {
 	    List<MovieWithImageVo> movieList;
-
+	    
 	    if (searchText != null && !searchText.isEmpty()) {
 	        // 제목으로 영화 검색
-	        movieList = movieService.searchMoviesByTitle(searchText);
+	        movieList = movieService.searchMoviesByTitle(searchText, cri);
 	    } else {
 	        // 모든 영화 조회
 	        movieList = movieService.getAllMovies();
@@ -107,6 +107,15 @@ public class MovieController {
 
 	    model.addAttribute("movieList", movieList);
 	    model.addAttribute("searchText", searchText); // 검색어를 JSP로 전달
+	    
+	    // 게시물 건수 조회
+        int total = movieService.getTotalMovieCount(cri); 
+        // 페이징관련 정보와 게시물 정보를 PageDto에 포장
+        // 페이지 하단에 표시될 페이지그룹과 관련된 정보 생성
+        PageDto dto = new PageDto(cri, total);
+        
+        model.addAttribute("pageMaker", dto); 
+
 	    return "/movie/movieList";
 	}
 
@@ -250,6 +259,12 @@ public class MovieController {
                                 @RequestParam("name") String name,
                                 @RequestParam("description") String description,
                                 @RequestParam(value = "movieDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date movieDate,
+                                @RequestParam(value = "genre", required = false) String genre,
+                                @RequestParam(value = "runningTime", required = false) String runningTime,
+                                @RequestParam(value = "rating", required = false) String rating,
+                                @RequestParam(value = "ageRating", required = false) String ageRating,
+                                @RequestParam(value = "director", required = false) String director,
+                                @RequestParam(value = "cast", required = false) String cast,
                                 @RequestParam(value = "files", required = false) List<MultipartFile> newFiles,
                                 @RequestParam(value = "existingImageIds", required = false) List<Long> existingImageIds,
                                 Model model) {
@@ -260,6 +275,12 @@ public class MovieController {
         updatedMovie.setName(name);
         updatedMovie.setDescription(description);
         updatedMovie.setMovieDate(movieDate);
+        updatedMovie.setGenre(genre);
+        updatedMovie.setRunningTime(runningTime);
+        updatedMovie.setRating(rating);
+        updatedMovie.setAgeRating(ageRating);
+        updatedMovie.setDirector(director);
+        updatedMovie.setCast(cast);
 
         // 영화 정보 업데이트 및 새 파일 처리
         boolean isUpdated = movieService.updateMovieWithImages(updatedMovie, newFiles, existingImageIds, filePath);

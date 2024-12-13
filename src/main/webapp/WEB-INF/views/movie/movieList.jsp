@@ -53,7 +53,10 @@
                 <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
                 <button type="submit" class="btn btn-info me-2">검색</button>
                 <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
-                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+                <!-- 관리자가 아닐 경우 버튼 숨김 -->
+                <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">			
+	                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+				</c:if>
             </form>
         </div>
 
@@ -82,8 +85,14 @@
 		    </c:if>
 		</div>
 
+<<<<<<< HEAD
 <!-- 페이징 -->
         <div class="pagination-container">
+=======
+
+        <!-- 페이징 -->
+        <div class="pagination-container mt-4 position-absolute top-100 start-50 translate-middle">
+>>>>>>> 332137000e72b2c7a179c034e88fa5638ac70995
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
