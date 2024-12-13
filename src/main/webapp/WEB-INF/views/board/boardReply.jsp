@@ -13,7 +13,7 @@
 </section>
 
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
     <div class="container px-4 px-lg-5">
         <!-- 회원 목록 테이블 -->
         <form id="replyForm" action="<c:url value='/board/reply' />" method="post">
@@ -48,9 +48,18 @@
                 <div class="form-text">내용은 500자 이내로 작성해주세요.</div>
             </div>
 
-			<!-- 사진첨부 -->
+            <!-- 영화 선택 -->
+            <div class="mb-3">
+                <label for="movieSelect" class="form-label">영화 선택</label>
+                <select id="movieSelect" name="movieId" required>
+                    <option value="" disabled selected>영화를 선택하세요</option>
+                    <!-- 여기에 영화 목록을 동적으로 추가합니다 -->
+                    <c:forEach var="movie" items="${movieList}">
+                        <option value="${movie.movieId}">${movie.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
 
-           
             <!-- 스포일러 포함 여부 -->
             <div class="mb-3">
                 <label for="spoilerCheck" class="form-label">스포일러 포함 여부</label>
@@ -118,4 +127,5 @@
         });
     });
 </script>
-<%@ include file="../include/footer.jsp"%>
+
+<%@ include file="../include/footer.jsp"%> 

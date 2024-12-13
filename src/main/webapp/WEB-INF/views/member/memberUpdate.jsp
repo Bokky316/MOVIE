@@ -13,7 +13,7 @@
 	</div>
 </section>
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
 	<div class="container px-4 px-lg-5">
 		
 		<div class="row justify-content-center">

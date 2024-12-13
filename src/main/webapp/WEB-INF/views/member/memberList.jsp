@@ -13,7 +13,7 @@
 	</div>
 </section>
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
 	<div class="container px-4 px-lg-5">
 		<!-- 회원 목록 테이블 -->
 		<table class="table table-bordered table-striped table-hover"
