@@ -34,4 +34,6 @@ private int boardNo;			// 게시물번호
 	private int replyIndent = 0;	// 들여쓰기(본글을 기준으로 depth가 내려갈 때마다 한칸씩 들여씀)
 	private Float rating; 		// 별점 (1.0 ~ 5.0)
 	private String spoiler; //스포일러 체크
+	
+	 private MovieWithImageVo movieWithImage;  // MovieWithImageVo 객체 추가
 }

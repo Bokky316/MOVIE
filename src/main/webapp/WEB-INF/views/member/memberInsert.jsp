@@ -160,7 +160,7 @@
 	                    console.error("Response Message:", responseMessage);
 	                } // end error 콜백
 	            }); // end ajax
-	        }); // end btnCheckIdDup onclick
+	        }); //end btnCheckIdDup onclick
 
 	     // 유효성 검사 함수
 	        function validateFormInputs(event) {

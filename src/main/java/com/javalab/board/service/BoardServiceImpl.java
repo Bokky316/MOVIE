@@ -1,7 +1,5 @@
 package com.javalab.board.service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.javalab.board.dto.Criteria;
 import com.javalab.board.repository.BoardRepository;
 import com.javalab.board.vo.BoardVo;
+import com.javalab.board.vo.MovieWithImageVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +34,7 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardVo> boardList = repository.getBoardList();
 		return boardList;
 	}
+
 	/*
 	 * 페이징, 검색 기능이 추가된 메소드 호출
 	 */
@@ -43,6 +43,7 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardVo> boardList = repository.getBoardListPaging(cri);
 		return boardList;
 	}
+
 	// 게시물 내용 보기
 	@Override
 	public BoardVo getBoard(int boardNo) {
@@ -52,21 +53,25 @@ public class BoardServiceImpl implements BoardService {
 		BoardVo boardVo = repository.getBoard(boardNo);
 		return boardVo;
 	}
+
 	// 게시물 저장
 	@Override
 	public int insertBoard(BoardVo boardVo) {
 		return repository.insertBoard(boardVo);
 	}
+
 	// 게시물 수정
 	@Override
 	public int updateBoard(BoardVo boardVo) {
 		return repository.updateBoard(boardVo);
 	}
+
 	// 게시물 삭제
 	@Override
 	public int deleteBoard(int boardNo) {
 		return repository.deleteBoard(boardNo);
 	}
+
 	/*
 	 * 게시물 총 갯수 조회
 	 */
@@ -74,34 +79,44 @@ public class BoardServiceImpl implements BoardService {
 	public int getTotalBoardCount(Criteria cri) {
 		return this.repository.getTotalBoardCount(cri);
 	}
+
 	/*
-	 * 답글 작성
-	 */
-	@Override
-	@Transactional
-	public int insertReply(BoardVo reply) {
-	    // 부모 게시물 조회
-	    BoardVo parentBoard = repository.getBoard(reply.getReplyGroup());
+     * 답글 작성
+     */
+    @Override
+    @Transactional
+    public int insertReply(BoardVo reply) {
+        // 부모 게시물 조회
+        BoardVo parentBoard = repository.getBoard(reply.getReplyGroup());
 
-	    if (parentBoard == null) {
-	        throw new IllegalArgumentException("부모 게시물을 찾을 수 없습니다.");
-	    }
+        if (parentBoard == null) {
+            throw new IllegalArgumentException("부모 게시물을 찾을 수 없습니다.");
+        }
 
-	    // 기존 답글 순서 조정
-	    reply.setReplyGroup(parentBoard.getReplyGroup());
-	    reply.setReplyOrder(parentBoard.getReplyOrder() + 1);
-	    reply.setReplyIndent(parentBoard.getReplyIndent() + 1);
+        // 기존 답글 순서 조정
+        reply.setReplyGroup(parentBoard.getReplyGroup());
+        reply.setReplyOrder(parentBoard.getReplyOrder() + 1);
+        reply.setReplyIndent(parentBoard.getReplyIndent() + 1);
 
-	    repository.updateReplyOrder(reply);
+        repository.updateReplyOrder(reply);
 
-	    // 새 답글 삽입
-	    return repository.insertReply(reply);
-	}
-	@Override
-	public void updateReplyOrder(BoardVo replyBoard) {
-		// TODO Auto-generated method stub
-		
-	}
+        // 새 답글 삽입
+        return repository.insertReply(reply);
+    }
 
+    @Override
+    public void updateReplyOrder(BoardVo replyBoard) {
+        // TODO Auto-generated method stub
+        
+    }
 
+    // 영화 목록 조회 메서드 추가
+    public List<MovieWithImageVo> getMovieList() {
+        return repository.getMovieList();
+    }
+
+    // 특정 영화 조회 메서드 추가
+    public MovieWithImageVo getMovie(Long movieId) {
+        return repository.getMovie(movieId);
+    }
 }
