@@ -2,6 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<style>
+	   
+    #searchText {
+    	 height: 50px; /* 입력란 높이 조정 */
+    }
+
+    .btn {
+    
+        height: 50px; /* 버튼 높이 조정 */
+
+    }
+</style>
 
 
         <!-- Masthead-->
@@ -11,7 +23,7 @@
                     <div class="text-center">
                         <h1 class="mx-auto my-0 text-uppercase">무비무빗</h1>
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">당신의 영화 여정을 한 편의 스토리처럼 만들어가는 영화 리뷰 플랫폼</h2>
-                        <a class="btn btn-light" href="#about">Get Started</a>
+                        <a class="btn btn-primary" href="#about">Get Started</a>
                     </div>
                 </div>
             </div>

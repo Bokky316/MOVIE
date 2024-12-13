@@ -74,8 +74,8 @@
 
             <!-- 버튼 -->
             <div class="d-flex justify-content-between">
-                <button type="submit" id="submitButton" class="btn btn-light">등록</button>
-                <button type="button" id="cancelButton" class="btn btn-light">취소</button>
+                <button type="submit" id="submitButton" class="btn btn-primary">등록</button>
+                <button type="button" id="cancelButton" class="btn btn-primary">취소</button>
             </div>
         </form>
     </div>

@@ -13,7 +13,7 @@
 	</div>
 </section>
 <!-- 내용-->
-<section class="projects-section bg-dark" id="projects">
+<section class="projects-section bg-dark  text-light" id="projects">
 	<div class="container px-4 px-lg-5">
 		
 		<div class="row justify-content-center">
@@ -26,7 +26,7 @@
                             <input type="hidden" name="memberId" value="${member.memberId}">
                             <div class="mb-3">
                                 <label class="form-label">아이디</label>
-                                <p class="form-control-plaintext"><strong>${member.memberId}</strong></p>
+                                <p class="form-control-plaintext" style="color: white;"><strong>${member.memberId}</strong></p>
                             </div>
                             <!-- 비밀번호 -->
                             <div class="mb-3">
@@ -54,8 +54,8 @@
                             </div>
                             <!-- 버튼 -->
                             <div class="d-flex justify-content-between">
-                                <button id="submitButton" type="submit" class="btn btn-light">수정</button>
-                                <button id="cancelButton" type="button" class="btn btn-light">목록으로</button>
+                                <button id="submitButton" type="submit" class="btn btn-primary">수정</button>
+                                <button id="cancelButton" type="button" class="btn btn-secondary">목록으로</button>
                             </div>
                         </form>
                     </div>

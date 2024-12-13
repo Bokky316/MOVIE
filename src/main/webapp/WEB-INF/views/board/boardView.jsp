@@ -100,13 +100,13 @@
 
             <!-- 버튼 섹션 -->
             <div class="d-flex justify-content-end gap-2">
-                <button id="updateButton" type="button" class="btn btn-light">수정</button>
+                <button id="updateButton" type="button" class="btn btn-primary">수정</button>
                 <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
                     <input type="hidden" name="boardNo" value="${board.boardNo}">
-                    <button id="deleteButton" type="submit" class="btn btn-light">삭제</button>
+                    <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
                 </form>
                 <!-- 답글쓰기 버튼 -->
-                <button id="replyButton" type="button" class="btn btn-light">답글쓰기</button>
+                <button id="replyButton" type="button" class="btn btn-primary">답글쓰기</button>
                 <button id="listButton" type="button" class="btn btn-list">목록으로</button>
             </div>
 

@@ -27,7 +27,6 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h3>영화 등록</h3>
                     </div>
                     <div class="card-body">
                         <form id="movieForm" action="<c:url value='/movie/create'/>" method="post" enctype="multipart/form-data">
@@ -105,8 +104,8 @@
                             </div>
                             <!-- 버튼 -->
                             <div class="d-flex justify-content-between">
-                                <button type="submit" id="submitButton" class="btn btn-light">등록</button>
-                                <button type="button" id="cancelButton" class="btn btn-light">취소</button>
+                                <button type="submit" id="submitButton" class="btn btn-primary">등록</button>
+                                <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
                             </div>
                         </form>
                     </div>
