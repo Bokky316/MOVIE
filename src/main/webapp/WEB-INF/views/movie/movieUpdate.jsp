@@ -23,7 +23,7 @@
 </section>
 
 <!-- 영화 수정 폼 -->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
 	<div class="container px-4 px-lg-5">
 		<div class="card-body">
 			<form id="movieForm" action="<c:url value='/movie/update'/>"

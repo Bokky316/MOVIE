@@ -24,7 +24,7 @@
 </section>
 
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
     <div class="container px-4 px-lg-5">
         <form id="insertForm" action="<c:url value='/board/insert' />" method="post" enctype="multipart/form-data">
             <!-- 작성자 ID -->

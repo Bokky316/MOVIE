@@ -45,7 +45,7 @@
 
 
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
 	<div class="container px-4 px-lg-5">
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container mb-4">
@@ -60,7 +60,6 @@
             </form>
         </div>
 
-
 		<!-- 영화 갤러리 -->
 		<div class="gallery">
 			<c:forEach var="movie" items="${movieList}">
@@ -69,11 +68,6 @@
 						src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}"
 						alt="${movie.name}"
 						onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-						<div class="movie-title">${movie.name}</div>
-						<div class="movie-info">
-							개봉일:
-							<fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd" />
-						</div>
 					</a>
 				</div>
 			</c:forEach>
@@ -84,10 +78,7 @@
 				</div>
 			</c:if>
 		</div>
-	</div>
-</section>
-<section class="projects-section bg-light" id="projects">
-	<div class="container px-4 px-lg-5">
+
         <!-- 페이징 -->
         <div class="pagination-container mt-4 position-absolute top-100 start-50 translate-middle">
             <ul class="pagination">
@@ -120,7 +111,7 @@
             </ul>
         </div>
     </div>
-
+</section>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

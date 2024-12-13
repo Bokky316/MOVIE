@@ -25,7 +25,7 @@
 </section>
 
 <!-- 내용 -->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
     <div class="container px-4 px-lg-5">
         <div class="card-body">
             <!-- 오류 메시지 표시 -->

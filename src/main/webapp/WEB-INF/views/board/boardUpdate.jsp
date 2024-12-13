@@ -24,7 +24,7 @@
 </section>
 
 <!-- 내용 -->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
     <div class="container px-4 px-lg-5">
         <div class="card-body">
             <form id="updateForm" action="<c:url value='/board/update' />" method="post">

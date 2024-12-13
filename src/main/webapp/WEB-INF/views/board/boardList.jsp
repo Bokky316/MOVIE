@@ -24,7 +24,7 @@
     </div>
 </section>
 
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
     <div class="container px-4 px-lg-5">
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container">

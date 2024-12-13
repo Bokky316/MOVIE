@@ -36,7 +36,7 @@
 	</div>
 </section>
 
-<section class="projects-section bg-light pt-5 pb-5" id="projects">
+<section class="projects-section bg-dark pt-5 pb-5" id="projects">
     <div class="container px-4 px-lg-5">
         <div class="row align-items-start">
             <!-- 왼쪽: 영화 이미지 -->

@@ -13,7 +13,7 @@
 </section>
 
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
     <div class="container px-4 px-lg-5">
         <!-- 회원 목록 테이블 -->
         <form id="replyForm" action="<c:url value='/board/reply' />" method="post">
