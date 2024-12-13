@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.javalab.board.dto.Criteria;
 import com.javalab.board.vo.ImgVo;
 import com.javalab.board.vo.MovieVo;
 import com.javalab.board.vo.MovieWithImageVo;
@@ -38,6 +39,10 @@ public interface MovieService {
     boolean deleteMovie(@Param("movieId") Long movieId);
     
     // 제목에 특정 문자열이 포함된 영화 조회
-    List<MovieWithImageVo> searchMoviesByTitle(String title);
+    List<MovieWithImageVo> searchMoviesByTitle(String title, Criteria cri);
+    
+    // 게시물 총건수
+    public int getTotalMovieCount(Criteria cri);
+
     }
 

@@ -40,7 +40,7 @@
         </div>
     </div>
     <!-- Projects-->  
-   <section class="projects-section bg-light" id="projects">
+   <section class="projects-section bg-dark" id="projects">
 		<div class="container px-4 px-lg-5">
 			<!-- Featured Project Row-->
 			<div class="row gx-0 mb-4 mb-lg-5 align-items-center">

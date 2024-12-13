@@ -18,57 +18,83 @@
    		
     -->
    <insert id="insertMovie" parameterType="MovieVo">
-   		<selectKey keyProperty="movieId" resultType="long" order="BEFORE">
-   			select seq_movie.nextval from dual
-   		</selectKey>
-   		insert into movie(
-   			movie_id,
-   			name,
-   			description,
-   			movie_date,
-   			reg_date)
-   		values(
-   			#{movieId},
-   			#{name}, 
-   			#{description}, 
-   			#{movieDate}, 
-   			sysdate)
-   </insert>
+    <selectKey keyProperty="movieId" resultType="long" order="BEFORE">
+        select seq_movie.nextval from dual
+    </selectKey>
+    insert into movie(
+        movie_id,
+        name,
+        description,
+        movie_date,
+        reg_date,
+        genre,           -- 장르 추가 
+        running_time,    -- 상영시간 추가 
+        rating,          -- 별점 추가
+        age_rating,      -- 연령등급 추가 
+        director,        -- 감독 추가 
+        cast             -- 출연 추가 
+    )
+    values(
+        #{movieId},
+        #{name},
+        #{description},
+        #{movieDate},
+        sysdate,
+        #{genre},        -- 장르 추가 
+        #{runningTime},  -- 상영시간 추가  
+        #{rating},       -- 별점 추가 
+        #{ageRating},    -- 연령등급 추가 
+        #{director},     -- 감독 추가 
+        #{cast}          -- 출연 추가 
+    )
+</insert>
    
     <!-- [모든 영화 조회 메소드] -->
     <select id="getAllMoviesWithImages" resultMap="MovieWithImageMap">
-        SELECT
-            p.movie_id AS movieId,
-            p.name,
-            p.description,
-            p.movie_date AS movieDate,
-            p.reg_date AS regDate,
-            pi.img_id AS imgId,
-            pi.img_path AS imgPath,
-            pi.file_name AS fileName,
-            pi.is_main AS isMain
-        FROM movie p
-        LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
-        ORDER BY p.movie_id DESC
-    </select>
+    SELECT
+        p.movie_id AS movieId,
+        p.name,
+        p.description,
+        p.movie_date AS movieDate,
+        p.reg_date AS regDate,
+        p.genre,           -- 장르 추가
+        p.running_time,    -- 상영시간 추가 
+        p.rating,          -- 별점 추가
+        p.age_rating,      -- 연령등급 추가 
+        p.director,        -- 감독 추가 
+        p.cast,            -- 출연 추가 
+        pi.img_id AS imgId,
+        pi.img_path AS imgPath,
+        pi.file_name AS fileName,
+        pi.is_main AS isMain
+    FROM movie p
+    LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
+    ORDER BY p.movie_id DESC
+</select>
    
    <!-- [한 영화 조회(여러이미지)] -->
    <!-- 여기서 조회된 결과를 아래의 MovieWithImageMap 저장한다. -->
    <select id="getMovieWithImages" parameterType="long" resultMap="MovieWithImageMap">
-   		SELECT
-   		p.movie_id AS movieId,
-   		p.name,
-   		p.description,
-   		p.movie_date AS movieDate,
-   		p.reg_date AS regDate,
-   		pi.img_id AS imgId,
-   		pi.img_path AS imgPath,
-   		pi.file_name AS fileName,
-   		pi.is_main AS isMain
-   		FROM movie p
-   		LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
-   		WHERE p.movie_id = #{movieId}
-   		ORDER BY pi.img_id
+   		 SELECT
+	        p.movie_id AS movieId,
+	        p.name,
+	        p.description,
+	        p.movie_date AS movieDate,
+	        p.reg_date AS regDate,
+	        p.genre,           -- 장르 추가 
+	        p.running_time,    -- 상영시간 추가 
+	        p.rating,          -- 별점 추가 
+	        p.age_rating,      -- 연령등급 추가 
+	        p.director,        -- 감독 추가 
+	        p.cast,            -- 출연 추가 
+	        pi.img_id AS imgId,
+	        pi.img_path AS imgPath,
+	        pi.file_name AS fileName,
+	        pi.is_main AS isMain
+	    FROM movie p
+	    LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
+	    WHERE p.movie_id = #{movieId}
+	    ORDER BY pi.img_id
    </select>
    
    <!-- ResultMap 생성 -->
@@ -89,6 +115,12 @@
    		<result property="description" column="description" />
    		<result property="movieDate" column="movieDate" />
    		<result property="regDate" column="regDate" />
+   		<result property="genre" column="genre" />              <!-- 장르 추가 -->
+	    <result property="runningTime" column="running_time" /> <!-- 상영시간 추가 -->
+	    <result property="rating" column="rating" />            <!-- 별점 추가 -->
+	    <result property="ageRating" column="age_rating" />     <!-- 연령등급 추가 -->
+	    <result property="director" column="director" />        <!-- 감독 추가 -->
+	    <result property="cast" column="cast" />                <!-- 출연 추가 -->
 		<!-- collection
 			List<ImgVo> 타입 (N개임) 한 영화는 여러개의 이미지객체(ex-이미지의 경로)를 가질 수 있다.
 			영화와 이미지와의 관계는 1 : 다 관계이다.  이미지가 여러개일수도, 없을 수도 있다.
@@ -150,7 +182,13 @@
 		    UPDATE movie
 		    SET name = #{name},
 		        description = #{description},
-		        movie_date = #{movieDate}
+		        movie_date = #{movieDate},
+		        genre = #{genre},           	-- 장르 추가
+		        running_time = #{runningTime},  -- 상영시간 추가
+		        rating = #{rating},        		-- 별점 추가
+		        age_rating = #{ageRating},  	-- 연령등급 추가
+		        director = #{director},    		-- 감독 추가
+		        cast = #{cast}              	-- 출연 추가
 		    WHERE movie_id = #{movieId}
 		</update>
 		
@@ -173,12 +211,19 @@
 		
 		<!-- 영화 제목으로 검색 -->
 		<select id="searchMoviesByTitle" parameterType="String" resultMap="MovieWithImageMap">
+		<![CDATA[
 		    SELECT
 		        p.movie_id AS movieId,
 		        p.name,
 		        p.description,
 		        p.movie_date AS movieDate,
 		        p.reg_date AS regDate,
+		        p.genre,           -- 장르 추가
+	            p.running_time,    -- 상영시간 추가
+	            p.rating,          -- 별점 추가
+	            p.age_rating,      -- 연령등급 추가
+	            p.director,        -- 감독 추가
+	            p.cast,            -- 출연 추가
 		        pi.img_id AS imgId,
 		        pi.img_path AS imgPath,
 		        pi.file_name AS fileName,
@@ -187,9 +232,22 @@
 		    LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
 		    WHERE p.name LIKE '%' || #{title} || '%'
 		    ORDER BY p.movie_id DESC
+        ]]>
 		</select>
-
-
 		
-  
+		<!-- 전체 게시물수(실제 끝 페이지번호 계산시 필요) 
+	         - 만약 검색어가 있을 경우에는 검색어를 포함하고 있는 전체 게시물수를 의미한다.
+	         - searchText : Criteria의 속성으로 검색어 정보를 보관하고 있음
+        -->    
+	      
+        <select id = "getTotalMovieCount" parameterType="Criteria" resultType="int">
+          	SELECT COUNT(*) 
+          	FROM movie
+            <where>
+              <if test="searchText != null">
+                  NAME LIKE '%'||#{searchText}||'%'
+              </if>
+         	 </where>      
+        </select>     
+
    </mapper>

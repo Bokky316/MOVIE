@@ -43,47 +43,44 @@
    </div>
 </section>
 
-<!-- 내용-->  
-<section class="projects-section bg-light" id="projects">
-      <div class="container px-4 px-lg-5">
 
+<!-- 내용-->
+<section class="projects-section bg-dark" id="projects">
+	<div class="container px-4 px-lg-5">
         <!-- 검색 입력란 및 버튼 -->
         <div class="search-container mb-4">
             <form id="searchForm" action="<c:url value='/movie/list' />" method="get" class="d-flex justify-content-center">
                 <input type="text" class="form-control me-2" name="searchText" id="searchText" placeholder="영화 제목을 검색하세요" value="${pageMaker.cri.searchText}">
                 <button type="submit" class="btn btn-info me-2">검색</button>
                 <button type="button" class="btn btn-warning me-2" onclick="location.href='<c:url value='/movie/list' />'">전체보기</button>
-                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+                <!-- 관리자가 아닐 경우 버튼 숨김 -->
+                <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">			
+	                <button type="button" class="btn btn-success" onclick="location.href='<c:url value='/movie/create' />'">영화 등록</button>
+				</c:if>
             </form>
         </div>
 
-      
-        <!-- 영화 갤러리 -->
+		<!-- 영화 갤러리 -->
 		<div class="gallery">
-		    <c:forEach var="movie" items="${movieList}">
-		        <div class="gallery-item">
-		            <a href="<c:url value='/movie/detail/${movie.movieId}'/>">
-		                <img src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}" 
-		                     alt="${movie.name}" 
-		                     onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
-		                <div class="movie-title">${movie.name}</div>
-		                <div class="movie-info">
-		                    개봉일: <fmt:formatDate value="${movie.movieDate}" pattern="yyyy-MM-dd"/>
-		                </div>
-		            </a>
-		        </div>
-		    </c:forEach>
-		
-		    <!-- 영화가 없을 경우 메시지 -->
-		    <c:if test="${empty movieList}">
-		        <div class="col mb-5 text-center">
-		            <h5>등록된 영화가 없습니다.</h5>
-		        </div>
-		    </c:if>
+			<c:forEach var="movie" items="${movieList}">
+				<div class="gallery-item">
+					<a href="<c:url value='/movie/detail/${movie.movieId}'/>"> <img
+						src="${pageContext.request.contextPath}/movie/upload/${movie.imgList[0].imgPath}/${movie.imgList[0].fileName}"
+						alt="${movie.name}"
+						onerror="this.onerror=null; this.src='https://dummyimage.com/450x300/dee2e6/6c757d.jpg';">
+					</a>
+				</div>
+			</c:forEach>
+			<!-- 영화가 없을 경우 메시지 -->
+			<c:if test="${empty movieList}">
+				<div class="col mb-5 text-center">
+					<h5>등록된 영화가 없습니다.</h5>
+				</div>
+			</c:if>
 		</div>
 
-<!-- 페이징 -->
-        <div class="pagination-container">
+        <!-- 페이징 -->
+        <div class="pagination-container mt-4 position-absolute top-100 start-50 translate-middle">
             <ul class="pagination">
                 <!-- 이전 페이지 버튼 -->
                 <c:if test="${pageMaker.prev}">
