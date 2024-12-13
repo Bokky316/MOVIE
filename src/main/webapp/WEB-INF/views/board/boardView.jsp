@@ -34,51 +34,62 @@
                     ${errorMessage}
                 </div>
             </c:if>
-            <!-- 제목 -->
-            <div class="mb-3">
-                <label class="form-label"><strong>제목</strong></label>
-                <input type="text" class="form-control" value="${board.title}" readonly>
-            </div>
-            <!-- 별점 표시 -->
-            <div class="mb-3">
-                <label class="form-label"><strong>별점</strong></label>
-                <p>
-                    <c:choose>
-                        <c:when test="${board.rating == 1.0}">⭐</c:when>
-                        <c:when test="${board.rating == 2.0}">⭐⭐</c:when>
-                        <c:when test="${board.rating == 3.0}">⭐⭐⭐</c:when>
-                        <c:when test="${board.rating == 4.0}">⭐⭐⭐⭐</c:when>
-                        <c:when test="${board.rating == 5.0}">⭐⭐⭐⭐⭐</c:when>
-                        <c:otherwise>평점 없음</c:otherwise>
-                    </c:choose>
-                </p>
-            </div>
-            <!-- 내용 -->
-            <div class="mb-3">
-                <label class="form-label"><strong>내용</strong></label>
-                <textarea class="form-control" rows="5" readonly>${board.content}</textarea>
-            </div>
-            <!-- 작성자 ID -->
-            <div class="mb-3">
-                <label class="form-label"><strong>작성자 ID</strong></label>
-                <input type="text" class="form-control" value="${board.memberId}" readonly>
-            </div>
-            <!-- 조회수 -->
-            <div class="mb-3">
-                <label class="form-label"><strong>조회수</strong></label>
-                <input type="text" class="form-control" value="${board.hitNo}" readonly>
-            </div>
-            <!-- 작성일 -->
-            <div class="mb-3">
-                <label class="form-label"><strong>작성일</strong></label>
-                <input type="text" class="form-control"
-                       value="<fmt:formatDate value='${board.regDate}' pattern='yyyy-MM-dd HH:mm:ss' />" readonly>
-            </div>
+            
+       		<!-- 영화 정보 표시 -->
+			<div class="mb-3">
+			    <h5>
+			        <!-- 영화 제목에 링크 추가 -->
+			        <a href="<c:url value='/movie/detail/${board.movieWithImage.movieId}' />" class="text-decoration-none">
+			            <strong>${board.movieWithImage.name}</strong>
+			        </a>
+			        <span style="font-size: 0.9em; color: gray;"> <!-- 작은 글씨로 개봉일 표시 -->
+			            <fmt:formatDate value='${board.movieWithImage.movieDate}' pattern='yyyy-MM-dd' /> 개봉
+			        </span>
+			    </h5>
+			     <!-- 별점 표시 -->
+		            <div class="mb-3">
+		                <p>
+		                    <c:choose>
+		                        <c:when test="${board.rating == 1.0}">⭐</c:when>
+		                        <c:when test="${board.rating == 2.0}">⭐⭐</c:when>
+		                        <c:when test="${board.rating == 3.0}">⭐⭐⭐</c:when>
+		                        <c:when test="${board.rating == 4.0}">⭐⭐⭐⭐</c:when>
+		                        <c:when test="${board.rating == 5.0}">⭐⭐⭐⭐⭐</c:when>
+		                        <c:otherwise>평점 없음</c:otherwise>
+		                    </c:choose>
+		                </p>
+		            </div>
+			    <p>${board.movieWithImage.description}</p>
+			</div>
 
-            <!-- 영화 선택 -->
-            <div class="mb-3">
+            </div>
+			  <!-- 제목 및 사용자 정보 -->
+			<div class="d-flex justify-content-between mb-3">
+			    <label class="form-label">
+			        <strong>
+			            <input type="text" class="form-control d-inline" value="${board.title}" readonly 
+			                   style="width:auto; border: none; background: transparent; font-size: 1.5em; font-weight: bold;">
+			        </strong>
+			    </label>
+			    <div class="text-end">
+			        <span class="ms-2">${board.memberId}</span> |
+			        <span class="ms-2">${board.hitNo}</span> |
+			        <span class="ms-2"><fmt:formatDate value='${board.regDate}' pattern='yyyy-MM-dd HH:mm:ss' /></span>
+			    </div>
+			</div>
+           <hr style="border: 1px solid #ccc; margin: 10px 0;">
+            <!-- 내용 -->
+			<div class="mb-3">
+			    <textarea class="form-control" rows="5" readonly 
+			              style="border: none; background: transparent; padding-left: 0; text-align: left; font-size: 1em; font-weight: normal;">      ${board.content}
+			    </textarea>
+			</div>
+
+
+             <!-- 영화 선택 (숨김 처리) -->
+            <div class="mb-3" style="display: none;">
                 <label for="movieSelect" class="form-label">영화 선택</label>
-                <select id="movieSelect" name="movieId" required disabled> <!-- 수정 시에도 영화 선택을 유지하기 위해 disabled 제거 가능 -->
+                <select id="movieSelect" name="movieId" required disabled> 
                     <option value="" disabled selected>영화를 선택하세요</option>
                     <!-- 여기에 영화 목록을 동적으로 추가합니다 -->
                     <c:forEach var="movie" items="${movieList}">
