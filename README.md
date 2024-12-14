@@ -61,18 +61,18 @@
 Java Spring 기반의 영화 리뷰 웹 애플리케이션 구조 설명
 
 ### 1. 프로젝트 디렉토리 구조 
-
+```
 src/
 ├── main/
 │   ├── java/
 │   │   └── com/
 │   │       └── javalab/
 │   │           ├── board/
-│   │           │   └──advice/
-│   │           │    ├── AfterAdvice.java
-│   │           │   ├── AfterThrowingAdvice.java
-│   │           │   ├── AroundAdvice.java
-│   │           │   ├── BeforeAdvice.java
+│   │           │   └── advice/
+│   │           │       ├── AfterAdvice.java
+│   │           │       ├── AfterThrowingAdvice.java
+│   │           │       ├── AroundAdvice.java
+│   │           │       └── BeforeAdvice.java
 │   │           ├── controller/
 │   │           │   ├── BoardController.java
 │   │           │   ├── HomeController.java
@@ -100,46 +100,47 @@ src/
 │   │               ├── MemberService.java
 │   │               └── MovieService.java
 │   └── resources/
-│   │    ├── config/
-│   │    │   ├── log4j.xml
-│   │    │    ├── log4jdbc.log4j2.properties
-│   │    │    └── logback.xml
-│   │    └── com/
-│   │       └── javalab/  
-│   │       └── board/
-│   │      	   └── repository/  
-│   │      		  ├── BoardMapper.xml
-│   │     		  ├── LoginMapper.xml
-│   │     		  ├── MemberMapper.xml
-│   │     		  └── MovieMapper.xml
-│   └── webapp/
-│           └──  WEP-INF/
- |                 └── view
-│  		          └── board/
-│          	        │   ├── boardInsert.jsp
-│                     │   ├── boardList.jsp
-│                     │   ├── boardsByMember.jsp
-│                     │   ├── boardUpdate.jsp
-│                     │   └── boardView.jsp
-│                     ├── include/
-│                     │   ├── footer.jsp
-│                     │   └── header.jsp
-│                     ├── login/
-│                     │   └── login.jsp
-│                     ├── member/
-│                     │   ├── memberInsert.jsp
-│                     │   ├── memberList.jsp
-│                     │   ├── memberUpdate.jsp
-│                     │   └── memberView.jsp
-│                     ├── movie/
-│                     │   ├── movieCreate.jsp
-│                     │   ├── movieList.jsp
-│                     │   ├── movieDetail.jsp
-│                     │   ├── movieUpdate.jsp
-│                     │   └── uploadFailuew.jsp
-│                     ├── error.jsp
-│                     └── index.jsp
-└── pom.xml
+│       ├── config/
+│       │    ├── log4j.xml
+│       │    ├── log4jdbc.log4j2.properties
+│       │    └── logback.xml
+│       └── com/
+│           └── javalab/  
+│               └── board/
+│                   └── repository/  
+│                       ├── BoardMapper.xml
+│                       ├── LoginMapper.xml
+│                       ├── MemberMapper.xml
+│                       └── MovieMapper.xml
+├── webapp/
+|    └── WEP-INF/
+|        └── view/
+|            └── board/
+|                ├── boardInsert.jsp
+|                ├── boardList.jsp
+|                ├── boardsByMember.jsp
+|                ├── boardUpdate.jsp
+|                └── boardView.jsp
+|            ├── include/
+|            |    ├── footer.jsp
+|            |    └── header.jsp
+|            ├── login/
+|            |    └── login.jsp
+|            ├── member/
+|            |    ├── memberInsert.jsp
+|            |    ├── memberList.jsp
+|            |    ├── memberUpdate.jsp
+|            |    └── memberView.jsp
+|            ├── movie/
+|            |    ├── movieCreate.jsp
+|            |    ├── movieList.jsp
+|            |    ├── movieDetail.jsp
+|            |    ├── movieUpdate.jsp
+|            |    └── uploadFailure.jsp  <!-- 오타 수정 -->
+|            ├── error.jsp
+|            └── index.jsp 
+└─ pom.xml 
+```
 
 ### 2. 주요 디렉토리 및 파일 설명 
 
