@@ -100,20 +100,21 @@
                 </select>
             </div>
 
-            <!-- 버튼 섹션 -->
-            <div class="d-flex justify-content-end gap-2">
-                <button id="updateButton" type="button" class="btn btn-primary">수정</button>
-                <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
-                    <input type="hidden" name="boardNo" value="${board.boardNo}">
-                    <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
-                </form>
-                <!-- 답글쓰기 버튼 -->
-                <button id="replyButton" type="button" class="btn btn-dark">답글쓰기</button>
-                <button id="listButton" type="button" class="btn btn-list">목록으로</button>
-            </div>
+           <!-- 버튼 섹션 -->
+			<div class="d-flex justify-content-end gap-2">
+			    <c:if test="${not empty loginUser and loginUser.memberId == board.memberId or loginUser.roleId == 'admin'}"> 
+			        <button id="updateButton" type="button" class="btn btn-primary">수정</button>
+			        <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
+			            <input type="hidden" name="boardNo" value="${board.boardNo}">
+			            <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
+			        </form>
+			    </c:if>
+			    <!-- 답글쓰기 버튼 -->
+			    <button id="replyButton" type="button" class="btn btn-dark">답글쓰기</button>
+			    <button id="listButton" type="button" class="btn btn-dark">목록으로</button>
+			</div>
 
         </div> <!-- 카드 바디 닫기 -->
-    </div> <!-- 컨테이너 닫기 -->
 </section>
 
 <!-- Bootstrap JS -->
