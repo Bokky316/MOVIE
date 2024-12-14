@@ -30,7 +30,9 @@
 			<tbody>
 				<c:forEach var="member" items="${memberList}">
 					<tr style="background-color: #444;">
-						<td style="color: white;">${member.memberId}</td>
+						<td style="color: white;"><a
+								href="<c:url value='/board/member/boards?memberId=${member.memberId}' />">
+									${member.memberId} </a></td>
 						<td><a
 							href="<c:url value='/member/view?memberId=${member.memberId}' />"
 							class="text-decoration-none" style="color: lightblue;">
