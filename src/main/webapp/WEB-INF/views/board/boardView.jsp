@@ -72,9 +72,7 @@
 			        </strong>
 			    </label>
 			    <div class="text-end">
-			        <span class="ms-2"><a
-								href="<c:url value='/board/member/boards?memberId=${board.memberId}' />">
-									${board.memberId}</a></span> |
+			        <span class="ms-2">${board.memberId}</span> |
 			        <span class="ms-2">${board.hitNo}</span> |
 			        <span class="ms-2"><fmt:formatDate value='${board.regDate}' pattern='yyyy-MM-dd HH:mm:ss' /></span>
 			    </div>
