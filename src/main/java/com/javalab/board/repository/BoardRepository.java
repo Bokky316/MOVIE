@@ -58,4 +58,8 @@ public interface BoardRepository {
 
    // 특정 영화 조회 추가 
    public MovieWithImageVo getMovie(Long movieId); 
+   
+   // 특정 회원의 게시글 목록 조회
+   public List<BoardVo> findBoardsByMemberId(String memberId);
 }
+

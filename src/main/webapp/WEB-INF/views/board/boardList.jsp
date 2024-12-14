@@ -34,6 +34,8 @@ table td:nth-child(2) {
 	height: 50px; /* 버튼 높이 조정 */
 	flex-shrink: 0; /* 버튼의 너비가 줄어들지 않도록 설정 */
 }
+
+
 </style>
 
 
@@ -107,10 +109,20 @@ table td:nth-child(2) {
 									</c:if>
 								</div>
 							</td>
-							<td style="color: white; width: 200px;">${board.memberId}</td>
+							<td style="color: white; width: 200px;">
+							    <a href="<c:url value='/board/member/boards?memberId=${board.memberId}' />">
+    ${board.memberId}
+</a>
+
+							</td> <!-- 작성자 ID 클릭 시 해당 작성자의 글 목록으로 이동 -->
+
+
 							<td style="color: white; width: 200px;">${board.hitNo}</td>
-							<td style="color: white; width: 200px;"><fmt:formatDate
-									value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<td style="color: white; width: 200px;">
+							    <fmt:formatDate value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+							</td>
+
+
 
 
 						</tr>

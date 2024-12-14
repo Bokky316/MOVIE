@@ -121,4 +121,13 @@ public class BoardServiceImpl implements BoardService {
    public MovieWithImageVo getMovie(Long movieId) { 
        return repository.getMovie(movieId); 
    }
+   
+   /*
+    * 특정 회원의 게시글 목록 조회 메서드 추가 
+    */
+  @Override
+  public List<BoardVo> getBoardsByMemberId(String memberId) {
+      log.info("Fetching boards for member ID: {}", memberId);
+      return repository.findBoardsByMemberId(memberId); // 레포지토리 호출하여 회원의 게시글 목록 반환
+  } 
 }
