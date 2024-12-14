@@ -63,9 +63,9 @@
 
 								<!-- 별점 RATING -->
 								<div class="mb-3">
-									<label for="rating">별점 :</label> <select id="rating"
+									<label for="rating">평점</label> <select id="rating"
 										name="rating" required>
-										<option value="" disabled selected>별점을 선택하세요</option>
+										<option value="" disabled selected>평점을 선택하세요</option>
 										<option value="1.0">⭐</option>
 										<option value="2.0">⭐⭐</option>
 										<option value="3.0">⭐⭐⭐</option>
