@@ -20,11 +20,14 @@
 			<div class="col-lg-9">
 				<!-- 9칸 차지하는 컬럼 -->
                     <div class="card-body">
-                        <!-- 아이디 -->
+                         <!-- 아이디 -->
                         <div class="mb-3">
                             <label for="memberIdInput" class="form-label">아이디</label>
-                            <a href="<c:url value='/board/member/boards?memberId=${member.memberId}' />">
-									${member.memberId} </a>
+                            <div class="mb-3">
+                            <a
+								href="<c:url value='/board/member/boards?memberId=${member.memberId}' />"
+								style="color: white;">${member.memberId} </a>
+							</div>
                         </div>
                         <!-- 비밀번호 -->
                         <div class="mb-3">

@@ -88,7 +88,7 @@ table td:nth-child(2) {
 							<!-- 영화 제목 표시 -->
 							<td style="color: white; width: 200px;"><a
 								href="<c:url value='/movie/detail/${board.movieId}' />"
-								class="text-decoration-none" style="color: lightblue;">
+								class="text-decoration-none"style="color: white;">
 									${board.movieWithImage.name} </a></td>
 
 							<!-- 제목 링크 -->
@@ -108,9 +108,9 @@ table td:nth-child(2) {
 									</c:if>
 								</div>
 							</td>
-							<td style="color: white; width: 200px;"><a
-								href="<c:url value='/board/member/boards?memberId=${board.memberId}' />">
-									${board.memberId} </a></td>
+							<td><a
+								href="<c:url value='/board/member/boards?memberId=${board.memberId}' />"
+								style="color: white;">${board.memberId} </a></td>
 							<!-- 작성자 ID 클릭 시 해당 작성자의 글 목록으로 이동 -->
 
 
@@ -133,7 +133,7 @@ table td:nth-child(2) {
 			<div class="text-end mb-3">
 				<!-- 오른쪽 정렬을 위한 div -->
 				<button type="button" class="btn btn-outline-light"
-					onclick="location.href='<c:url value='/board/insert' />'">리뷰
+					onclick="location.href='<c:url value='/movie/create' />'">리뷰
 					등록</button>
 			</div>
 		</c:if>
