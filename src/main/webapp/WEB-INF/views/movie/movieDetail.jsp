@@ -51,6 +51,13 @@
                                 style="max-width: 100%; max-height: 450px; object-fit: cover;">
                         </c:forEach>
                     </c:if>
+      				<!-- 영화 리뷰 보기-->
+                    <div class="search-container mt-3">
+                        <form id="searchForm" action="<c:url value='/board/list' />" method="get" class="d-flex justify-content-center">
+                            <input type="hidden" name="movieId" value="${movie.movieId}"> <!-- 영화 ID를 hidden 필드로 추가 -->
+                            <button type="submit" class="btn btn-dark me-2">이 영화의 리뷰 보기</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 

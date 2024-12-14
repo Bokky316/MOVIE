@@ -46,10 +46,11 @@ public class BoardController {
 	 * @return 게시물 목록 페이지
 	 */
 	@GetMapping("/list")
-	public String getListPaging(Criteria cri, Model model) {
-		log.info("Fetching board list with criteria: {}", cri);
-
-		List<BoardVo> boardList = service.getBoardListPaging(cri);
+	public String getListPaging(Criteria cri, @RequestParam(required = false) Long movieId, Model model) {
+	    if (movieId != null) {
+	        cri.setMovieId(movieId);
+	    }
+	    List<BoardVo> boardList = service.getBoardListPaging(cri);
 		model.addAttribute("boardList", boardList);
 
 		int total = service.getTotalBoardCount(cri);
