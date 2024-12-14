@@ -58,8 +58,8 @@
             b.reply_group,
             b.reply_order,
             b.reply_indent,
-            m.movie_id,
-            m.name AS movie_name,
+            m.movie_id AS movie_id,  -- movie 테이블의 movie_id
+		    m.name AS movie_name,     -- movie 테이블의 name
             m.description AS movie_description,
             m.movie_date,
             i.file_name
@@ -111,6 +111,19 @@
 
     <!-- 게시물 목록 페이징 및 검색 -->
     <select id="getBoardListPaging" parameterType="Criteria" resultMap="BoardResultMap">
+    SELECT 
+        b.board_no, 
+        b.title, 
+        b.member_id, 
+        b.hit_no, 
+        b.reg_date, 
+        b.reply_group, 
+        b.reply_order,
+        b.reply_indent,
+        b.spoiler,
+        m.movie_id,
+        m.name AS movie_name
+    FROM (
         SELECT 
             board_no, 
             title, 
@@ -120,29 +133,21 @@
             reply_group, 
             reply_order,
             reply_indent,
-            spoiler
-        FROM (
-            SELECT 
-                board_no, 
-                title, 
-                member_id, 
-                hit_no, 
-                reg_date, 
-                reply_group, 
-                reply_order,
-                reply_indent,
-                spoiler,
-                ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC) AS rnum
-            FROM board
-            <where>
-                <if test="searchText != null and searchText != ''">
-                    title LIKE '%' || #{searchText} || '%' 
-                    OR content LIKE '%' || #{searchText} || '%'
-                </if>
-            </where>
-        )
-        WHERE rnum BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount})
-    </select>
+            spoiler,
+            movie_id,
+            ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC) AS rnum
+        FROM board
+        <where>
+            <if test="searchText != null and searchText != ''">
+                title LIKE '%' || #{searchText} || '%' 
+                OR content LIKE '%' || #{searchText} || '%'
+            </if>
+        </where>
+    ) b
+    LEFT JOIN movie m ON b.movie_id = m.movie_id
+    WHERE rnum BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount})
+</select>
+
 
     <!-- 게시물 상세 조회 -->
     <select id="getBoard" parameterType="int" resultMap="BoardResultMap">

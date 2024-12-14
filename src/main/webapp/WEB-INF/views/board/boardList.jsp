@@ -74,22 +74,26 @@ table td:nth-child(2) {
 					style="background-color: #555; color: black; text-align: center;">
 					<tr>
 						<th style="color: #444;">NO.</th>
-						<th style="color: #444;">제목</th>
+						<th style="color: #444;">영화 제목</th>
+						<th style="color: #444;">리뷰 제목</th>
 						<th style="color: #444;">작성자 ID</th>
 						<th style="color: #444;">조회수</th>
 						<th style="color: #444;">작성일</th>
-						<th style="color: #444;">영화 제목</th>
-						<!-- 영화 제목 추가 -->
 					</tr>
 				</thead>
 				<tbody>
 					<c:forEach var="board" items="${boardList}">
 						<tr style="background-color: #444;">
 							<td style="color: white; width: 100px;">${board.boardNo}</td>
+							<!-- 영화 제목 표시 -->
+							<td style="color: white; width: 200px;"><a
+								href="<c:url value='/movie/detail/${board.movieId}' />"
+								class="text-decoration-none" style="color: lightblue;">
+									${board.movieWithImage.name} </a></td>
+
+							<!-- 제목 링크 -->
 							<td style="text-align: left;">
-								<div
-									style="margin-left: ${board.replyIndent * 20}px; position: relative;">
-									<!-- 제목 링크 -->
+								<div style="margin-left: ${board.replyIndent * 20}px; position: relative;">
 									<a
 										href="<c:url value='/board/view?boardNo=${board.boardNo }' />"
 										class="text-decoration-none"
@@ -107,11 +111,8 @@ table td:nth-child(2) {
 							<td style="color: white; width: 200px;">${board.hitNo}</td>
 							<td style="color: white; width: 200px;"><fmt:formatDate
 									value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-							<!-- 영화 제목 표시 -->
-							<td style="color: white; width: 200px;">
-								<!-- 영화 제목을 가져오는 부분 (예시로 board.movieId 사용) -->
-								${movieList[board.movieId].name}
-							</td>
+
+
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -119,45 +120,47 @@ table td:nth-child(2) {
 		</div>
 
 
-        <!-- 로그인 유저가 아닐 경우 버튼 숨김 -->
-        <c:if test="${not empty loginUser }">			
-            <div class="text-end mb-3"> <!-- 오른쪽 정렬을 위한 div -->
-                <button type="button" class="btn btn-outline-light" onclick="location.href='<c:url value='/movie/create' />'">리뷰 등록</button>
-            </div>
-        </c:if>
+		<!-- 로그인 유저가 아닐 경우 버튼 숨김 -->
+		<c:if test="${not empty loginUser }">
+			<div class="text-end mb-3">
+				<!-- 오른쪽 정렬을 위한 div -->
+				<button type="button" class="btn btn-outline-light"
+					onclick="location.href='<c:url value='/movie/create' />'">리뷰
+					등록</button>
+			</div>
+		</c:if>
 
-        <!-- 페이징 -->
-        <div class="pagination-container mt-4 position-relative">
-            <ul class="pagination justify-content-center"> <!-- 중앙 정렬 -->
-                <!-- 이전 페이지 버튼 -->
-                <c:if test="${pageMaker.prev}">
-                    <li class="page-item">
-                        <a class="page-link" href="?pageNum=${pageMaker.startPage - 1}&amount=${pageMaker.cri.amount}&searchText=${pageMaker.cri.searchText}">
-                            Previous
-                        </a>
-                    </li>
-                </c:if>
+		<!-- 페이징 -->
+		<div class="pagination-container mt-4 position-relative">
+			<ul class="pagination justify-content-center">
+				<!-- 중앙 정렬 -->
+				<!-- 이전 페이지 버튼 -->
+				<c:if test="${pageMaker.prev}">
+					<li class="page-item"><a class="page-link"
+						href="?pageNum=${pageMaker.startPage - 1}&amount=${pageMaker.cri.amount}&searchText=${pageMaker.cri.searchText}">
+							Previous </a></li>
+				</c:if>
 
-                <!-- 페이지 번호 -->
-                <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="pageNum">
-                    <li class="page-item ${pageMaker.cri.pageNum == pageNum ? 'active' : ''}">
-                        <a class="page-link" href="?pageNum=${pageNum}&amount=${pageMaker.cri.amount}&searchText=${pageMaker.cri.searchText}">
-                            ${pageNum}
-                        </a>
-                    </li>
-                </c:forEach>
+				<!-- 페이지 번호 -->
+				<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}"
+					var="pageNum">
+					<li
+						class="page-item ${pageMaker.cri.pageNum == pageNum ? 'active' : ''}">
+						<a class="page-link"
+						href="?pageNum=${pageNum}&amount=${pageMaker.cri.amount}&searchText=${pageMaker.cri.searchText}">
+							${pageNum} </a>
+					</li>
+				</c:forEach>
 
-                <!-- 다음 페이지 버튼 -->
-                <c:if test="${pageMaker.next}">
-                    <li class="page-item">
-                        <a class="page-link" href="?pageNum=${pageMaker.endPage + 1}&amount=${pageMaker.cri.amount}&searchText=${pageMaker.cri.searchText}">
-                            Next
-                        </a>
-                    </li>
-                </c:if>
-            </ul>
-        </div>
-    </div>
+				<!-- 다음 페이지 버튼 -->
+				<c:if test="${pageMaker.next}">
+					<li class="page-item"><a class="page-link"
+						href="?pageNum=${pageMaker.endPage + 1}&amount=${pageMaker.cri.amount}&searchText=${pageMaker.cri.searchText}">
+							Next </a></li>
+				</c:if>
+			</ul>
+		</div>
+	</div>
 </section>
 
 <!-- Bootstrap JS -->
