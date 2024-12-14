@@ -23,7 +23,8 @@
                         <!-- 아이디 -->
                         <div class="mb-3">
                             <label for="memberIdInput" class="form-label">아이디</label>
-                            <a href="<c:url value='/board/member/boards?memberId=${member.memberId}' />">
+                            <a href="<c:url value='/board/member/boards?memberId=${member.memberId}' />"
+                            class="text-decoration-none"  style="color: white;">
 									${member.memberId} </a>
                         </div>
                         <!-- 비밀번호 -->
