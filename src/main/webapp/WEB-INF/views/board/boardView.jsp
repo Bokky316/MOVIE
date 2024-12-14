@@ -109,7 +109,7 @@
                 </form>
                 <!-- 답글쓰기 버튼 -->
                 <button id="replyButton" type="button" class="btn btn-dark">답글쓰기</button>
-                <button id="listButton" type="button" class="btn btn-list">목록으로</button>
+                <button id="listButton" type="button" class="btn btn-dark">목록으로</button>
             </div>
 
         </div> <!-- 카드 바디 닫기 -->
