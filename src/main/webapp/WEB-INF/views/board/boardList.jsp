@@ -137,7 +137,7 @@ table td:nth-child(2) {
 			<div class="text-end mb-3">
 				<!-- 오른쪽 정렬을 위한 div -->
 				<button type="button" class="btn btn-outline-light"
-					onclick="location.href='<c:url value='/movie/create' />'">리뷰
+					onclick="location.href='<c:url value='/board/insert' />'">리뷰
 					등록</button>
 			</div>
 		</c:if>
