@@ -87,7 +87,7 @@ table td:nth-child(2) {
 							<td style="color: white; width: 100px;">${board.boardNo}</td>
 							<!-- 영화 제목 표시 -->
 							<td style="color: white; width: 200px;"><a
-								href="<c:url value='/movie/detail/${board.movieId}' />"
+								href="<c:url value='/movie/detail/${board.movieWithImage.movieId}' />"
 								class="text-decoration-none" style="color: lightblue;">
 									${board.movieWithImage.name} </a></td>
 

@@ -102,8 +102,10 @@
 
            <!-- 버튼 섹션 -->
 			<div class="d-flex justify-content-end gap-2">
-			    <c:if test="${not empty loginUser and loginUser.memberId == board.memberId or loginUser.roleId == 'admin'}"> 
+			    <c:if test="${not empty loginUser and loginUser.memberId == board.memberId}"> 
 			        <button id="updateButton" type="button" class="btn btn-primary">수정</button>
+			    </c:if>
+			    <c:if test="${not empty loginUser and loginUser.memberId == board.memberId or loginUser.roleId == 'admin'}"> 
 			        <form id="deleteForm" action="<c:url value='/board/delete' />" method="post" class="d-inline">
 			            <input type="hidden" name="boardNo" value="${board.boardNo}">
 			            <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
