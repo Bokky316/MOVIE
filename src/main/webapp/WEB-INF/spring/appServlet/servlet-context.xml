@@ -71,6 +71,7 @@
             <mvc:mapping path="/board/insert" />
             <mvc:mapping path="/board/update" />
             <mvc:mapping path="/board/delete" />
+            <mvc:mapping path="/board/Reply" />
            <!--  제외 경로 -->
             <mvc:exclude-mapping path="/resources/**"/>
             <!-- Interceptor 클래스 -->

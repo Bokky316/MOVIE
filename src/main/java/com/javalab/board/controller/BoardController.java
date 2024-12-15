@@ -307,37 +307,24 @@ public class BoardController {
 	 * @return 게시물 목록 페이지로 리다이렉트
 	 */
 	@PostMapping("/reply")
-	public String replyBoard(BoardVo replyBoard, @RequestParam(value = "spoiler", required = false) String spoiler,
-			RedirectAttributes redirectAttributes) {
-		try {
-			// 부모 게시물 정보 가져오기
-			BoardVo parentBoard = service.getBoard(replyBoard.getReplyGroup());
-
-			if (parentBoard == null) {
-				redirectAttributes.addFlashAttribute("errorMessage", "부모 게시물을 찾을 수 없습니다.");
-				return "redirect:/board/list";
-			}
-
-			// 답글 설정
-			replyBoard.setReplyGroup(parentBoard.getReplyGroup()); // 그룹 번호는 부모와 동일
-			replyBoard.setReplyOrder(parentBoard.getReplyOrder() + 1); // 부모의 순서 + 1
-			replyBoard.setReplyIndent(parentBoard.getReplyIndent() + 1); // 부모의 들여쓰기 + 1
-
-			// 기존 답글들의 순서 조정 (reply_order)
-			service.updateReplyOrder(replyBoard);
-
-			// 스포일러 처리
-			replyBoard.setSpoiler("Y".equalsIgnoreCase(spoiler) ? "Y" : "N");
-
-			// 답글 저장
-			service.insertReply(replyBoard);
-			redirectAttributes.addFlashAttribute("successMessage", "답글이 등록되었습니다.");
-			return "redirect:/board/list";
-		} catch (Exception e) {
-			log.error("답글 등록 중 오류 발생", e);
-			redirectAttributes.addFlashAttribute("errorMessage", "답글 등록 중 오류가 발생했습니다.");
-			return "redirect:/board/reply?parentBoardNo=" + replyBoard.getReplyGroup();
-		}
-	}
-
-}
+    public String replyBoard(@ModelAttribute("replyBoard") BoardVo replyBoard, RedirectAttributes redirectAttributes) {
+        try {
+           
+           log.info("replyBoard : " + replyBoard);
+           
+            // 답글 등록 처리
+            int result = service.insertReply(replyBoard);
+            if (result > 0) {
+                redirectAttributes.addFlashAttribute("successMessage", "답글이 정상적으로 등록되었습니다!");
+                return "redirect:/board/list";
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "답글 등록 중 문제가 발생했습니다.");
+                return "redirect:/board/reply?parentBoardNo=" + replyBoard.getReplyGroup();
+            }
+        } catch (Exception e) {
+            log.error("답글 등록 중 오류 발생", e);
+            redirectAttributes.addFlashAttribute("errorMessage", "답글 등록 중 오류가 발생했습니다.");
+            return "redirect:/board/reply?parentBoardNo=" + replyBoard.getReplyGroup();
+        }
+    }
+} 

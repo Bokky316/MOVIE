@@ -56,6 +56,8 @@ table td:nth-child(2) {
 				<input type="text" class="form-control me-2" name="searchText"
 					id="searchText" placeholder="검색어를 입력하세요"
 					value="${pageMaker.cri.searchText}">
+					
+					
 				<button type="submit" class="btn btn-info me-2">검색</button>
 				<button type="button" class="btn btn-dark me-2"
 					onclick="location.href='<c:url value='/board/list' />'">전체</button>
@@ -113,6 +115,8 @@ table td:nth-child(2) {
 							<td style="color: white; width: 200px;">${board.hitNo}</td>
 							<td style="color: white; width: 200px;"><fmt:formatDate
 									value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+							<!-- 답글 -->
+                         
 						</tr>
 					</c:forEach>
 				</tbody>

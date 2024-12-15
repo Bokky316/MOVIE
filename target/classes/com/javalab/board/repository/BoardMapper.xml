@@ -114,48 +114,48 @@
 
 
 	<!-- 게시물 목록 페이징 및 검색 -->
-	<select id="getBoardListPaging" parameterType="Criteria"
-		resultMap="BoardResultMap">
-		SELECT
-		b.board_no,
-		b.title,
-		b.member_id,
-		b.hit_no,
-		b.reg_date,
-		b.reply_group,
-		b.reply_order,
-		b.reply_indent,
-		b.spoiler,
-		m.movie_id,
-		m.name AS movie_name
-		FROM (
-		SELECT
-		board_no,
-		title,
-		member_id,
-		hit_no,
-		reg_date,
-		reply_group,
-		reply_order,
-		reply_indent,
-		spoiler,
-		movie_id,
-		ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC) AS rnum
-		FROM board
-		<where>
-			<if test="searchText != null and searchText != ''">
-				title LIKE '%' || #{searchText} || '%'
-				OR content LIKE '%' || #{searchText} || '%'
-			</if>
-			<if test="movieId != null">
-				AND movie_id = #{movieId}
-			</if>
-		</where>
-		) b
-		LEFT JOIN movie m ON b.movie_id = m.movie_id
-		WHERE rnum BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} *
-		#{amount})
-	</select>
+<select id="getBoardListPaging" parameterType="Criteria" resultMap="BoardResultMap">
+    SELECT
+        b.board_no,
+        b.title,
+        b.member_id,
+        b.hit_no,
+        b.reg_date,
+        b.reply_group,
+        b.reply_order,
+        b.reply_indent,
+        b.spoiler,
+        m.movie_id,
+        m.name AS movie_name
+    FROM (
+        SELECT
+            board_no,
+            title,
+            member_id,
+            hit_no,
+            reg_date,
+            reply_group,
+            reply_order,
+            reply_indent,
+            spoiler,
+            movie_id,
+            ROW_NUMBER() OVER (ORDER BY reply_group DESC, reply_order ASC, reply_indent ASC) AS rnum
+        FROM board
+        <where>
+            <if test="searchText != null and searchText != ''">
+                title LIKE '%' || #{searchText} || '%'
+                OR content LIKE '%' || #{searchText} || '%'
+            </if>
+            <if test="movieId != null">
+                AND movie_id = #{movieId}
+            </if>
+        </where>
+    ) b
+    LEFT JOIN movie m ON b.movie_id = m.movie_id
+    WHERE rnum BETWEEN ((#{pageNum} - 1) * #{amount} + 1) AND (#{pageNum} * #{amount})
+    ORDER BY b.reply_group DESC, b.reply_order ASC, b.reply_indent ASC
+</select>
+
 
 
 
@@ -250,18 +250,34 @@
 		WHERE reply_group= #{replyGroup} AND reply_order >= #{replyOrder}
 	</update>
 
-	<!-- 답글 등록 -->
-	<insert id="insertReply" parameterType="BoardVo">
-		INSERT INTO board (
-		board_no,title ,content ,member_id ,hit_no ,reg_date ,reply_group ,reply_order
-		,reply_indent ,spoiler) VALUES (
-		board_seq.NEXTVAL ,#{title},#{content},#{memberId},0 ,SYSDATE ,#{replyGroup}
-		,#{replyOrder} ,#{replyIndent} ,#{spoiler}
-		)
-	</insert>
-
-
-
+	<!-- 계층형 답글 작성 -->
+<insert id="insertReply" parameterType="BoardVo">
+    <!-- 답글이 달리기 위한 사전작업(새로운 답글이 들어갈 수 있도록 기존 답글의 order+1) -->
+    <!-- 답글 삽입 -->
+    INSERT INTO board (
+        board_no,
+        title,
+        content,
+        member_id,
+        hit_no,
+        reg_date,
+        reply_group,
+        reply_order,
+        reply_indent,
+        spoiler
+    ) VALUES (
+        board_seq.NEXTVAL,
+        #{title},
+        #{content},
+        #{memberId},
+        0,
+        SYSDATE,
+        #{replyGroup},
+        #{replyOrder},
+        #{replyIndent},
+        #{spoiler}
+    )
+</insert>
 
 	<!-- 영화 수정 -->
 	<update id="updateBoard"
