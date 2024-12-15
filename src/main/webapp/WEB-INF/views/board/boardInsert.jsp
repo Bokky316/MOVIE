@@ -46,6 +46,27 @@
 										name="memberId" value="${sessionScope.loginUser.memberId}"
 										readonly required>
 								</div>
+								<!-- 영화 선택 -->
+								<div class="mb-3">
+									<label for="movieSelect" class="form-label">영화 선택</label> <select
+										id="movieSelect" name="movieId" required>
+										<option value="" disabled selected>영화를 선택하세요</option>
+										<!-- 여기에 영화 목록을 동적으로 추가합니다 -->
+										<c:forEach var="movie" items="${movieList}">
+											<option value="${movie.movieId}">${movie.name}</option>
+										</c:forEach>
+									</select>
+								</div>
+
+								<!-- 스포일러 포함 여부 -->
+								<div class="mb-3">
+									<label for="spoilerCheck" class="form-label">스포일러 포함 여부</label>
+									<input type="checkbox" id="spoilerCheck" name="spoiler"
+										value="Y">
+									<div class="form-text" style="font-size: 12px;">스포일러가 포함된
+										경우 체크해주세요.</div>
+								</div>
+								
 								<!-- 제목 -->
 								<div class="mb-3">
 									<label for="titleInput" class="form-label">제목</label> <input
@@ -73,32 +94,11 @@
 										<option value="5.0">⭐⭐⭐⭐⭐</option>
 									</select>
 								</div>
-
-								<!-- 영화 선택 -->
-								<div class="mb-3">
-									<label for="movieSelect" class="form-label">영화 선택</label> <select
-										id="movieSelect" name="movieId" required>
-										<option value="" disabled selected>영화를 선택하세요</option>
-										<!-- 여기에 영화 목록을 동적으로 추가합니다 -->
-										<c:forEach var="movie" items="${movieList}">
-											<option value="${movie.movieId}">${movie.name}</option>
-										</c:forEach>
-									</select>
-								</div>
-
-								<!-- 스포일러 포함 여부 -->
-								<div class="mb-3">
-									<label for="spoilerCheck" class="form-label">스포일러 포함 여부</label>
-									<input type="checkbox" id="spoilerCheck" name="spoiler"
-										value="Y">
-									<div class="form-text" style="font-size: 12px;">스포일러가 포함된
-										경우 체크해주세요.</div>
-								</div>
-
+								
 								<!-- 버튼 -->
 								<div class="d-flex justify-content-between">
 									<button type="submit" id="submitButton" class="btn btn-primary">등록</button>
-									<button type="button" id="cancelButton" class="btn btn-primary">취소</button>
+									<button type="button" id="cancelButton" class="btn btn-secondary">취소</button>
 								</div>
 							</form>
 						</div>
