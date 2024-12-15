@@ -40,8 +40,8 @@ public interface MovieRepository {
    // 수정 _ 기존 이미지 삭제
     void deleteImageById(@Param("imageId") Long imageId);
     
-    // 제목으로 영화 검색
-    List<MovieWithImageVo> searchMoviesByTitle(@Param("title") String title, Criteria cri);
+    // 제목으로 영화 검색(페이징)
+    public List<MovieWithImageVo> getMovieListPaging(Criteria cri);
     
     // 게시물 총건수
     public int getTotalMovieCount(Criteria cri);

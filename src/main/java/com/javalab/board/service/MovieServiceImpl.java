@@ -228,15 +228,15 @@ public class MovieServiceImpl implements MovieService {
         }
     }
 
-    /**
+    /*
      * 제목으로 영화 검색하는 메서드 추가.
-     * @param title 검색할 영화 제목.
-     * @return 검색 결과 리스트.
+     * 페이징, 검색 기능이 추가된 메소드 호출
      */
-    @Override
-    public List<MovieWithImageVo> searchMoviesByTitle(String title, Criteria cri) {
-        return movieRepository.searchMoviesByTitle(title, cri); 
-    }
+     @Override
+     public List<MovieWithImageVo> getMovieListPaging(Criteria cri) {
+       List<MovieWithImageVo> movieList = movieRepository.getMovieListPaging(cri);
+       return movieList;
+     }
       
     /*
      * 게시물 총 갯수 조회

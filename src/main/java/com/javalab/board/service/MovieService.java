@@ -38,8 +38,8 @@ public interface MovieService {
     // 영화 삭제
     boolean deleteMovie(@Param("movieId") Long movieId);
     
-    // 제목에 특정 문자열이 포함된 영화 조회
-    List<MovieWithImageVo> searchMoviesByTitle(String title, Criteria cri);
+    // 제목으로 영화 검색(페이징)
+    public List<MovieWithImageVo> getMovieListPaging(Criteria cri);
     
     // 게시물 총건수
     public int getTotalMovieCount(Criteria cri);

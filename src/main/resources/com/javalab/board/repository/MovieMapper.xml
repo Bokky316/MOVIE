@@ -210,30 +210,33 @@
 		
 		
 		<!-- 영화 제목으로 검색 -->
-		<select id="searchMoviesByTitle" parameterType="String" resultMap="MovieWithImageMap">
-		<![CDATA[
-		    SELECT
-		        p.movie_id AS movieId,
-		        p.name,
-		        p.description,
-		        p.movie_date AS movieDate,
-		        p.reg_date AS regDate,
-		        p.genre,           -- 장르 추가
-	            p.running_time,    -- 상영시간 추가
-	            p.rating,          -- 별점 추가
-	            p.age_rating,      -- 연령등급 추가
-	            p.director,        -- 감독 추가
-	            p.cast,            -- 출연 추가
-		        pi.img_id AS imgId,
-		        pi.img_path AS imgPath,
-		        pi.file_name AS fileName,
-		        pi.is_main AS isMain
-		    FROM movie p
-		    LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
-		    WHERE p.name LIKE '%' || #{title} || '%'
-		    ORDER BY p.movie_id DESC
-        ]]>
-		</select>
+		<select id="getMovieListPaging" parameterType="Criteria" resultMap="MovieWithImageMap">
+        <![CDATA[
+        SELECT
+            p.movie_id AS movieId,
+            p.name,
+            p.description,
+            p.movie_date AS movieDate,
+            p.reg_date AS regDate,
+            p.genre,           -- 장르 추가
+            p.running_time,    -- 상영시간 추가
+            p.rating,          -- 별점 추가
+            p.age_rating,      -- 연령등급 추가
+            p.director,        -- 감독 추가
+            p.cast,            -- 출연 추가
+            pi.img_id AS imgId,
+            pi.img_path AS imgPath,
+            pi.file_name AS fileName,
+            pi.is_main AS isMain
+        FROM movie p
+      LEFT JOIN prod_img pi ON p.movie_id = pi.movie_id
+         WHERE
+           (p.name LIKE '%'||#{searchText}||'%') 
+         ORDER BY p.movie_id DESC
+        OFFSET (#{pageNum} - 1) * #{amount} ROWS
+        FETCH NEXT #{amount} ROWS ONLY  
+        ]]> 
+    </select>
 		
 		<!-- 전체 게시물수(실제 끝 페이지번호 계산시 필요) 
 	         - 만약 검색어가 있을 경우에는 검색어를 포함하고 있는 전체 게시물수를 의미한다.

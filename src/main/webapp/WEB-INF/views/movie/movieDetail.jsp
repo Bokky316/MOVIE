@@ -23,6 +23,11 @@
 .d-flex .me-2 {
 	margin-right: 10px; /* 버튼들 사이 간격 */
 }
+
+#movie_udbtn {
+	margin-top : 160px;
+}
+
 </style>
 
 <!-- 본문-->
@@ -94,38 +99,37 @@
 							<strong>출연 |</strong><span>${movie.cast}</span>
 						</div>
 
-						<!-- 영화 리뷰 보기 버튼  -->
-						<div class="search-container mt-3">
+						<!-- 영화 리뷰 보기 버튼 + 목록으로  -->
+						<div class="search-container mt-3 d-flex justify-content-center">
 							<form id="searchForm" action="<c:url value='/board/list' />"
-								method="get" class="d-flex justify-content-center">
+								method="get">
 								<input type="hidden" name="movieId" value="${movie.movieId}">
 								<!-- 영화 ID를 hidden 필드로 추가 -->
 								<button type="submit" class="btn btn-dark me-2">이 영화의
 									리뷰 보기</button>
 							</form>
+								<a href="<c:url value='/movie/list' />" class="btn btn-dark text-white">목록으로</a>
 						</div>
 					</div>
 					<!-- card-body -->
 				</div>
 				<!-- card -->				
+				<!-- 버튼 섹션 -->
+				<div class="d-flex justify-content-end" id="movie_udbtn">
+					<!-- justify-content-end로 오른쪽 정렬 -->
+					<c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
+						<button id="updateButton" type="button"
+							class="btn btn-primary btn-sm me-2">수정</button>
+						<form id="deleteForm" action="<c:url value='/movie/delete' />"
+							method="post" class="d-inline">
+							<input type="hidden" name="movieId" value="${movie.movieId}">
+							<button id="deleteButton" type="submit"
+								class="btn btn-danger btn-sm">삭제</button>
+						</form>
+					</c:if>
+				</div>
 			</div>
 			<!-- col-md-6 -->
-			<!-- 버튼 섹션 -->
-			<div class="d-flex justify-content-end mt-3">
-				<!-- justify-content-end로 오른쪽 정렬 -->
-				<c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
-					<button id="updateButton" type="button"
-						class="btn btn-primary btn-sm me-2">수정</button>
-					<form id="deleteForm" action="<c:url value='/movie/delete' />"
-						method="post" class="d-inline">
-						<input type="hidden" name="movieId" value="${movie.movieId}">
-						<button id="deleteButton" type="submit"
-							class="btn btn-danger btn-sm">삭제</button>
-					</form>
-				</c:if>
-			</div>
-
-
 		</div>
 		<!-- row -->
 	</div>
