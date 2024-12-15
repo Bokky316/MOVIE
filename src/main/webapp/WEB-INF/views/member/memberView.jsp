@@ -12,9 +12,9 @@
 	</div>
 </section>
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark text-light" id="projects">
 	<div class="container px-4 px-lg-5">
-		
+		    <div class="container mt-5">
 		<div class="row justify-content-center">
 			<!-- 가운데 정렬을 위한 클래스 추가 -->
 			<div class="col-lg-9">
@@ -23,8 +23,9 @@
                         <!-- 아이디 -->
                         <div class="mb-3">
                             <label for="memberIdInput" class="form-label">아이디</label>
-                            <input type="text" class="form-control" id="memberIdInput" name="memberId" 
-                                   value="${member.memberId}" readonly>
+                            <a href="<c:url value='/board/member/boards?memberId=${member.memberId}' />"
+                            class="text-decoration-none"  style="color: white;">
+									${member.memberId} </a>
                         </div>
                         <!-- 비밀번호 -->
                         <div class="mb-3">
@@ -52,10 +53,10 @@
                         </div>
                         <!-- 버튼 섹션 -->
                                     <div class="d-flex justify-content-between">
-                            <button id="updateButton" type="button" class="btn btn-update">수정</button>
+                            <button id="updateButton" type="button" class="btn btn-primary">수정</button>
                             <form id="deleteForm" action="<c:url value='/member/delete' />" method="post" >
                                 <input type="hidden" name="memberId" value="${member.memberId}">
-                                <button id="deleteButton" type="submit" class="btn btn-delete">삭제</button>
+                                <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
                             </form>
                             
                         </div>

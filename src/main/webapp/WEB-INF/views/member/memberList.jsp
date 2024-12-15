@@ -13,7 +13,7 @@
 	</div>
 </section>
 <!-- 내용-->
-<section class="projects-section bg-light" id="projects">
+<section class="projects-section bg-dark" id="projects">
 	<div class="container px-4 px-lg-5">
 		<!-- 회원 목록 테이블 -->
 		<table class="table table-bordered table-striped table-hover"
@@ -30,7 +30,10 @@
 			<tbody>
 				<c:forEach var="member" items="${memberList}">
 					<tr style="background-color: #444;">
-						<td style="color: white;">${member.memberId}</td>
+						<td><a
+								href="<c:url value='/board/member/boards?memberId=${member.memberId}' />"
+								class="text-decoration-none"  style="color: white;">
+									${member.memberId} </a></td>
 						<td><a
 							href="<c:url value='/member/view?memberId=${member.memberId}' />"
 							class="text-decoration-none" style="color: lightblue;">

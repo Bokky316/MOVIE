@@ -61,6 +61,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 </section>
 <script>
 	// 로그인 폼 제출 시 유효성 검사

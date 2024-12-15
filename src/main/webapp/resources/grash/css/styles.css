@@ -2770,8 +2770,8 @@ textarea.form-control-lg {
 }
 
 .btn {
-  --bs-btn-padding-x: 0.75rem;
-  --bs-btn-padding-y: 0.375rem;
+  --bs-btn-padding-x: 0.5rem;
+  --bs-btn-padding-y: 0.rem;
   --bs-btn-font-family: ;
   --bs-btn-font-size: 1rem;
   --bs-btn-font-weight: 400;
@@ -2847,7 +2847,7 @@ textarea.form-control-lg {
   opacity: var(--bs-btn-disabled-opacity);
 }
 
-.btn-primary,  .btn-update{
+.btn-primary {
   --bs-btn-color: #fff;
   --bs-btn-bg: #64a19d;
   --bs-btn-border-color: #64a19d;
@@ -2864,7 +2864,7 @@ textarea.form-control-lg {
   --bs-btn-disabled-border-color: #64a19d;
 }
 
-.btn-secondary  , .btn-delete{
+.btn-secondary {
   --bs-btn-color: #fff;
   --bs-btn-bg: #7464a1;
   --bs-btn-border-color: #7464a1;
@@ -2932,7 +2932,7 @@ textarea.form-control-lg {
   --bs-btn-disabled-border-color: #e4c662;
 }
 
-.btn-danger  , .btn-delete{
+.btn-danger  {
   --bs-btn-color: #fff;
   --bs-btn-bg: #a16468;
   --bs-btn-border-color: #a16468;
