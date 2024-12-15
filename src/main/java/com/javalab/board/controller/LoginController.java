@@ -26,7 +26,6 @@ public class LoginController {
     public String loginForm(HttpSession session, HttpServletRequest request) {
         // 세션에서 로그인 정보 확인
         MemberVo loginUser = (MemberVo) session.getAttribute("loginUser");
-
         if (loginUser != null) {
             return "redirect:/";
         }
@@ -38,9 +37,7 @@ public class LoginController {
         // 로그인 폼으로 이동
         return "login/login";
     }
-
-
-
+    
     // 로그인 처리
     @PostMapping("/login")
     public String login(String memberId, String password, HttpSession session, Model model) {

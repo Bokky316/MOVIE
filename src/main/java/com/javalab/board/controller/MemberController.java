@@ -4,6 +4,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +56,11 @@ public class MemberController {
      * - 빈 MemberVo 객체를 모델에 추가하여 회원 등록 폼을 표시합니다.
      */
     @GetMapping("/insert")
-    public String insertMemberForm(Model model) {
+    public String insertMemberForm(Model model,  HttpSession session) {
+    	 
+    	 if (session.getAttribute("loginUser") != null ) {
+             return "redirect:/"; // 기본 홈 페이지로 리다이렉트
+    	 }
         model.addAttribute("member", new MemberVo()); // 빈 객체를 모델에 추가
         return "member/memberInsert"; // JSP 이름 반환
     }
