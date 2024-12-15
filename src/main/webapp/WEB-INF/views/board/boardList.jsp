@@ -36,10 +36,6 @@ table td:nth-child(2) {
 }
 </style>
 
-
-
-
-
 <!-- 본문-->
 <section class="about-section text-center" id="about">
 	<div class="container px-4 px-lg-5">
@@ -117,10 +113,6 @@ table td:nth-child(2) {
 							<td style="color: white; width: 200px;">${board.hitNo}</td>
 							<td style="color: white; width: 200px;"><fmt:formatDate
 									value="${board.regDate}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
-
-
-
-
 						</tr>
 					</c:forEach>
 				</tbody>

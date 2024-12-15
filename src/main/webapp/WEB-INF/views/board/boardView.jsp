@@ -123,27 +123,47 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// 수정 버튼 클릭 이벤트
-document.getElementById("updateButton").addEventListener("click", function() {
-    location.href = "<c:url value='/board/update?boardNo=${board.boardNo}' />";
-});
+document.addEventListener("DOMContentLoaded", function () {
+    // 특정 버튼에서 disabled 속성 제거
+    const listButton = document.getElementById("listButton"); // listButton을 선택
+    if (listButton) {
+        listButton.removeAttribute("disabled"); // disabled 속성 제거
+    }
 
-// 삭제 버튼 클릭 이벤트
-document.getElementById("deleteForm").addEventListener("submit", function(event) {
-    if (!confirm("정말 삭제하시겠습니까?")) {
-        event.preventDefault(); // 삭제 취소
+    // 수정 버튼 클릭 이벤트
+    const updateButton = document.getElementById("updateButton");
+    if (updateButton) {
+        updateButton.addEventListener("click", function() {
+            location.href = "<c:url value='/board/update?boardNo=${board.boardNo}' />";
+        });
+    }
+
+    // 삭제 버튼 클릭 이벤트
+    const deleteForm = document.getElementById("deleteForm");
+    if (deleteForm) {
+        deleteForm.addEventListener("submit", function(event) {
+            if (!confirm("정말 삭제하시겠습니까?")) {
+                event.preventDefault(); // 삭제 취소
+            }
+        });
+    }
+
+    // 답글쓰기 버튼 클릭 이벤트
+    const replyButton = document.getElementById("replyButton");
+    if (replyButton) {
+        replyButton.addEventListener("click", function() {
+            location.href = "<c:url value='/board/reply?parentBoardNo=${board.boardNo}' />";
+        });
+    }
+
+    // 목록 버튼 클릭 이벤트
+    if (listButton) {
+        listButton.addEventListener("click", function() {
+            location.href = "<c:url value='/board/list' />";
+        });
     }
 });
 
-// 답글쓰기 버튼 클릭 이벤트
-document.getElementById("replyButton").addEventListener("click", function() {
-    location.href = "<c:url value='/board/reply?parentBoardNo=${board.boardNo}' />";
-});
-
-// 목록 버튼 클릭 이벤트
-document.getElementById("listButton").addEventListener("click", function() {
-    location.href = "<c:url value='/board/list' />";
-});
 </script>
 
 <%@ include file="../include/footer.jsp"%> 
