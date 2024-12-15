@@ -136,7 +136,7 @@ src/
 |            |    ├── movieList.jsp
 |            |    ├── movieDetail.jsp
 |            |    ├── movieUpdate.jsp
-|            |    └── uploadFailure.jsp  <!-- 오타 수정 -->
+|            |    └── uploadFailure.jsp 
 |            ├── error.jsp
 |            └── index.jsp 
 └─ pom.xml 
