@@ -94,30 +94,22 @@ public class MovieController {
 	 * 영화 목록 조회
 	 */
 	@GetMapping("/list")
-	public String listMovies(@RequestParam(value = "searchText", required = false) String searchText, Criteria cri, Model model) {
-	    List<MovieWithImageVo> movieList;
-	    
-	    if (searchText != null && !searchText.isEmpty()) {
-	        // 제목으로 영화 검색
-	        movieList = movieService.searchMoviesByTitle(searchText, cri);
-	    } else {
-	        // 모든 영화 조회
-	        movieList = movieService.getAllMovies();
-	    }
-
-	    model.addAttribute("movieList", movieList);
-	    model.addAttribute("searchText", searchText); // 검색어를 JSP로 전달
-	    
-	    // 게시물 건수 조회
-        int total = movieService.getTotalMovieCount(cri); 
-        // 페이징관련 정보와 게시물 정보를 PageDto에 포장
-        // 페이지 하단에 표시될 페이지그룹과 관련된 정보 생성
-        PageDto dto = new PageDto(cri, total);
-        
-        model.addAttribute("pageMaker", dto); 
-
-	    return "/movie/movieList";
-	}
+    public String getListPaging(Criteria cri, Model model){
+       log.info("selectMovieList 메소드 Criteria : " + cri);
+       // 게시물 목록 조회
+       List<MovieWithImageVo> movieList = movieService.getMovieListPaging(cri);
+       
+       model.addAttribute("movieList", movieList);
+       // 게시물 건수 조회
+       int total = movieService.getTotalMovieCount(cri); 
+       // 페이징관련 정보와 게시물 정보를 PageDto에 포장
+       // 페이지 하단에 표시될 페이지그룹과 관련된 정보 생성
+       PageDto dto = new PageDto(cri, total);
+       
+       model.addAttribute("pageMaker", dto); 
+       
+       return "/movie/movieList";   // jsp 페이지
+    } 
 
 
 	/*
