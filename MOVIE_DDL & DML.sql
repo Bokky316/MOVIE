@@ -78,20 +78,12 @@ CREATE TABLE BOARD (
     CONSTRAINT FK_MOVIE FOREIGN KEY (MOVIE_ID) REFERENCES MOVIE (MOVIE_ID)      -- 외래키 제약
 );
 
-
 -- =====================================
 -- 3. 시퀀스 생성
 -- =====================================
 
 -- 영화ID용 시퀀스 생성
 CREATE SEQUENCE seq_movie 
-START WITH 1 
-INCREMENT BY 1 
-NOCACHE 
-NOCYCLE;
-
--- 게시글ID용 시퀀스 생성
-CREATE SEQUENCE board_seq 
 START WITH 1 
 INCREMENT BY 1 
 NOCACHE 
@@ -104,17 +96,42 @@ INCREMENT BY 1
 NOCACHE 
 NOCYCLE;
 
+-- 게시글ID용 시퀀스 생성
+CREATE SEQUENCE board_seq 
+START WITH 1 
+INCREMENT BY 1 
+NOCACHE 
+NOCYCLE;
+
+-- 리플라이그룹 시퀀스 생성
+CREATE SEQUENCE reply_group_sequence
+START WITH 1
+INCREMENT BY 1
+NOCYCLE;
+
+-- 트리거 생성
+CREATE OR REPLACE TRIGGER set_reply_group_trigger
+BEFORE INSERT ON BOARD
+FOR EACH ROW
+BEGIN
+    -- 부모 글일 경우
+    IF :NEW.REPLY_GROUP = 0 THEN
+        :NEW.REPLY_GROUP := reply_group_sequence.NEXTVAL;
+    END IF;
+END;
+/
+
 -- =====================================
 -- 4. 기본 데이터 삽입
 -- =====================================
 
--- 권한 데이터 정보 삽입
+/* 권한 데이터 정보 삽입 */
 INSERT INTO role(role_id, role_name) VALUES('admin', '관리자');
 INSERT INTO role(role_id, role_name) VALUES('member', '정회원');
 
 ALTER TABLE MEMBER MODIFY (ROLE_ID DEFAULT 'member'); -- 멤버 새로 추가시 기본 권한 member
 
--- 기본 멤버 정보 삽입
+/* 기본 멤버 정보 삽입 */
 INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('bokky', '1234', '장보키', 'bokky@example.com', 'admin', '010-1111-1111', SYSDATE);
 INSERT INTO member (member_id, password, name, email, role_id, phone, reg_date) VALUES ('lee', '1234', '이수빈', 'leesubin@example.com', 'member', '010-2222-2222', SYSDATE);
 INSERT INTO member (member_id, password ,name ,email ,role_id ,phone ,reg_date ) VALUES ('park' ,'1234' ,'박지훈' ,'parkjihun@example.com' ,'member' ,'010-3333-3333' ,SYSDATE);
@@ -126,42 +143,7 @@ INSERT INTO member (member_id,password,name,email ,role_id ,phone ,reg_date ) VA
 INSERT INTO member (member_id,password,name,email ,role_id ,phone ,reg_date ) VALUES ('yang','1234','양지민','yangjimin@example.com','member','010-9999-9999' ,SYSDATE);
 INSERT INTO member (member_id,password,name,email ,role_id ,phone ,reg_date ) VALUES ('seo','1234','서준호','seojunho@example.com','member','010-0000-0000' ,SYSDATE);
 
-
-/* 영화 리뷰 데이터 삽입 */
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL, 'bokky', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '어바웃 타임'), '어바웃 타임 리뷰', '정말 감동적인 영화입니다. 시간 여행을 통해 사랑을 찾는 이야기.', 0, SYSDATE, 0, 0, 0, 4, 'N');
-
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL, 'lee', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '어벤져스'), '어벤져스 리뷰', '슈퍼히어로들이 모여서 지구를 지키는 이야기가 너무 재미있었습니다!', 5, SYSDATE, 0, 0, 0, 3, 'N');
-
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL,'park', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '빅 피쉬'), '빅 피쉬 리뷰', '아버지의 이야기를 통해 가족의 의미를 다시 생각하게 해주는 영화입니다.', 3, SYSDATE ,0 ,0 ,0 ,2 ,'Y');
-
-INSERT INTO BOARD (BOARD_NO,MEMBER_ID,MOVIE_ID,TITLE ,CONTENT ,HIT_NO ,REG_DATE ,REPLY_GROUP ,REPLY_ORDER ,REPLY_INDENT ,RATING ,SPOILER)
-VALUES (board_seq.NEXTVAL,'choi', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '해리 포터와 마법사의 돌'), '해리 포터 리뷰','마법과 모험이 가득한 해리 포터 시리즈는 언제 봐도 재밌어요!', 10,SYSDATE ,0 ,0 ,0 ,5 ,'N');
-
-INSERT INTO BOARD (BOARD_NO,MEMBER_ID,MOVIE_ID,TITLE ,CONTENT ,HIT_NO ,REG_DATE ,REPLY_GROUP ,REPLY_ORDER ,REPLY_INDENT ,RATING ,SPOILER)
-VALUES (board_seq.NEXTVAL,'jung', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '인셉션'), '인셉션 리뷰','꿈 속의 꿈을 다룬 SF 영화로 정말 흥미진진했습니다.', 8,SYSDATE ,0 ,0 ,0 ,4 ,'Y');
-
-INSERT INTO BOARD (BOARD_NO,MEMBER_ID,MOVIE_ID,TITLE ,CONTENT ,HIT_NO ,REG_DATE ,REPLY_GROUP ,REPLY_ORDER ,REPLY_INDENT ,RATING ,SPOILER)
-VALUES (board_seq.NEXTVAL,'han', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '라라랜드'), '라라랜드 리뷰','음악과 사랑이 어우러진 멋진 뮤지컬 드라마입니다.', 6,SYSDATE ,0 ,0 ,0 ,3 ,'Y');
-
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL, 'yang', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '기생충'), '기생충 리뷰', '계급 격차를 날카롭게 비판한 블랙 코미디 걸작', 10, SYSDATE, 0, 0, 0, 5, 'N');
-
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL, 'lee', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '플로리다 프로젝트'), '플로리다 프로젝트 리뷰', '어린 소녀의 시선으로 본 미국 하층민의 삶', 8, SYSDATE, 0, 0, 0, 4, 'N');
-
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL, 'park', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '그랜드 부다페스트 호텔'), '그랜드 부다페스트 호텔 리뷰', '웨스 앤더슨 특유의 아름다운 미장센과 유머', 7, SYSDATE, 0, 0, 0, 4, 'N');
-
-INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
-VALUES (board_seq.NEXTVAL, 'choi', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '나홀로 집에'), '나홀로집에 리뷰', '크리스마스 시즌의 필수 가족 코미디 영화', 15, SYSDATE, 0, 0, 0, 4, 'Y');
-
-
-
-
--- 영화 데이터 삽입
+/* 영화 데이터 삽입 */
 -- 어바웃 타임 추가
 INSERT INTO MOVIE (MOVIE_ID, NAME, DESCRIPTION, MOVIE_DATE, REG_DATE, GENRE, RUNNING_TIME, RATING, AGE_RATING, DIRECTOR, CAST)
 VALUES (seq_movie.NEXTVAL, '어바웃 타임', '시간 여행을 통해 사랑을 찾는 남자의 이야기', TO_DATE('2013-09-04', 'YYYY-MM-DD'), SYSDATE,
@@ -267,18 +249,42 @@ VALUES (seq_img.NEXTVAL, (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '그랜드 부
         'the_grand_budapest_hotel.jpg', 1);
 
 
+/* 영화 리뷰 데이터 삽입 */
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'bokky', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '어바웃 타임'), '어바웃 타임 리뷰', '정말 감동적인 영화입니다. 시간 여행을 통해 사랑을 찾는 이야기.', 0, SYSDATE, 0, 0, 0, 4, 'N');
+
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'lee', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '어벤져스'), '어벤져스 리뷰', '슈퍼히어로들이 모여서 지구를 지키는 이야기가 너무 재미있었습니다!', 5, SYSDATE, 0, 0, 0, 3, 'N');
+
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL,'park', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '빅 피쉬'), '빅 피쉬 리뷰', '아버지의 이야기를 통해 가족의 의미를 다시 생각하게 해주는 영화입니다.', 3, SYSDATE ,0 ,0 ,0 ,2 ,'Y');
+
+INSERT INTO BOARD (BOARD_NO,MEMBER_ID,MOVIE_ID,TITLE ,CONTENT ,HIT_NO ,REG_DATE ,REPLY_GROUP ,REPLY_ORDER ,REPLY_INDENT ,RATING ,SPOILER)
+VALUES (board_seq.NEXTVAL,'choi', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '해리 포터와 마법사의 돌'), '해리 포터 리뷰','마법과 모험이 가득한 해리 포터 시리즈는 언제 봐도 재밌어요!', 10,SYSDATE ,0 ,0 ,0 ,5 ,'N');
+
+INSERT INTO BOARD (BOARD_NO,MEMBER_ID,MOVIE_ID,TITLE ,CONTENT ,HIT_NO ,REG_DATE ,REPLY_GROUP ,REPLY_ORDER ,REPLY_INDENT ,RATING ,SPOILER)
+VALUES (board_seq.NEXTVAL,'jung', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '인셉션'), '인셉션 리뷰','꿈 속의 꿈을 다룬 SF 영화로 정말 흥미진진했습니다.', 8,SYSDATE ,0 ,0 ,0 ,4 ,'Y');
+
+INSERT INTO BOARD (BOARD_NO,MEMBER_ID,MOVIE_ID,TITLE ,CONTENT ,HIT_NO ,REG_DATE ,REPLY_GROUP ,REPLY_ORDER ,REPLY_INDENT ,RATING ,SPOILER)
+VALUES (board_seq.NEXTVAL,'han', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '라라랜드'), '라라랜드 리뷰','음악과 사랑이 어우러진 멋진 뮤지컬 드라마입니다.', 6,SYSDATE ,0 ,0 ,0 ,3 ,'Y');
+
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'yang', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '기생충'), '기생충 리뷰', '계급 격차를 날카롭게 비판한 블랙 코미디 걸작', 10, SYSDATE, 0, 0, 0, 5, 'N');
+
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'lee', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '플로리다 프로젝트'), '플로리다 프로젝트 리뷰', '어린 소녀의 시선으로 본 미국 하층민의 삶', 8, SYSDATE, 0, 0, 0, 4, 'N');
+
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'park', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '그랜드 부다페스트 호텔'), '그랜드 부다페스트 호텔 리뷰', '웨스 앤더슨 특유의 아름다운 미장센과 유머', 7, SYSDATE, 0, 0, 0, 4, 'N');
+
+INSERT INTO BOARD (BOARD_NO, MEMBER_ID, MOVIE_ID, TITLE, CONTENT, HIT_NO, REG_DATE, REPLY_GROUP, REPLY_ORDER, REPLY_INDENT, RATING, SPOILER)
+VALUES (board_seq.NEXTVAL, 'choi', (SELECT MOVIE_ID FROM MOVIE WHERE NAME = '나홀로 집에'), '나홀로집에 리뷰', '크리스마스 시즌의 필수 가족 코미디 영화', 15, SYSDATE, 0, 0, 0, 4, 'Y');
+
 
 
 commit;
 
-/* board에 별점 추가 */    
-ALTER TABLE BOARD ADD RATING NUMBER(2,1) DEFAULT NULL; 
 
-/* board에 사진 추가 */    
-ALTER TABLE BOARD ADD IMAGE_PATH VARCHAR2(255) DEFAULT NULL; 
-
-/* board에 스포일러 추가 */    
-ALTER TABLE board ADD spoiler VARCHAR2(1) DEFAULT 'N';
 
 /* BOARD_SEQ 시퀀스에서 다음 값 가져오기 */
 SELECT BOARD_SEQ.NEXTVAL FROM DUAL;
@@ -286,9 +292,8 @@ SELECT BOARD_SEQ.NEXTVAL FROM DUAL;
 /* BOARD_SEQ 시퀀스에서 현재 값 가져오기 */
 SELECT BOARD_SEQ.CURRVAL FROM DUAL;
 
+
 commit;
-
-
 
 --about_time.jpg
 --avengers_endgame.jpg
