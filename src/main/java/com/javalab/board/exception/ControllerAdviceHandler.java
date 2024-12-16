@@ -2,7 +2,11 @@ package com.javalab.board.exception;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.http.HttpStatus;
+
 
 /**
  * 컨트롤러 어드바이스
@@ -33,6 +37,15 @@ public class ControllerAdviceHandler {
 		mav.setViewName("error/500"); // 에러 페이지로 이동
 		return mav;
 	}
+	
+	@ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ModelAndView handleNoHandlerFoundException(NoHandlerFoundException ex) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("errorMessage", "요청하신 페이지를 찾을 수 없습니다.");
+        mav.setViewName("error/404"); // 404 에러 페이지로 이동
+        return mav;
+    }
 
 	/**
 	 * Exception 처리 (모든 예외)
