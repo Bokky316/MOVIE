@@ -24,15 +24,15 @@ public class LoginController {
     // 로그인 화면 이동
     @GetMapping("/login")
     public String loginForm(HttpSession session, HttpServletRequest request) {
+    	 // 현재 URL을 세션에 저장
+        String currentUrl = request.getHeader("Referer");
+        session.setAttribute("prevPage", currentUrl); // 이전 페이지 URL 저장
+    	
         // 세션에서 로그인 정보 확인
         MemberVo loginUser = (MemberVo) session.getAttribute("loginUser");
         if (loginUser != null) {
             return "redirect:/";
         }
-
-        // 현재 URL을 세션에 저장
-        String currentUrl = request.getHeader("Referer");
-        session.setAttribute("prevPage", currentUrl); // 이전 페이지 URL 저장
 
         // 로그인 폼으로 이동
         return "login/login";

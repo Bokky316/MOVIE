@@ -52,14 +52,20 @@
                                    value="${member.email}" readonly>
                         </div>
                         <!-- 버튼 섹션 -->
-                                    <div class="d-flex justify-content-between">
+                          <div class="d-flex justify-content-between">
+                          <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
                             <button id="updateButton" type="button" class="btn btn-primary">수정</button>
                             <form id="deleteForm" action="<c:url value='/member/delete' />" method="post" >
                                 <input type="hidden" name="memberId" value="${member.memberId}">
                                 <button id="deleteButton" type="submit" class="btn btn-danger">삭제</button>
                             </form>
-                            
-                        </div>
+                            </c:if>
+                              </div>
+                              <div class="d-flex justify-content-center">
+                            <c:if test="${not empty loginUser and loginUser.roleId == 'member'}">
+                            <button id="updateButton" type="button" class="btn btn-dark">수정</button>
+                            </c:if>
+                      </div>
                     </div>
                 </div>
             </div>

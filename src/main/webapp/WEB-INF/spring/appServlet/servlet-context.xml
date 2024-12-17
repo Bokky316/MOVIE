@@ -63,6 +63,7 @@
             <mvc:mapping path="/member/list" />
             <mvc:mapping path="/member/update" />
             <mvc:mapping path="/member/delete" />
+            <mvc:mapping path="/member/myPage" />
            <!--  영화의 저장/수정/삭제 관련 요청 -->
             <mvc:mapping path="/movie/insert" />
             <mvc:mapping path="/movie/update" />

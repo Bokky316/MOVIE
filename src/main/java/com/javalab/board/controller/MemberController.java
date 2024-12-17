@@ -4,6 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
@@ -56,8 +57,9 @@ public class MemberController {
      * - 특정 회원 ID를 받아 해당 회원 정보를 조회하여 모델에 추가합니다.
      */
 	@GetMapping("/myPage")
-	public String myPage(@SessionAttribute("loginUser") MemberVo loginUser, Model model) {
+	public String myPage(@SessionAttribute("loginUser") MemberVo loginUser, Model model, HttpSession session) {
 	    // 세션에서 로그인한 사용자 정보를 가져와 모델에 추가
+	
 	    model.addAttribute("member", loginUser);
 	    return "member/myPage"; // 마이페이지 JSP 호출
 	}
@@ -108,13 +110,16 @@ public class MemberController {
 	}
 
 	/**
-	 * 회원 수정 처리 - 수정된 정보를 받아서 업데이트하고, 성공 시 목록으로 리다이렉트합니다.
+	 * 회원 수정 처리 - 수정된 정보를 받아서 업데이트하고, 성공 시 이전 페이지로  리다이렉트합니다.
 	 */
 	@PostMapping("/update")
-	public String updateMember(@ModelAttribute("member") MemberVo memberVo, Model model) {
+	public String updateMember(@ModelAttribute("member") MemberVo memberVo, Model model, HttpSession session, HttpServletRequest request) {
+		 // 현재 URL을 세션에 저장
+        String currentUrl = request.getHeader("Referer");
+        session.setAttribute("prevPage", currentUrl); // 이전 페이지 URL 저장
 		try {
 			memberService.updateMember(memberVo); // 회원 정보 수정 처리
-			return "redirect:/member/list"; // 성공 시 회원 목록으로 리다이렉트
+			return "redirect:/"; // 성공 시 이전 페이지로 리다이렉트
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "회원 수정 중 오류가 발생했습니다."); // 오류 메시지 추가
 			return "member/memberUpdate"; // 오류 발생 시 수정 폼으로 다시 이동

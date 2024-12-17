@@ -54,8 +54,14 @@
                             </div>
                             <!-- 버튼 -->
                             <div class="d-flex justify-content-between">
-                                <button id="submitButton" type="submit" class="btn btn-primary">수정</button>
-                                <button id="cancelButton" type="button" class="btn btn-secondary">목록으로</button>
+                            <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
+                                <button id="submitButton" type="submit" class="btn btn-primary">등록</button>
+                                <button id="cancelButton" type="button" class="btn btn-secondary">취소</button>
+                             </c:if>
+                              <c:if test="${not empty loginUser and loginUser.roleId == 'member'}">
+                                <button id="submitButton" type="submit" class="btn btn-dark">등록</button>
+                                <button id="cancelButton" type="button" class="btn btn-dark">취소</button>
+                             </c:if>
                             </div>
                         </form>
                     </div>
@@ -111,7 +117,7 @@
 
         // 취소 버튼 클릭 시 이벤트 처리
         document.getElementById("cancelButton").addEventListener("click", function() {
-            location.href = '<c:url value="/member/list" />'; // 회원 목록 페이지로 이동
+            location.href = '<c:url value="/member/view?memberId=lee" />'; // 회원 목록 페이지로 이동
         });
     </script>
  	<%@ include file="../include/footer.jsp" %>
