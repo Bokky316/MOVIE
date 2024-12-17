@@ -51,32 +51,43 @@
 				Menu <i class="fas fa-bars"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link"
-						href="<c:url value='/movie/list' /> ">영화 목록</a></li>
-					<li class="nav-item"><a class="nav-link"
-						href="<c:url value='/board/list' /> ">리뷰 목록</a></li>
-					<li class="nav-item">
-					    <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
-					        <a class="nav-link" href="<c:url value='/member/list' />">회원 목록</a>
-					    </c:if>
-					</li>
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="<c:url value='/movie/list' />">영화 목록</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<c:url value='/board/list' />">리뷰 목록</a>
+        </li>
+        <c:if test="${not empty loginUser and loginUser.roleId == 'admin'}">
+            <li class="nav-item">
+                <a class="nav-link" href="<c:url value='/member/list' />">회원 목록</a>
+            </li>
+        </c:if>
+		  <c:if test="${not empty loginUser.memberId}">
+		    <li class="nav-item">
+		        <a class="nav-link" href="<c:url value='/member/myPage' />">${loginUser.memberId}님</a>
+		    </li>
+		    <li class="nav-item">
+		        <a class="nav-link" href="<c:url value='/logout' />">
+		            <i class="fa fa-sign-out fa-fw"></i>Logout
+		        </a>
+		    </li>
+		</c:if>
 
-					<li class="nav-item">
-					<c:if test="${not empty loginUser.memberId}">
-							<a class="nav-link" href="${pageContext.request.contextPath}/logout"> 
-							<i class="fa fa-sign-out fa-fw"></i>Logout </a>
-					</c:if> 
-					<c:if test="${empty loginUser.memberId}">
-							<a class="nav-link" href="${pageContext.request.contextPath}/login"> 
-								<i class="fa fa-sign-out fa-fw"></i>Login</a>
-						</c:if></li>
-					<li class="nav-item">
-					<c:if test="${empty loginUser.memberId}">
-							<a class="nav-link" href="${pageContext.request.contextPath}/member/insert"> 
-								<i class="fa fa-sign-out fa-fw"></i>Join</a>
-						</c:if></li>
-				</ul>
-			</div>
+        <c:if test="${empty loginUser.memberId}">
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/login">
+                    <i class="fa fa-sign-out fa-fw"></i>Login
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="${pageContext.request.contextPath}/member/insert">
+                    <i class="fa fa-sign-out fa-fw"></i>Join
+                </a>
+            </li>
+        </c:if>
+    </ul>
+</div>
+
 		</div>
 	</nav>
