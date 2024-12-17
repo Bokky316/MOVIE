@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TestErrorController {
 	
-	// http://localhost:8080/non-existent-page
+	// http://localhost:8080${pageContext.request.contextPath}/non-existent-page
 	
-	// http://localhost:8080/test-500
+	// http://localhost:8080${pageContext.request.contextPath}/test-500
 	@GetMapping("/test-500")
     public String testInternalServerError() {
         throw new RuntimeException("This is a test 500 error");
     }
 	
-	// http://localhost:8080/test-exception
+	// http://localhost:8080${pageContext.request.contextPath}/test-exception
 	@GetMapping("/test-exception")
 	public String testException() throws Exception {
 	    throw new Exception("This is a test general exception");

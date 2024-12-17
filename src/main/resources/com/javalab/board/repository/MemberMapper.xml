@@ -45,4 +45,11 @@
         FROM member
         WHERE member_id = #{memberId}
     </select>
+    
+    <!-- 마이페이지 회원 정보 조회 -->
+    <select id="getMyPageInfo" parameterType="string" resultType="MemberVo">
+        SELECT member_id, name, email, reg_date
+        FROM member
+        WHERE member_id = #{memberId}
+    </select>
 </mapper>
